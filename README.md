@@ -1,4 +1,5 @@
 # Homelab Pull
+[![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/)
 
 An [ansible-pull][1] repo for my homelab.
 
