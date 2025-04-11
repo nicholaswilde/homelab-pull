@@ -1,6 +1,106 @@
-*.i
-*.ii
-*.gpu
-*.ptx
-*.cubin
-*.fatbin
+# .gitignore for Ansible Projects
+
+# General temporary files and OS-specific files
+*~
+*.sw[op]
+*.retry
+*.log
+.DS_Store
+Thumbs.db
+
+# Python runtime files
+*.pyc
+*.pyo
+__pycache__/
+*.so
+
+# Python Virtual Environment directories
+# If you use a different name, add it here
+venv/
+.venv/
+env/
+.env/
+ENV/
+.ENV/
+
+# Ansible specific files
+*.retry # Ansible logs failed hosts in '.retry' files
+fact_cache/ # Directory for cached facts (if used locally)
+*.vault # If you store unencrypted vault files temporarily (BAD IDEA!)
+ansible.log # Default Ansible log file name
+pids/ # If you store process IDs
+
+# Ansible Vault password files - VERY IMPORTANT TO IGNORE THESE
+# Add any specific vault password filenames you use
+.vault*pass*
+vault_password_file
+*.vault_pass
+ansible_vault_password.txt
+
+# Sensitive data and credentials - Double-check you aren't committing secrets!
+# It's better to use Ansible Vault for secrets.
+*.pem
+*.key
+*.keypair
+*.private
+*.p12
+*.pfx
+*.crt
+*.cer
+*.pub
+*.cred
+*.secret
+secrets.*
+credentials.*
+*.token
+# Consider adding specific files if you store plaintext secrets (again, BAD IDEA!)
+# my_secret_vars.yml
+
+# Inventory files (optional, depends on your workflow)
+# Often contains hostnames/IPs specific to environments or sensitive info.
+# You might want to version control a template or example inventory instead.
+# inventory/
+# hosts
+# *.inv
+
+# Roles and Collections installed via Ansible Galaxy
+# If you manage dependencies via requirements.yml, you generally don't commit the downloaded roles/collections.
+# Adjust paths based on your ansible.cfg (e.g., roles_path, collections_paths)
+roles/ # Often used for Galaxy roles. If you mix custom and Galaxy roles here, be careful.
+       # Consider using a specific directory like 'galaxy_roles/' and adding it here instead.
+       # Or, use negative patterns for your custom roles:
+       # roles/*
+       # !roles/my_custom_role_1/
+       # !roles/my_custom_role_2/
+collections/ansible_collections/ # Default path for collections
+
+# Testing framework artifacts (e.g., Molecule)
+.cache/
+.pytest_cache/
+.tox/
+.molecule/
+
+# IDE and editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+nbproject/
+.project
+.settings/
+*.tmproj
+
+# Terraform state files (if integrating Terraform)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Vagrant specific files (if using Vagrant for testing)
+.vagrant/
+
+# Add any other project-specific files or directories that should be ignored below
+# e.g., local configuration overrides, build artifacts, specific reports
+# local_settings.yml
+# reports/
+# build/
