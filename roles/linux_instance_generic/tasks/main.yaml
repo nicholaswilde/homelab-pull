@@ -1,3 +1,6 @@
 ---
 - name: Setup reprepro
   ansible.builtin.include_tasks: reprepro.yaml
+
+- name: Install stuff
+  ansible.builtin.include_tasks: install.yaml

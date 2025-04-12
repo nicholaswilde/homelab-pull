@@ -1,0 +1,29 @@
+---
+- name: Setup apt-cacher-ng source
+  ansible.builtin.copy:
+    src: 00aptproxy
+    dest: "/etc/apt/apt.conf.d/00aptproxy"
+
+- name: Update apt package list
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install apt packages
+  ansible.builtin.apt:
+    pkg:
+      - git
+      - gpg
+      - autofs
+      - ipcalc
+      - net-tools
+      - micro
+      - qemu-guest-agent
+      - gh
+      - screen
+      - dnsutils
+      - task
+      - sops
+      - jq
+      - tmux
+    state: latest
+    update_cache: true
