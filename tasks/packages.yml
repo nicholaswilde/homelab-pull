@@ -1,7 +1,0 @@
----
-- name: Install htop
-  ansible.builtin.apt:
-    name:
-      - htop
-      - mc
-      - tmux

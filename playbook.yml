@@ -1,8 +1,8 @@
 ---
-- hosts: mygroup
-  tasks:
-    - debug:
-        msg: "I'm in group 'mygroup'"
+- name: Install lxcs
+  hosts: lxcs
+  roles:
+    - linux_instance_generic
 
 - hosts: onlyfoo
   tasks:
@@ -17,5 +17,6 @@
 - name: Configure ansible-pull
   hosts: all
   roles:
-    - role: ansible-pull
-      ansible_pull_url: git@github.com:nicholaswilde/homelab-pull.git
+    - ansible-pull
+  tags:
+    - ansible-pull
