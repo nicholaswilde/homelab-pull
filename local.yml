@@ -10,5 +10,8 @@
       changed_when: false
 
   tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: {{ inventory_hostname }}
     - name: include packages
       ansible.builtin.include_tasks: tasks/packages.yml
