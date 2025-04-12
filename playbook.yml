@@ -1,22 +1,15 @@
 ---
-- name: Install lxcs
-  hosts: lxcs
-  roles:
-    - linux_instance_generic
-
-- hosts: onlyfoo
-  tasks:
-    - debug:
-        msg: "I'm in group 'onlyfoo'"
-
-- hosts: onlybar
-  tasks:
-    - debug:
-        msg: "I'm in group 'onlybar'"
-
 - name: Configure ansible-pull
   hosts: all
   roles:
     - ansible-pull
   tags:
     - ansible-pull
+
+- name: Install lxcs
+  hosts: lxcs
+  become: true
+  roles:
+    - linux_instance_generic
+  tags:
+    - linux_instance_generic
