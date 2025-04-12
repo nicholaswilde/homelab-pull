@@ -1,4 +1,13 @@
 ---
+- hosts: test-debian-1
+  connection: local
+  become: true
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: "test-debian-1"
+
 - hosts: localhost
   connection: local
   become: true
