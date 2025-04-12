@@ -17,14 +17,30 @@ A downside is that `ansible-pull` needs to be installed on all containers, thus 
 
 ## :gear: Config
 
-WIP
+Find the hostname of the remote.
+
+```shell
+uname -n
+# test-debian-1
+```
+
+Create a host_vars file with the file name as the hostname, e.g. `host_var/test-debian-1.yaml`
+
+Add the groups the host is a part of to the `pull_groups` list.
 
 ---
 
 ## :pencil: Usage
 
-WIP
+On the host that you'd like to run the playbook.
 
+```shell
+ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+>[!NOTE]
+> The comma `,` is required after "$(uname -n)"
+ 
 ---
 
 ## :balance_scale: License
