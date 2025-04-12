@@ -1,6 +1,6 @@
 ---
 - name: Set authorized keys taken from url
   ansible.posix.authorized_key:
-    user: {{ ansible_user }}
+    user: "{{ ansible_user }}"
     state: present
-    key: https://github.com/nicholaswilde.keys
+    key: "https://github.com/nicholaswilde.keys"

@@ -39,7 +39,7 @@ ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
 
 >[!NOTE]
-> The comma `,` is required after "$(uname -n)"
+> The comma `,` is required after `$(uname -n)`
  
 ---
 
