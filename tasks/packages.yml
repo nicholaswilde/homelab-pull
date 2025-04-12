@@ -1,8 +1,7 @@
-- hosts: localhost
-  connection: local
-  become: true
-
-  tasks:
-    - name: Install htop
-      apt:
-        name: htop
+---
+- name: Install htop
+  ansible.builtin.apt:
+    name:
+      - htop
+      - mc
+      - tmux
