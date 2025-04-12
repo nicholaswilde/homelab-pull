@@ -1,14 +1,14 @@
 ---
-- name: install units for ansible-pull
-  template:
+- name: Install units for ansible-pull
+  ansible.builtin.template:
     dest: /etc/systemd/system
     src: "{{ item }}"
   loop:
     - ansible-pull.service
     - ansible-pull.timer
 
-- name: enable ansible-pull timer
-  service:
+- name: Enable ansible-pull timer
+  ansible.builtin.service:
     name: ansible-pull.timer
     state: started
-    enabled: yes
+    enabled: true

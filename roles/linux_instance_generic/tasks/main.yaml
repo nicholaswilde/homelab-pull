@@ -4,3 +4,6 @@
 
 - name: Install stuff
   ansible.builtin.include_tasks: install.yaml
+
+- name: Setup SSH
+  ansible.builtin.include_tasks: ssh.yaml
