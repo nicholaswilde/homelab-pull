@@ -9,4 +9,6 @@
         update_cache: true
       changed_when: false
 
-- include_tasks: tasks/packages.yml
+  tasks:
+    - name: include packages
+      ansible.builtin.include_tasks: tasks/packages.yml
