@@ -1,34 +1,9 @@
----
-- hosts: test-debian-1
-  connection: local
-  become: true
-
+- hosts: all
   tasks:
-    - name: Debug
-      ansible.builtin.debug:
-        msg: "test-debian-1"
-
-- hosts: localhost
-  connection: local
-  become: true
-
-  pre_tasks:
-    - name: update repositories
-      apt:
-        update_cache: true
-      changed_when: false
-
-  tasks:
-    - name: Debug
-      ansible.builtin.debug:
-        msg: "{{ inventory_hostname }}"
     - name: add hosts to inventory groups
       add_host:
         name: "{{ inventory_hostname }}"
         groups: "{{ hostvars[inventory_hostname].pull_groups }}"
       changed_when: False
-    - name: Debug
-      ansible.builtin.debug:
-        msg: "{{ group_names }}"
-    - name: include packages
-      ansible.builtin.include_tasks: tasks/packages.yml
+      
+- import_playbook: playbook.yml
