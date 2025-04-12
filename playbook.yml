@@ -13,3 +13,9 @@
   tasks:
     - debug:
         msg: "I'm in group 'onlybar'"
+
+- name: Configure ansible-pull
+  hosts: all
+  roles:
+    - role: ansible-pull
+      ansible_pull_url: git@github.com:nicholaswilde/homelab-pull.git
