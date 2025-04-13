@@ -2,6 +2,21 @@
 
 - name: cheat block
   block:
+    - name: "Check current version of {{ app_name }}"
+      ansible.builtin.command: "{{ app_version_command }}"
+      register: version_check_result
+      changed_when: false # Checking version doesn't change state
+      failed_when: false  # IMPORTANT: Prevent failure if command not found/fails
+    - name:
+      ansible.builtin.debug:
+        msg: "{{ version_check_result.stdout }}"
+    - name: "Parse current version of {{ app_name }} if installed"
+      ansible.builtin.set_fact:
+        # Extract the version using regex. Provides 'none' if not found or command failed.
+        current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
+      # Only try to parse if the command succeeded
+      when: version_check_result.rc == 0
+      
     - name: another block
       block:
         - name: Create cheat directory
