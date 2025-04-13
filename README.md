@@ -26,6 +26,14 @@ sudo apt install git ansible-core
 
 Setup any credentials that are needed to connect to the repo.
 
+Generate SSH keys and accept defaults.
+
+```shell
+ssh-keygen
+```
+
+Add to [GitHub keys][7].
+
 ---
 
 ## :gear: Config
@@ -40,6 +48,13 @@ uname -n
 Create a host_vars file with the file name as the hostname, e.g. `host_var/test-debian-1.yaml`
 
 Add the groups the host is a part of to the `pull_groups` list.
+
+```yaml
+---
+ansible_user: root
+pull_groups:
+  - lxcs
+```
 
 ---
 
@@ -72,3 +87,4 @@ sudo ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -
 [4]: <https://www.youtube.com/watch?v=sn1HQq_GFNE>
 [5]: <https://github.com/nicholaswilde/homelab-playbooks>
 [6]: <https://fluxcd.io/>
+[7]: <https://github.com/settings/keys>
