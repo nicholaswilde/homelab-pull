@@ -26,3 +26,9 @@
   ansible.builtin.shell:
     cmd: "/tmp/cheat.sh"
     chdir: "/tmp/"
+
+- name: Move cheat
+  ansible.builtin.copy:
+    src: "/tmp/cheat"
+    dest: "/usr/local/bin/cheat"
+    remote_src: true
