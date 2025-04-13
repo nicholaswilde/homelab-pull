@@ -33,5 +33,5 @@
 - name: Setup tmux
   ansible.builtin.include_tasks: tmux.yaml
   
-# - name: Setup autofs
-#   ansible.builtin.include_tasks: autofs.yaml
+- name: Setup autofs
+  ansible.builtin.include_tasks: autofs.yaml
