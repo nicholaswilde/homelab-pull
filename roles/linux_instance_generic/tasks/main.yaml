@@ -24,9 +24,9 @@
 - name: Setup bash
   ansible.builtin.include_tasks: bash.yaml
 
-# - name: Setup ChromeOS script
-#   ansible.builtin.include_tasks: chromeos.yaml
-# 
+- name: Setup ChromeOS script
+  ansible.builtin.include_tasks: chromeos.yaml
+
 # - name: Setup micro
 #   ansible.builtin.include_tasks: micro.yaml
 # 
