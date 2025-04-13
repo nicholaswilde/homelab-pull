@@ -11,6 +11,9 @@
 - name: Setup beszel
   ansible.builtin.include_tasks: beszel.yaml
 
+- name: Setup cheat
+  ansible.builtin.include_tasks: cheat.yaml
+
 - name: Setup SSH
   ansible.builtin.include_tasks: ssh.yaml
 
