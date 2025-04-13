@@ -15,6 +15,19 @@ A downside is that `ansible-pull` needs to be installed on all containers, thus 
 
 ---
 
+## :hammer_and_wrench: Installation
+
+Install `ansible-core` and `git` on the container.
+
+```shell
+sudo apt update
+sudo apt install git ansible-core
+```
+
+Setup any credentials that are needed to connect to the repo.
+
+---
+
 ## :gear: Config
 
 Find the hostname of the remote.
@@ -35,7 +48,7 @@ Add the groups the host is a part of to the `pull_groups` list.
 On the host that you'd like to run the playbook.
 
 ```shell
-ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
+sudo ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
 
 >[!NOTE]
