@@ -11,20 +11,21 @@
 
 - name: Download cheat config file
   ansible.builtin.uri:
-    url: https://installer.l.nicholaswilde.io/cheat/cheat!
+    url: https://installer.l.nicholaswilde.io/cheat/cheat?type=script
     return_content: true
   register: this
 
 - name: Write install script to file
   ansible.builtin.copy:
-    content: "{{ this.content }}"
-    # content: "{{ this.content | b64decode }}"
+    # content: "{{ this.content }}"
+    content: "{{ this.content | b64decode }}"
     dest: "/tmp/cheat.sh"
     mode: 0755
 
 - name: debug
   ansible.builtin.debug:
     msg: "{{ this.content }}"
+
 - name: Execute the remote bash script using shell 
   ansible.builtin.shell:
     cmd: "/tmp/cheat.sh"
