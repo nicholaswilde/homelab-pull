@@ -17,8 +17,8 @@
 
 - name: Write install script to file
   ansible.builtin.copy:
-    # content: "{{ this.content }}"
-    content: "{{ this.content | b64decode }}"
+    content: "{{ this.content }}"
+    # content: "{{ this.content | b64decode }}"
     dest: "/tmp/cheat.sh"
     mode: 0755
 
