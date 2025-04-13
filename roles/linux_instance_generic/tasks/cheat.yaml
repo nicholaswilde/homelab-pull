@@ -52,10 +52,22 @@
             dest: "/usr/local/bin/cheat"
             remote_src: true
             mode: 0755
+      when:
+        # Condition 1: Run if the version command failed (app likely not installed)
+        - version_check_result.rc != 0
+        # Condition 2: OR Run if command succeeded but the version doesn't match desired
+        - or:
+            - version_check_result.rc == 0  # Command succeeded...
+            # Simple string comparison (adjust parsing/regex if needed)
+            # - current_version | default('none') != desired_version
+            # --- OR ---
+            # More robust semantic version comparison (requires Ansible Core >= 2.10 or Ansible >= 2.5, check docs)
+            # Assumes current_version was parsed correctly into X.Y.Z format
+            - current_version | default('0.0.0') is version(desired_version, '!=')
   vars:
     app_name: "cheat"  # The command name of the application
-    app_version_command: "cheat --version"
-    desired_version: "4.4.0"  # The specific version you want installed
+    app_version_command: "{{ app_name }} --version"
+    desired_version: "4.4.1"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
 
     # - name: Cleanup
