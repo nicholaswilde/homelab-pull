@@ -1,18 +1,7 @@
 ---
 
 - name: cheat block
-  block:
-  vars:
-    # -- Parameters to customize --
-    app_name: "cheat" # The command name of the application
-    # The command to run to get the version (adjust as needed)
-    app_version_command: "cheat --version"
-    desired_version: "4.4.0" # The specific version you want installed
-    # Regex to extract the version number from the command output.
-    # MUST be adapted based on the actual output of your app_version_command!
-    # Example assumes output like "cheat 4.4.0" or "AppName version 4.4.0"
-    version_regex: '(\d+\.\d+\.\d+)'
-  
+  block:  
     - name: Create cheat directory
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config/cheat/"
@@ -46,5 +35,15 @@
         dest: "/usr/local/bin/cheat"
         remote_src: true
         mode: 0755
+  vars:
+    # -- Parameters to customize --
+    app_name: "cheat" # The command name of the application
+    # The command to run to get the version (adjust as needed)
+    app_version_command: "cheat --version"
+    desired_version: "4.4.0" # The specific version you want installed
+    # Regex to extract the version number from the command output.
+    # MUST be adapted based on the actual output of your app_version_command!
+    # Example assumes output like "cheat 4.4.0" or "AppName version 4.4.0"
+    version_regex: '(\d+\.\d+\.\d+)'
 
     # - name: Cleanup
