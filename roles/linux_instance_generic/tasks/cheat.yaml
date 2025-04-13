@@ -32,3 +32,4 @@
     src: "/tmp/cheat"
     dest: "/usr/local/bin/cheat"
     remote_src: true
+    mode: 0755
