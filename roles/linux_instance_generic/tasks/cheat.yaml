@@ -1,49 +1,46 @@
 ---
 
 - name: cheat block
-  block:  
-    - name: Create cheat directory
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.config/cheat/"
-        state: directory
-        
-    - name: Download cheat config file
-      ansible.builtin.get_url:
-        url: https://github.com/nicholaswilde/dotfiles2/raw/refs/heads/main/.config/cheat/conf.yml
-        dest: "{{ ansible_env.HOME }}/.config/cheat/conf.yml"
+  block:
+    - name: another block
+      block:
+        - name: Create cheat directory
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.config/cheat/"
+            state: directory
 
-    - name: Download cheat config file
-      ansible.builtin.uri:
-        url: https://installer.l.nicholaswilde.io/cheat/cheat?type=script
-        return_content: true
-      register: this
+        - name: Download cheat config file
+          ansible.builtin.get_url:
+            url: https://github.com/nicholaswilde/dotfiles2/raw/refs/heads/main/.config/cheat/conf.yml
+            dest: "{{ ansible_env.HOME }}/.config/cheat/conf.yml"
 
-    - name: Write install script to file
-      ansible.builtin.copy:
-        content: "{{ this.content }}"
-        dest: "/tmp/cheat.sh"
-        mode: 0755
+        - name: Download cheat config file
+          ansible.builtin.uri:
+            url: https://installer.l.nicholaswilde.io/cheat/cheat?type=script
+            return_content: true
+          register: this
 
-    - name: Execute the remote bash script using shell 
-      ansible.builtin.shell:
-        cmd: "/tmp/cheat.sh"
-        chdir: "/tmp/"
+        - name: Write install script to file
+          ansible.builtin.copy:
+            content: "{{ this.content }}"
+            dest: "/tmp/cheat.sh"
+            mode: 0755
 
-    - name: Move cheat
-      ansible.builtin.copy:
-        src: "/tmp/cheat"
-        dest: "/usr/local/bin/cheat"
-        remote_src: true
-        mode: 0755
+        - name: Execute the remote bash script using shell
+          ansible.builtin.shell:
+            cmd: "/tmp/cheat.sh"
+            chdir: "/tmp/"
+
+        - name: Move cheat
+          ansible.builtin.copy:
+            src: "/tmp/cheat"
+            dest: "/usr/local/bin/cheat"
+            remote_src: true
+            mode: 0755
   vars:
-    # -- Parameters to customize --
-    app_name: "cheat" # The command name of the application
-    # The command to run to get the version (adjust as needed)
+    app_name: "cheat"  # The command name of the application
     app_version_command: "cheat --version"
-    desired_version: "4.4.0" # The specific version you want installed
-    # Regex to extract the version number from the command output.
-    # MUST be adapted based on the actual output of your app_version_command!
-    # Example assumes output like "cheat 4.4.0" or "AppName version 4.4.0"
+    desired_version: "4.4.0"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
 
     # - name: Cleanup
