@@ -1,39 +1,39 @@
 ---
-- name: Setup reprepro
-  ansible.builtin.include_tasks: reprepro.yaml
-
-- name: Install stuff
-  ansible.builtin.include_tasks: install.yaml
+# - name: Setup reprepro
+#   ansible.builtin.include_tasks: reprepro.yaml
+# 
+# - name: Install stuff
+#   ansible.builtin.include_tasks: install.yaml
 
 # - name: Setup SOPS
 #   ansible.builtin.include_tasks: sops.yaml
   
-- name: Setup beszel
-  ansible.builtin.include_tasks: beszel.yaml
+# - name: Setup beszel
+#   ansible.builtin.include_tasks: beszel.yaml
 
 - name: Setup cheat
   ansible.builtin.include_tasks: cheat.yaml
 
-- name: Setup SSH
-  ansible.builtin.include_tasks: ssh.yaml
-
-- name: Setup git
-  ansible.builtin.include_tasks: git.yaml
- 
-# - name: Setup GPG
-#   ansible.builtin.include_tasks: gpg.yaml
- 
-- name: Setup bash
-  ansible.builtin.include_tasks: bash.yaml
-
-- name: Setup ChromeOS script
-  ansible.builtin.include_tasks: chromeos.yaml
-
-- name: Setup micro
-  ansible.builtin.include_tasks: micro.yaml
-
-- name: Setup tmux
-  ansible.builtin.include_tasks: tmux.yaml
-  
-- name: Setup autofs
-  ansible.builtin.include_tasks: autofs.yaml
+# - name: Setup SSH
+#   ansible.builtin.include_tasks: ssh.yaml
+# 
+# - name: Setup git
+#   ansible.builtin.include_tasks: git.yaml
+#  
+# # - name: Setup GPG
+# #   ansible.builtin.include_tasks: gpg.yaml
+#  
+# - name: Setup bash
+#   ansible.builtin.include_tasks: bash.yaml
+# 
+# - name: Setup ChromeOS script
+#   ansible.builtin.include_tasks: chromeos.yaml
+# 
+# - name: Setup micro
+#   ansible.builtin.include_tasks: micro.yaml
+# 
+# - name: Setup tmux
+#   ansible.builtin.include_tasks: tmux.yaml
+#   
+# - name: Setup autofs
+#   ansible.builtin.include_tasks: autofs.yaml
