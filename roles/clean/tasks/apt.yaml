@@ -1,10 +1,4 @@
 ---
-- name: Get user variables
-  ansible.builtin.user:
-    name: root
-    state: present
-  register: user
-
 - name: Run apt autoremove
   ansible.builtin.apt:
     autoremove: true
