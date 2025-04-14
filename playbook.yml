@@ -1,6 +1,7 @@
 ---
 - name: Configure ansible-pull
   hosts: all
+  become: true
   tasks:
     - name: Start message
       ansible.builtin.command:
@@ -8,6 +9,7 @@
 
 - name: Configure ansible-pull
   hosts: all
+  become: true
   roles:
     - ansible-pull
   tags:
