@@ -8,3 +8,5 @@ linux_instance_generic_nfs_path: "storage -fstype=nfs4,rw 192.168.2.19:/storage"
 linux_instance_generic_proxy: "http://192.168.2.40:3142"
 
 linux_instance_generic_beszel_key: ""
+
+linux_instance_generic_git_repo: "git@github.com:nicholaswilde/homelab.git"
