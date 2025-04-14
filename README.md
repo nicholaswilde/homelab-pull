@@ -75,6 +75,14 @@ sudo ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -
 >[!NOTE]
 > The comma `,` is required after `$(uname -n)`
  
+A `homelab-pull` service and timer are installed to periodically run the playbook.
+
+View the logs.
+
+```shell
+journalctl -xeu homelab-pull
+```
+
 ---
 
 ## :balance_scale: License
