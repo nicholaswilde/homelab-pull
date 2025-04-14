@@ -5,6 +5,6 @@
     dest: /etc/apt/trusted.gpg.d/reprepro.asc
 
 - name: Setup reprepro source
-  ansible.builtin.copy:
-    src: reprepro.list.j2
+  ansible.builtin.template:
+    src: "reprepro.list.j2"
     dest: "/etc/apt/sources.list.d/reprepro.list"
