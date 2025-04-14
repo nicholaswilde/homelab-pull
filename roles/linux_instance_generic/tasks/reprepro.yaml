@@ -1,8 +1,8 @@
 ---
 - name: Download reprepro key
   ansible.builtin.get_url:
-    url: http://deb.l.nicholaswilde.io/public.gpg.key
-    dest: /etc/apt/trusted.gpg.d/reprepro.asc
+    url: "{{ linux_instance_generic_reprepro_key_url }}"
+    dest: "/etc/apt/trusted.gpg.d/reprepro.asc"
 
 - name: Setup reprepro source
   ansible.builtin.template:
