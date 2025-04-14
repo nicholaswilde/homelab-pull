@@ -6,7 +6,7 @@
   tags:
     - ansible-pull
 
-- name: Install lxcs
+- name: Run linux_instance_generic role
   hosts: lxcs
   become: true
   roles:
@@ -14,7 +14,7 @@
   tags:
     - linux_instance_generic
 
-- name: Install lxcs
+- name: Run cleanup role
   hosts: lxcs
   become: true
   roles:
