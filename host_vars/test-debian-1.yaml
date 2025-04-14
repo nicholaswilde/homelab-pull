@@ -2,3 +2,6 @@
 ansible_user: root
 pull_groups:
   - lxcs
+  - apt
+  # - docker
+  # - vm
