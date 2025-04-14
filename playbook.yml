@@ -14,6 +14,14 @@
   tags:
     - linux_instance_generic
 
+- name: Run update_apt role
+  hosts: lxcs
+  become: true
+  roles:
+    - update_apt
+  tags:
+    - update_apt
+
 - name: Run cleanup role
   hosts: lxcs
   become: true
