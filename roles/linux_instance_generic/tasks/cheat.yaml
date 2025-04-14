@@ -54,6 +54,7 @@
             dest: "/usr/local/bin/cheat"
             remote_src: true
             mode: 0755
+            force: true
 
         - name: Cleanup files
           ansible.builtin.file:
