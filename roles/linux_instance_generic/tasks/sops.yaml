@@ -3,3 +3,4 @@
   ansible.builtin.copy:
     src: "/home/nicholas/.config/sops/age/"
     dest: "{{ ansible_env.HOME }}/.config/sops/age/"
+  ignore_errors: true
