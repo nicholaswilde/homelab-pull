@@ -37,6 +37,6 @@
 
 # - name: git checkout
 #   ansible.builtin.git:
-#     repo: git@github.com:nicholaswilde/homelab.git
+#     repo: "{{ linux_instance_generic_git_repo }}"
 #     dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
 #     accept_hostkey: true
