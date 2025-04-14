@@ -1,6 +1,13 @@
 ---
 - name: Configure ansible-pull
   hosts: all
+  tasks:
+    - name: Start message
+      ansible.builtin.command:
+        cmd: wall "start"
+
+- name: Configure ansible-pull
+  hosts: all
   roles:
     - ansible-pull
   tags:
