@@ -45,7 +45,7 @@ uname -n
 # test-debian-1
 ```
 
-Create a host_vars file with the file name as the hostname, e.g. `host_var/test-debian-1.yaml`
+Create a `host_vars` file with the file name as the hostname, e.g. `host_vars/test-debian-1.yaml`
 
 Add the groups the host is a part of to the `pull_groups` list.
 
