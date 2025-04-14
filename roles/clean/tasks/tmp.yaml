@@ -1,7 +1,7 @@
 ---
-- name: Recursively find /tmp files older than 2 days
+- name: "Recursively find /tmp files older than {{ clean_tmp_age }}"
   ansible.builtin.find:
-    paths: /tmp
+    paths: "/tmp"
     age: "{{ clean_tmp_age }}"
     recurse: true
   register: cleanup
