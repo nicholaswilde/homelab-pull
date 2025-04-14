@@ -18,7 +18,7 @@
       when: version_check_result.rc == 0
     - name:
       ansible.builtin.debug:
-        msg: "current_version: {{ current_version }}"
+        msg: "desired_version: {{ desired_version }}, version_check_result.rc {{ version_check_result.rc }}"
     - name: another block
       block:
         - name: Create cheat directory
@@ -75,4 +75,3 @@
     version_regex: '(\d+\.\d+\.\d+)'
 
     # - name: Cleanup
-    
