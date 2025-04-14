@@ -5,6 +5,9 @@
     state: present
   register: user
 
+- name: Clean tmp
+  ansible.builtin.include_tasks: tmp.yaml
+
 - name: Clean cache
   ansible.builtin.include_tasks: cache.yaml
 
