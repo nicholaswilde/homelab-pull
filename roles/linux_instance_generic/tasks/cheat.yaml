@@ -2,6 +2,35 @@
 
 - name: cheat block
   block:
+    - name: Query GitHub API for latest cheat release
+      ansible.builtin.uri:
+        url: "{{ github_api_url }}"
+        method: GET
+        return_content: yes # Return the body of the response
+        body_format: json   # Automatically parse the JSON response body
+        status_code: 200    # Expect a successful HTTP 200 status code
+        headers:
+          # GitHub API prefers an Accept header, though often works without
+          Accept: "application/vnd.github.v3+json"
+          # Add User-Agent, good practice for APIs
+          User-Agent: "Ansible-Playbook"
+          # Note: For frequent use or private repos, add authentication via Authorization header
+          # Authorization: "token YOUR_GITHUB_TOKEN"
+      register: github_release_info
+      # Optional: Make task robust against temporary network issues
+      # retries: 3
+      # delay: 5
+      # until: github_release_info.status == 200
+
+    - name: Extract and store the latest version tag
+      ansible.builtin.set_fact:
+        # Access the 'tag_name' field within the parsed 'json' body
+        desired_version: "{{ github_release_info.json.tag_name }}"
+      # Ensure this runs only if the API call was successful and returned JSON
+      when: github_release_info.status == 200 and github_release_info.json is defined
+    - name: show desired version
+      ansible.builtin.debug:
+        msg: "desired_version: {{ desired_version }}"
     - name: "Check current version of {{ app_name }}"
       ansible.builtin.command: "{{ app_version_command }}"
       register: version_check_result
@@ -71,7 +100,8 @@
   vars:
     app_name: "cheat"  # The command name of the application
     app_version_command: "{{ app_name }} --version"
-    desired_version: "4.4.3"  # The specific version you want installed
+    # desired_version: "4.4.3"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
+    github_api_url: "https://api.github.com/repos/cheat/cheat/releases/latest"
 
     # - name: Cleanup
