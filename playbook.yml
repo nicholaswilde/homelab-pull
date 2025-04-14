@@ -40,7 +40,7 @@
     - update_docker
 
 - name: Run cleanup role
-  hosts: lxcs
+  hosts: all
   become: true
   roles:
     - clean
