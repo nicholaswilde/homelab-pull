@@ -1,6 +1,6 @@
 ---
 - name: Install beszel-agent
-  ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash" # noqa: command-instead-of-module
+  ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash"
   args:
     chdir: "/usr/local/bin"
 

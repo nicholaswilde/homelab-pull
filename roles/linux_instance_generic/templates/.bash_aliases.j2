@@ -12,4 +12,5 @@ alias cp='cp -r'
 
 alias e='micro'
 
-export CDPATH="{{ ansible_env.HOME }}/git/nicholaswilde/homelab/pve"
+export CDPATH=:..:~
+export CDPATH="${CDPATH}:{{ ansible_env.HOME }}/git/nicholaswilde/homelab/pve"

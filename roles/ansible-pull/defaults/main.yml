@@ -1,5 +1,5 @@
-ansible_pull_url: git@github.com:nicholaswilde/homelab-pull.git
-ansible_pull_timer: |
+homelab_pull_url: "git@github.com:nicholaswilde/homelab-pull.git"
+homelab_pull_timer: |
   OnBootSec=5m
   OnCalendar=daily
   RandomizedDelaySec=30m

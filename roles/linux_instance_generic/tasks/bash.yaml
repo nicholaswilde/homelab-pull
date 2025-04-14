@@ -5,8 +5,8 @@
     shell: /bin/bash
 
 - name: Update .bash_aliases
-  ansible.builtin.copy:
-    src: .bash_aliases
+  ansible.builtin.templates:
+    src: .bash_aliases.j2
     dest: "{{ ansible_env.HOME }}/.bash_aliases"
 
 - name: Update .bashrc
