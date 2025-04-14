@@ -56,6 +56,12 @@ pull_groups:
   - lxcs
 ```
 
+Create additional roles if needed.
+
+Update `playbook.yml` with which host groups run which roles.
+
+Update variables that being passed into each role. List of variables can be found under `roles/<role name>/defaults/main.yaml`.
+
 ---
 
 ## :pencil: Usage
