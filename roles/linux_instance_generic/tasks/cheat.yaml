@@ -71,7 +71,7 @@
   vars:
     app_name: "cheat"  # The command name of the application
     app_version_command: "{{ app_name }} --version"
-    desired_version: "4.4.3"  # The specific version you want installed
+    desired_version: "4.4.2"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
 
     # - name: Cleanup
