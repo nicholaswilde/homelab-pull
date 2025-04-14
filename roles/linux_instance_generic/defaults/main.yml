@@ -4,5 +4,7 @@ linux_instance_generic_git_signing_key: "C278D7760E0B27F192659595F08AD0AD08B7D7A
 linux_instance_generic_git_git_folder: "git/nicholaswilde/homelab"
 
 linux_instance_generic_nfs_path: "storage -fstype=nfs4,rw 192.168.2.19:/storage"
+
 linux_instance_generic_proxy: "http://192.168.2.40:3142"
-beszel_key: ""
+
+linux_instance_generic_beszel_key: ""
