@@ -12,3 +12,5 @@ linux_instance_generic_beszel_key: ""
 
 linux_instance_generic_dotfiles_repo: "https://github.com/nicholaswilde/dotfiles2.git"
 
+linux_instance_generic_reprepro_base_url: "https://deb.l.nicholaswilde.io"
+linux_instance_generic_reprepro_key_url: "https://deb.l.nicholaswilde.io/public.gpg"
