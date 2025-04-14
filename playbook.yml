@@ -46,3 +46,11 @@
     - clean
   tags:
     - clean
+
+- name: End ansible-pull
+  hosts: all
+  become: true
+  tasks:
+    - name: End message
+      ansible.builtin.command:
+        cmd: wall "end"
