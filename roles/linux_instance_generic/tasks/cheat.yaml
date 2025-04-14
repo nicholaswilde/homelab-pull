@@ -16,7 +16,9 @@
         current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
       # Only try to parse if the command succeeded
       when: version_check_result.rc == 0
-      
+    - name:
+      ansible.builtin.debug:
+        msg: "current_version: {{ current_version }}"
     - name: another block
       block:
         - name: Create cheat directory
