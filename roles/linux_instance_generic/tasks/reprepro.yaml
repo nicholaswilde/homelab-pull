@@ -3,6 +3,7 @@
   ansible.builtin.get_url:
     url: "{{ linux_instance_generic_reprepro_key_url }}"
     dest: "/etc/apt/trusted.gpg.d/reprepro.asc"
+  ignore_errors: true
 
 - name: Setup reprepro source
   ansible.builtin.template:
