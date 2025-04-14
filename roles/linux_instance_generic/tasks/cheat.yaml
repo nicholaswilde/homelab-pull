@@ -63,11 +63,10 @@
             - /tmp/cheat
             - /tmp/cheat.sh
       when:
-        - version_check_result.rc != 0
-        - or:
-            - version_check_result.rc == 0  # Command succeeded...
-            # - current_version | default('0.0.0') is version(desired_version, '!=')
-            - current_version | default('none') != desired_version
+        - version_check_result.rc != 0 or
+          (version_check_result.rc == 0 and
+          current_version | default('0.0.0') is version(desired_version, '!='))
+            # - current_version | default('none') != desired_version
   vars:
     app_name: "cheat"  # The command name of the application
     app_version_command: "{{ app_name }} --version"
