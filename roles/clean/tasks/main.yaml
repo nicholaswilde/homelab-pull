@@ -5,76 +5,14 @@
     state: present
   register: user
 
-- name: Run apt autoremove
-  ansible.builtin.apt:
-    autoremove: true
-    purge: true
+- name: Clean cache
+  ansible.builtin.include_tasks: cache.yaml
 
-- name: Run apt autoclean
-  ansible.builtin.apt:
-    autoclean: true
-    
-- name: Get list of files in /var/cache/
-  ansible.builtin.find:
-    paths: /var/cache/
-    file_type: file
-  register: cleanup
-  ignore_errors: true
+- name: Clean logs
+  ansible.builtin.include_tasks: logs.yaml
 
-- name: Delete files in /var/cache/
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ cleanup.files }}"
-  ignore_errors: true
-  no_log: true
-
-- name: Get list of files in /var/log/
-  ansible.builtin.find:
-    paths: /var/log/
-    file_type: file
-  register: cleanup
-
-- name: Delete files in /var/log
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ cleanup.files }}"
-  ignore_errors: true
-  no_log: true
-
-- name: Recursively find /tmp files older than 2 days
-  ansible.builtin.find:
-    paths: /tmp
-    age: 2d
-    recurse: true
-  register: cleanup
-  
-- name: Delete /tmp files
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ cleanup.files }}"
-  ignore_errors: true
-  no_log: true
-  
-- name: Get list of files in /var/lib/apt/lists/
-  ansible.builtin.find:
-    paths: /var/lib/apt/lists/
-  register: cleanup
-  ignore_errors: true
-
-- name: Delete files in /var/lib/apt/lists/
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ cleanup.files }}"
-  ignore_errors: true
-  no_log: true
-
-- name: Run apt update
-  ansible.builtin.apt:
-    update_cache: true
+- name: Clean apt
+  ansible.builtin.include_tasks: apt.yaml
 
 - name: Get mount
   ansible.builtin.set_fact:
