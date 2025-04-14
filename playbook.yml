@@ -13,3 +13,11 @@
     - linux_instance_generic
   tags:
     - linux_instance_generic
+
+- name: Install lxcs
+  hosts: lxcs
+  become: true
+  roles:
+    - clean
+  tags:
+    - clean
