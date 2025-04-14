@@ -26,9 +26,6 @@
     enabled: true
     state: started
 
-# - name: Enable beszel-agent-update.timer
-#   ansible.builtin.command: "systemctl enable --now beszel-agent-update.timer"  # noqa: command-instead-of-module
-
 - name: Enable beszel-agent-update.timer
   ansible.builtin.systemd_service:
     name: beszel-agent-update.timer
