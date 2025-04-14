@@ -24,7 +24,6 @@
 
     - name: Extract and store the latest version tag
       ansible.builtin.set_fact:
-        # Access the 'tag_name' field within the parsed 'json' body
         desired_version: "{{ github_release_info.json.tag_name }}"
       # Ensure this runs only if the API call was successful and returned JSON
       when: github_release_info.status == 200 and github_release_info.json is defined
@@ -96,12 +95,12 @@
         - version_check_result.rc != 0 or
           (version_check_result.rc == 0 and
           current_version | default('0.0.0') is version(desired_version, '!='))
-            # - current_version | default('none') != desired_version
+          # - current_version | default('none') != desired_version
   vars:
     app_name: "cheat"  # The command name of the application
+    repo_name: "cheat"
+    owner_name: "cheat"
     app_version_command: "{{ app_name }} --version"
     # desired_version: "4.4.3"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
-    github_api_url: "https://api.github.com/repos/cheat/cheat/releases/latest"
-
-    # - name: Cleanup
+    github_api_url: "https://api.github.com/repos/{{ owner_name }}/{{ repo_name }}/releases/latest"
