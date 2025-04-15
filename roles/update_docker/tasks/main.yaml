@@ -3,6 +3,7 @@
     # --- User Configuration ---
     compose_project_dir: "/path/to/your/docker/compose/app"
     # compose_project_name: "my_app_stack"
+    compose_file_name: "compose.yaml"
     # --- End User Configuration ---
 
   tasks:
