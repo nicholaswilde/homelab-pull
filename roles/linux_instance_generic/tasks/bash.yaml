@@ -2,10 +2,10 @@
 - name: Change user shell to bash
   ansible.builtin.user:
     name: "{{ ansible_user }}"
-    shell: /bin/bash
+    shell: "/bin/bash"
 
 - name: Update .bash_aliases
-  ansible.builtin.templates:
+  ansible.builtin.template:
     src: .bash_aliases.j2
     dest: "{{ ansible_env.HOME }}/.bash_aliases"
 
