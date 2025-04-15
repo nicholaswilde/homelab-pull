@@ -1,11 +1,7 @@
 ---
   vars:
     # --- User Configuration ---
-    # REQUIRED: Set the absolute path to your docker-compose project directory on the target host(s)
     compose_project_dir: "/path/to/your/docker/compose/app"
-
-    # Optional: Explicitly set the project name for Docker Compose
-    # If omitted, Docker Compose typically derives it from the directory name.
     # compose_project_name: "my_app_stack"
     # --- End User Configuration ---
 
