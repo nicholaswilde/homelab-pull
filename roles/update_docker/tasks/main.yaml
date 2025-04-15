@@ -1,10 +1,4 @@
 ---
-- name: Update Docker Compose Application
-  hosts: your_docker_hosts # Replace with your inventory group name
-  become: yes              # Run tasks with root privileges (adjust if needed)
-  # Note: 'become: yes' might not be required if the Ansible user
-  # is part of the 'docker' group on the target machine and can access the Docker socket.
-
   vars:
     # --- User Configuration ---
     # REQUIRED: Set the absolute path to your docker-compose project directory on the target host(s)
