@@ -66,7 +66,7 @@ Update variables that being passed into each role. List of variables can be foun
 
 ## :lock: Secrets
 
-Secrets are encrypted in variable files using `ansible-vault` and a password file.
+Secrets are encrypted in variable files using [`ansible-vault`][8] and a password file.
 
 A password file can be generated via the command line.
 
@@ -134,3 +134,4 @@ journalctl -xeu homelab-pull
 [5]: <https://github.com/nicholaswilde/homelab-playbooks>
 [6]: <https://fluxcd.io/>
 [7]: <https://github.com/settings/keys>
+[8]: <https://docs.ansible.com/ansible/latest/vault_guide/vault.html>
