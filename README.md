@@ -64,6 +64,17 @@ Update variables that being passed into each role. List of variables can be foun
 
 ---
 
+## :lock: Secrets
+
+Secrets are encrypted in variable files using `ansible-vault` and a password file.
+
+```ini
+[defaults]
+vault_password_file = ~/.config/homelab-pull/password
+```
+
+---
+
 ## :pencil: Usage
 
 On the host that you'd like to run the playbook.
