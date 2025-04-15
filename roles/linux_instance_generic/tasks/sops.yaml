@@ -1,14 +1,12 @@
 ---
-- name: "Check if the flag file '{{ file_to_check }}' exists"
-  ansible.builtin.stat:
-    path: "/home/nicholas/.config/sops/age/"
-  delegate_to: localhost
-  run_once: true
-  register: flag_folder_status
+- name: "Create directory if it doesn't exist"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/sops/age/"
+    state: directory
 
-- name: Copy age keys
+- name: "Write SOPS age keys"
   ansible.builtin.copy:
-    src: "/home/nicholas/.config/sops/age/"
-    dest: "{{ ansible_env.HOME }}/.config/sops/age/"
+    content: "{{ age_key }}"
+    dest: "{{ ansible_env.HOME }}/.config/sops/age/keys.txt"
   ignore_errors: true
   when: flag_folder_status.stat.exists
