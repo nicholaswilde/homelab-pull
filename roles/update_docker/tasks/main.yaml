@@ -1,1 +1,48 @@
 ---
+- name: Update Docker Compose Application
+  hosts: your_docker_hosts # Replace with your inventory group name
+  become: yes              # Run tasks with root privileges (adjust if needed)
+  # Note: 'become: yes' might not be required if the Ansible user
+  # is part of the 'docker' group on the target machine and can access the Docker socket.
+
+  vars:
+    # --- User Configuration ---
+    # REQUIRED: Set the absolute path to your docker-compose project directory on the target host(s)
+    compose_project_dir: "/path/to/your/docker/compose/app"
+
+    # Optional: Explicitly set the project name for Docker Compose
+    # If omitted, Docker Compose typically derives it from the directory name.
+    # compose_project_name: "my_app_stack"
+    # --- End User Configuration ---
+
+  tasks:
+    - name: Check if docker-compose.yml exists in the project directory
+      ansible.builtin.stat:
+        path: "{{ compose_project_dir }}/docker-compose.yml"
+      register: compose_file_stat
+
+    - name: Fail if docker-compose.yml does not exist
+      ansible.builtin.fail:
+        msg: "The docker-compose.yml file was not found in the specified directory '{{ compose_project_dir }}'. Please ensure the file exists on the target host(s)."
+      when: not compose_file_stat.stat.exists
+
+    - name: Update Docker Compose services (pull images, recreate containers)
+      community.docker.docker_compose_v2:
+        project_src: "{{ compose_project_dir }}" # Directory containing docker-compose.yml
+        project_name: "{{ compose_project_name | default(omit) }}" # Use variable if defined, otherwise let Docker Compose decide
+        state: present         # Ensures services defined in the file are running
+        pull: always         # Always attempt to pull newer versions of the images
+        recreate: always     # Force recreation of containers even if config hasn't changed (ensures new images are used)
+        remove_orphans: yes  # Remove containers for services that are no longer defined in the compose file
+        build: no            # Set to 'yes' if you need to build images from Dockerfiles in the project_src
+      register: compose_update_result
+      notify: Show Docker Compose Update Info # Notify handler to show output
+
+  handlers:
+    - name: Show Docker Compose Update Info
+      listen: Show Docker Compose Update Info
+      ansible.builtin.debug:
+        msg: "Docker Compose update process completed. Review task output for details."
+        # You can access detailed output via compose_update_result if needed, e.g.:
+        # var: compose_update_result
+        # verbosity: 1 # Only show with -v
