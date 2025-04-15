@@ -5,7 +5,10 @@
   tasks:
     - name: Start message
       ansible.builtin.command:
-        cmd: wall -n '📌 Notice 🤖 Homelab Pull has begun configuring this instance 🦾'
+        argv:
+          - wall
+          - "-n"
+          - "📌 Notice 🤖 Homelab Pull has begun configuring this instance 🦾"
 
 - name: Configure ansible-pull
   hosts: all
@@ -53,4 +56,7 @@
   tasks:
     - name: End message
       ansible.builtin.command:
-        cmd: wall -n '📌 Notice 🤖 Homelab Pull has finished configuring this instance 🏁'
+        argv:
+          - wall
+          - "-n"
+          - "📌 Notice 🤖 Homelab Pull has finished configuring this instance 🏁"
