@@ -3,14 +3,14 @@
   hosts: all
   become: true
   tasks:
-    - name: Start message
+    - name: "Start notice"
       ansible.builtin.command:
         argv:
           - wall
           - "-n"
           - "📌 Notice 🤖 Homelab Pull has begun configuring this instance 🦾"
 
-- name: Configure ansible-pull
+- name: "Configure ansible-pull"
   hosts: all
   become: true
   roles:
@@ -18,7 +18,7 @@
   tags:
     - ansible-pull
 
-- name: Run linux_instance_generic role
+- name: "Run linux_instance_generic role"
   hosts: lxcs
   become: true
   roles:
@@ -26,7 +26,7 @@
   tags:
     - linux_instance_generic
 
-- name: Run update_apt role
+- name: "Run update_apt role"
   hosts: apt
   become: true
   roles:
@@ -34,7 +34,7 @@
   tags:
     - update_apt
 
-# - name: Run update_docker role
+# - name: "Run update_docker role"
 #   hosts: docker
 #   become: true
 #   roles:
@@ -42,7 +42,7 @@
 #   tags:
 #     - update_docker
 
-- name: Run cleanup role
+- name: "Run cleanup role"
   hosts: all
   become: true
   roles:
@@ -54,7 +54,7 @@
   hosts: all
   become: true
   tasks:
-    - name: End message
+    - name: "End notice"
       ansible.builtin.command:
         argv:
           - wall
