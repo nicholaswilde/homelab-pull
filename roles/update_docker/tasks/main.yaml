@@ -6,14 +6,14 @@
     # --- End User Configuration ---
 
   tasks:
-    - name: Check if docker-compose.yml exists in the project directory
+    - name: Check if compose.yaml exists in the project directory
       ansible.builtin.stat:
-        path: "{{ compose_project_dir }}/docker-compose.yml"
+        path: "{{ compose_project_dir }}/compose.yaml"
       register: compose_file_stat
 
     - name: Fail if docker-compose.yml does not exist
       ansible.builtin.fail:
-        msg: "The docker-compose.yml file was not found in the specified directory '{{ compose_project_dir }}'. Please ensure the file exists on the target host(s)."
+        msg: "The compose.yaml file was not found in the specified directory '{{ compose_project_dir }}'. Please ensure the file exists on the target host(s)."
       when: not compose_file_stat.stat.exists
 
     - name: Update Docker Compose services (pull images, recreate containers)
