@@ -72,7 +72,19 @@ A password file can be generated via the command line.
 
 ```shell
 mkdir -p ~/.config/homelab-pull/
-printf %s "my password" > ~/.config/homelab-pull/
+printf %s "mypassword" > ~/.config/homelab-pull/password
+```
+
+Or generate a random password.
+
+```shell
+openssl rand -base64 12 > ~/.config/homelab-pull/password
+```
+
+Use the password file by passing in the `--vault-password-file` argument.
+
+```shell
+ansibl-vault encrypt --vault-password-file ~/.config/homelab-pull/password myvars.yaml
 ```
 
 The password file can be set in the `ansible.cfg| file using the `vault_password_file` variable.
