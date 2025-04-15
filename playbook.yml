@@ -34,13 +34,13 @@
   tags:
     - update_apt
 
-- name: Run update_docker role
-  hosts: docker
-  become: true
-  roles:
-    - update_docker
-  tags:
-    - update_docker
+# - name: Run update_docker role
+#   hosts: docker
+#   become: true
+#   roles:
+#     - update_docker
+#   tags:
+#     - update_docker
 
 - name: Run cleanup role
   hosts: all
