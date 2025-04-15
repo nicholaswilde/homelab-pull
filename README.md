@@ -68,6 +68,15 @@ Update variables that being passed into each role. List of variables can be foun
 
 Secrets are encrypted in variable files using `ansible-vault` and a password file.
 
+A password file can be generated via the command line.
+
+```shell
+mkdir -p ~/.config/homelab-pull/
+printf %s "my password" > ~/.config/homelab-pull/
+```
+
+The password file can be set in the `ansible.cfg| file using the `vault_password_file` variable.
+
 ```ini
 [defaults]
 vault_password_file = ~/.config/homelab-pull/password
