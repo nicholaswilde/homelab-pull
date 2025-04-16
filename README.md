@@ -21,13 +21,7 @@ Install `ansible-core` and `git` on the container.
 
 ```shell
 sudo apt update
-sudo apt install git pipx
-```
-
-Install via pipx
-
-```
-pipx install ansible-core
+sudo apt install git ansible-core
 ```
 
 Setup any credentials that are needed to connect to the repo.
@@ -90,10 +84,10 @@ openssl rand -base64 12 > ~/.config/homelab-pull/password
 Use the password file by passing in the `--vault-password-file` argument.
 
 ```shell
-ansibl-vault encrypt --vault-password-file ~/.config/homelab-pull/password myvars.yaml
+ansible-vault encrypt --vault-password-file ~/.config/homelab-pull/password myvars.yaml
 ```
 
-The password file can be set in the `ansible.cfg| file using the `vault_password_file` variable.
+The password file can be set in the `ansible.cfg` file using the `vault_password_file` variable.
 
 ```ini
 [defaults]
@@ -106,8 +100,28 @@ vault_password_file = ~/.config/homelab-pull/password
 
 On the host that you'd like to run the playbook.
 
+sudo ssh
+
 ```shell
 sudo ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+ssh
+
+```shell
+ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+sudo https
+
+```shell
+sudo ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+https
+
+```shell
+ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
 
 >[!NOTE]
