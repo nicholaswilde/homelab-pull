@@ -17,6 +17,10 @@ tasks:
     preconditions:
        - sh: command -v openssl >/dev/null
          msg: "'openssl' command not found. Please install OpenSSL."
+  test:
+    desc: Run a test Docker container.
+    cmds:
+      - docker run -it --rm -h "$(uname -n)" debian /bin/bash
 
   default:
     cmds:
