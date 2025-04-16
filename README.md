@@ -17,22 +17,25 @@ A downside is that `ansible-pull` needs to be installed on all containers, thus 
 
 ## :hammer_and_wrench: Installation
 
-Install `ansible-core` and `git` on the container.
+Install `pipx` and `git` on the container.
 
 ```shell
 sudo apt update
-sudo apt install git ansible-core
+sudo apt install git pipx
 ```
-
-Setup any credentials that are needed to connect to the repo.
-
-Generate SSH keys and accept defaults.
 
 ```shell
-ssh-keygen
+pipx install ansible-core
 ```
 
-Add to [GitHub keys][7].
+Use the bootstrap script.
+
+>[!WARNING]
+>Always inspect a shell script before running it!
+
+```shell
+bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
+```
 
 ---
 
@@ -100,26 +103,6 @@ vault_password_file = ~/.config/homelab-pull/password
 
 On the host that you'd like to run the playbook.
 
-sudo ssh
-
-```shell
-sudo ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
-```
-
-ssh
-
-```shell
-ansible-pull -U git@github.com:nicholaswilde/homelab-pull.git -i "$(uname -n),"
-```
-
-sudo https
-
-```shell
-sudo ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
-```
-
-https
-
 ```shell
 ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
@@ -133,6 +116,41 @@ View the logs.
 
 ```shell
 journalctl -xeu homelab-pull
+```
+
+---
+
+## :whale2: Testing Using Docker
+
+Launch a Debian Docker container
+
+```shell
+docker run -it --rm -h "$(uname -n)" debian /bin/bash
+```
+
+In the Docker container
+
+```shell
+apt update && \
+apt install curl -y && \
+mkdir -p ~/.config/homelab-pull/ && \
+printf %s "mypassword" > ~/.config/homelab-pull/password
+```
+
+```shell
+bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
+```
+
+Update the `$PATH` variable
+
+```shell
+export PATH=$PATH:$HOME/.local/bin
+```
+
+Test the playbook.
+
+```shell
+ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
 
 ---
