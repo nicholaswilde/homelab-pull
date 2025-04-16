@@ -9,4 +9,3 @@
     content: "{{ age_key }}"
     dest: "{{ ansible_env.HOME }}/.config/sops/age/keys.txt"
   ignore_errors: true
-  when: flag_folder_status.stat.exists
