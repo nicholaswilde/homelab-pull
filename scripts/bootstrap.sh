@@ -54,7 +54,15 @@ function check_root(){
   fi
 }
 
+function install_sudo(){
+  if ! command_exists sudo; then
+    print_text "Installing sudo"
+    apt install sudo -y
+  fi
+}
+
 function install_deps(){
+  print_text "Installing dependencies"
   sudo apt install -y \
     curl \
     wget
@@ -62,9 +70,6 @@ function install_deps(){
 
 function install_pipx(){
   print_text "Installing pipx"
-  if ! command_exists sudo; then
-    apt install sudo -y
-  fi
   if ! command_exists pipx; then
     sudo apt install pipx -y
     export PATH=$PATH:$HOME/.local/bin
@@ -81,6 +86,7 @@ function show_message(){
 
 function main(){
   # check_root
+  install_sudo
   sudo apt update
   install_deps
   install_pipx
