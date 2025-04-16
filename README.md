@@ -122,26 +122,24 @@ journalctl -xeu homelab-pull
 
 ## :whale2: Testing Using Docker
 
-Launch a Debian Docker container
+Launch into a shell in a Debian Docker container.
 
 ```shell
 docker run -it --rm -h "$(uname -n)" debian /bin/bash
 ```
 
-In the Docker container
+In the Docker container.
 
 ```shell
+cd ~ && \
 apt update && \
 apt install curl -y && \
 mkdir -p ~/.config/homelab-pull/ && \
-printf %s "mypassword" > ~/.config/homelab-pull/password
-```
-
-```shell
+printf %s "mypassword" > ~/.config/homelab-pull/password && \
 bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
 ```
 
-Update the `$PATH` variable
+Update the `$PATH` environmental variable.
 
 ```shell
 export PATH=$PATH:$HOME/.local/bin
