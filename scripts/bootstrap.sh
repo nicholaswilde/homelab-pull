@@ -47,8 +47,30 @@ function command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
+# Check if EUID is 0 (root)
+function check_root(){
+  if [[ $EUID -ne 0 ]]; then
+     raise_error "Error: This script must be run as root."
+  fi
+}
+
+function install_pipx(){
+  print_text "Installing pipx"
+  if command_exists pipx; then
+    
+  else
+    apt install pipx
+  fi
+}
+
+function install_ansible_core(){
+  sudo pipx install ansible-core
+}
+
 function main(){
-  
+  check_root
+  install_pipx
+  install_ansible_core
 }
 
 main "$@"
