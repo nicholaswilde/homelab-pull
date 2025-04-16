@@ -55,7 +55,6 @@ function check_root(){
 }
 
 function install_deps(){
-  sudo apt update
   sudo apt install -y \
     curl \
     wget
@@ -64,7 +63,6 @@ function install_deps(){
 function install_pipx(){
   print_text "Installing pipx"
   if ! command_exists pipx; then
-    sudo apt update
     sudo apt install pipx -y
     export PATH=$PATH:$HOME/.local/bin
   fi
@@ -80,6 +78,7 @@ function show_message(){
 
 function main(){
   # check_root
+  sudo apt update
   install_deps
   install_pipx
   install_ansible_core
