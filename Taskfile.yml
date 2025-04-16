@@ -1,11 +1,32 @@
 ---
 version: '3'
 
+vars:
+  # Define the output file path using a variable for easier modification
+  PASSWORD_FILE: ~/.config/homelab-pull/password
+  # Extract the directory path from the PASSWORD_FILE variable
+  PASSWORD_DIR: '{{dir .PASSWORD_FILE}}'
+  # Define the desired password length (adjust as needed)
+  PASSWORD_LENGTH: 32
+
 tasks:
-  foo:
-    desc: foo
+  generate-password:
+    desc: Generates a random password and saves it to {{.PASSWORD_FILE}}
     cmds:
-      - echo "bar"
+      # 1. Ensure the target directory exists. '-p' prevents errors if it already exists.
+      - mkdir -p {{.PASSWORD_DIR}}
+      # 2. Generate a random password using openssl (base64 encoded) and redirect to the file.
+      #    Using '>' overwrites the file if it exists.
+      - openssl rand -base64 {{.PASSWORD_LENGTH}} > {{.PASSWORD_FILE}}
+      # 3. Set secure permissions (read/write for owner only) on the password file.
+      - chmod 600 {{ .PASSWORD_FILE }}
+      # 4. (Optional) Inform the user where the password was saved.
+      - echo "Password successfully generated and saved to {{ .PASSWORD_FILE }}"
+    # Optional Precondition: Check if openssl is installed before running
+    preconditions:
+       - sh: command -v openssl >/dev/null
+         msg: "'openssl' command not found. Please install OpenSSL."
+
   default:
     cmds:
       - task -l
