@@ -62,6 +62,9 @@ function install_deps(){
 
 function install_pipx(){
   print_text "Installing pipx"
+  if ! command_exists sudo; then
+    apt install sudo -y
+  fi
   if ! command_exists pipx; then
     sudo apt install pipx -y
     export PATH=$PATH:$HOME/.local/bin
