@@ -65,7 +65,8 @@ function install_deps(){
   print_text "Installing dependencies"
   sudo apt install -y \
     curl \
-    wget
+    wget \
+    git
 }
 
 function install_pipx(){
