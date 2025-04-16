@@ -21,7 +21,13 @@ Install `ansible-core` and `git` on the container.
 
 ```shell
 sudo apt update
-sudo apt install git ansible-core
+sudo apt install git pipx
+```
+
+Install via pipx
+
+```
+pipx install ansible-core
 ```
 
 Setup any credentials that are needed to connect to the repo.
