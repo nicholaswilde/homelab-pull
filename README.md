@@ -17,18 +17,14 @@ A downside is that `ansible-pull` needs to be installed on all containers, thus 
 
 ## :hammer_and_wrench: Installation
 
-Install `pipx` and `git` on the container.
+Install dependencies on the host.
 
 ```shell
 sudo apt update
-sudo apt install git pipx
+sudo apt install curl
 ```
 
-```shell
-pipx install ansible-core
-```
-
-Use the bootstrap script.
+Use the bootstrap script to finish setting up the host.
 
 >[!WARNING]
 >Always inspect a shell script before running it!
