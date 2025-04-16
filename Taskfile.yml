@@ -7,6 +7,10 @@ vars:
   PASSWORD_LENGTH: 32
 
 tasks:
+  show-passwd:
+    desc: Show the password
+    cmds:
+      - cat {{ .PASSWORD_FILE }}
   gen-passwd:
     desc: Generates a random password and saves it to {{.PASSWORD_FILE}}
     cmds:
