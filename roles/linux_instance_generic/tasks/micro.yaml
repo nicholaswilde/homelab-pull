@@ -3,7 +3,8 @@
   ansible.builtin.git:
     repo: "{{ linux_instance_generic_dotfiles_repo }}"
     dest: '/tmp/dotfiles'
-  
+    force: true
+
 - name: Create .config directory if it does not exist
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.config"
