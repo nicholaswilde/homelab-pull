@@ -21,6 +21,9 @@ tasks:
     desc: Run a test Docker container.
     cmds:
       - docker run -it --rm -h "$(uname -n)" debian /bin/bash
+    preconditions:
+       - sh: command -v docker >/dev/null
+         msg: "'docker' command not found. Please install Docker."
 
   default:
     cmds:
