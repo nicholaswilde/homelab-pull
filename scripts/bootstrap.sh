@@ -64,14 +64,14 @@ function install_deps(){
 function install_pipx(){
   print_text "Installing pipx"
   if ! command_exists pipx; then
-        apt update
-    apt install pipx -y
-        export PATH=$PATH:$HOME/.local/bin
+    sudo apt update
+    sudo apt install pipx -y
+    export PATH=$PATH:$HOME/.local/bin
   fi
 }
 
 function install_ansible_core(){
-  sudo pipx install ansible-core
+  pipx install ansible-core
 }
 
 function show_message(){
@@ -79,7 +79,7 @@ function show_message(){
 }
 
 function main(){
-  check_root
+  # check_root
   install_deps
   install_pipx
   install_ansible_core
