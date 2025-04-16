@@ -56,10 +56,10 @@ function check_root(){
 
 function install_pipx(){
   print_text "Installing pipx"
-  if command_exists pipx; then
-    
-  else
-    apt install pipx
+  if ! command_exists pipx; then
+        apt update
+    apt install pipx -y
+        export PATH=$PATH:$HOME/.local/bin
   fi
 }
 
@@ -67,10 +67,15 @@ function install_ansible_core(){
   sudo pipx install ansible-core
 }
 
+function show_message(){
+  print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
+}
+
 function main(){
   check_root
   install_pipx
   install_ansible_core
+  show_message
 }
 
 main "$@"
