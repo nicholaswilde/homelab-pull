@@ -10,12 +10,14 @@
 - name: Just force systemd to reread configs (2.4 and above)
   ansible.builtin.systemd_service:
     daemon_reload: true
+  ignore_errors: true
 
 - name: Enable a timer unit for dnf-automatic
   ansible.builtin.systemd_service:
     name: homelab-pull.timer
     state: started
     enabled: true
+  ignore_errors: true
 
 # - name: Enable homelab-pull timer
 #   ansible.builtin.service:
