@@ -25,9 +25,11 @@
     name: beszel-agent.service
     enabled: true
     state: started
+  ignore_errors: true
 
 - name: Enable beszel-agent-update.timer
   ansible.builtin.systemd_service:
     name: beszel-agent-update.timer
     state: started
     enabled: true
+  ignore_errors: true
