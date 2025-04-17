@@ -12,3 +12,4 @@
     name: homelab-pull.timer
     state: started
     enabled: true
+    daemon_reload: true
