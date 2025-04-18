@@ -141,6 +141,12 @@ Update the `$PATH` environmental variable.
 export PATH=$PATH:$HOME/.local/bin
 ```
 
+Install Ansible Galaxy collection requirements.
+
+```shell
+$HOME/.local/bin/ansible-galaxy collection install -r <(curl -sSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml)
+```
+
 Test the playbook.
 
 ```shell

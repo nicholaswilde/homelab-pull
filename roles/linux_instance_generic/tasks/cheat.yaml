@@ -27,26 +27,32 @@
         desired_version: "{{ github_release_info.json.tag_name }}"
       # Ensure this runs only if the API call was successful and returned JSON
       when: github_release_info.status == 200 and github_release_info.json is defined
+
     - name: show desired version
       ansible.builtin.debug:
         msg: "desired_version: {{ desired_version }}"
+
     - name: "Check current version of {{ app_name }}"
       ansible.builtin.command: "{{ app_version_command }}"
       register: version_check_result
       changed_when: false # Checking version doesn't change state
       failed_when: false  # IMPORTANT: Prevent failure if command not found/fails
+
     - name:
       ansible.builtin.debug:
         msg: "version_check_result: {{ version_check_result.stdout }}"
+
     - name: "Parse current version of {{ app_name }} if installed"
       ansible.builtin.set_fact:
         # Extract the version using regex. Provides 'none' if not found or command failed.
         current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
       # Only try to parse if the command succeeded
       when: version_check_result.rc == 0
+
     - name:
       ansible.builtin.debug:
         msg: "desired_version: {{ desired_version }}, version_check_result.rc {{ version_check_result.rc }}"
+
     - name: another block
       block:
         - name: Create cheat directory
@@ -64,18 +70,21 @@
             url: https://installer.l.nicholaswilde.io/cheat/cheat?type=script
             return_content: true
           register: this
+          ignore_errors: true
 
         - name: Write install script to file
           ansible.builtin.copy:
             content: "{{ this.content }}"
             dest: "/tmp/cheat.sh"
             mode: 0755
-
+          ignore_errors: true
+          
         - name: Execute the remote bash script using shell
           ansible.builtin.shell:
             cmd: "/tmp/cheat.sh"
             chdir: "/tmp/"
-
+          ignore_errors: true
+          
         - name: Move cheat
           ansible.builtin.copy:
             src: "/tmp/cheat"
@@ -83,6 +92,7 @@
             remote_src: true
             mode: 0755
             force: true
+          ignore_errors: true
 
         - name: Cleanup files
           ansible.builtin.file:
@@ -91,6 +101,8 @@
           loop:
             - /tmp/cheat
             - /tmp/cheat.sh
+          ignore_errors: true
+
       when:
         - version_check_result.rc != 0 or
           (version_check_result.rc == 0 and

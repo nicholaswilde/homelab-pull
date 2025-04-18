@@ -11,8 +11,12 @@
 #
 ################################################################################
 
-# set -e
-# set -o pipefail
+set -e
+set -o pipefail
+
+REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
+
+readonly REQUIREMENTS_URL
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -81,6 +85,11 @@ function install_ansible_core(){
   pipx install ansible-core
 }
 
+function install_collections(){
+  print_text "Installing collections"
+  $HOME/.local/bin/ansible-galaxy collection install -r <(curl -sSL "${REQUIREMENTS_URL}")
+}
+
 function show_message(){
   print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
 }
@@ -92,6 +101,7 @@ function main(){
   install_deps
   install_pipx
   install_ansible_core
+  install_collections
   show_message
 }
 

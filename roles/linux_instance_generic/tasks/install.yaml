@@ -7,6 +7,7 @@
 - name: Update apt package list
   ansible.builtin.apt:
     update_cache: true
+  ignore_errors: true
 
 - name: Install apt packages
   ansible.builtin.apt:
@@ -27,3 +28,4 @@
       - tmux
     state: latest
     update_cache: true
+  ignore_errors: true
