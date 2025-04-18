@@ -15,6 +15,7 @@ set -e
 set -o pipefail
 
 REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
+PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 
 readonly REQUIREMENTS_URL
 
@@ -55,6 +56,23 @@ function command_exists() {
 function check_root(){
   if [[ $EUID -ne 0 ]]; then
      raise_error "Error: This script must be run as root."
+  fi
+}
+
+function check_password(){
+  if [[ ! -e "${PASSWORD_PATH}" ]]; then
+    # Prompt for the first password input
+    read -sp "Enter password: " password_1
+    echo # Add a newline after hidden input
+    
+    # Prompt for the confirmation password input
+    read -sp "Confirm password: " password_2
+    echo # Add a newline after hidden input
+    
+    # Compare the two inputs
+    if [[ "$password_1" != "$password_2" ]]; then
+      rais_error "Passwords do not match."
+    fi
   fi
 }
 
