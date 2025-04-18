@@ -82,18 +82,20 @@ openssl rand -base64 32 > ~/.config/homelab-pull/password
 
 Use the password file by passing in the `--vault-password-file` argument.
 
-Encrypt a string value `bar` with name `foo`.
-
-```shell
-echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
-```
-
 The password file can be set in the `ansible.cfg` file using the `vault_password_file` variable.
 
 ```ini
 [defaults]
 vault_password_file = ~/.config/homelab-pull/password
 ```
+
+The password file then can be used to encrypt a string value `bar` with name `foo`.
+
+```shell
+echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
+```
+
+Save the output to a vars yaml file, such as `host_vars/all.yaml`
 
 ---
 
