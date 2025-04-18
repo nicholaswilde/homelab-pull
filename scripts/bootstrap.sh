@@ -134,6 +134,7 @@ function show_message(){
 
 function main(){
   # check_root
+  check_password
   install_sudo
   sudo apt update
   install_deps
