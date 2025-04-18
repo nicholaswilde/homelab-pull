@@ -15,7 +15,7 @@
         argv:
           - wall
           - "-n"
-          - "📌 Notice 🤖 Homelab Pull has begun configuring this instance 🦾"
+          - "📌  Notice 🤖  Homelab Pull has begun configuring this instance 🦾"
 
 - name: "Configure ansible-pull"
   hosts: all
@@ -66,4 +66,4 @@
         argv:
           - wall
           - "-n"
-          - "📌 Notice 🤖 Homelab Pull has finished configuring this instance 🏁"
+          - "📌  Notice 🤖  Homelab Pull has finished configuring this instance 🏁"
