@@ -18,6 +18,7 @@ REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/m
 PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 
 readonly REQUIREMENTS_URL
+readonly PASSWORD_PATH
 
 bold=$(tput bold)
 normal=$(tput sgr0)
