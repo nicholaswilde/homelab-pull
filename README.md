@@ -65,7 +65,7 @@ Update variables that being passed into each role. List of variables can be foun
 
 ## :lock: Secrets
 
-Secrets are encrypted in variable files using [`ansible-vault`][8] and a password file.
+Secrets are encrypted in variable files as strings using [`ansible-vault`][8] and a password file.
 
 A password file can be generated via the command line.
 
@@ -77,13 +77,15 @@ printf %s "mypassword" > ~/.config/homelab-pull/password
 Or generate a random password.
 
 ```shell
-openssl rand -base64 12 > ~/.config/homelab-pull/password
+openssl rand -base64 32 > ~/.config/homelab-pull/password
 ```
 
 Use the password file by passing in the `--vault-password-file` argument.
 
+Encrypt a string value `bar` with name `foo`.
+
 ```shell
-ansible-vault encrypt --vault-password-file ~/.config/homelab-pull/password myvars.yaml
+echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
 ```
 
 The password file can be set in the `ansible.cfg` file using the `vault_password_file` variable.
