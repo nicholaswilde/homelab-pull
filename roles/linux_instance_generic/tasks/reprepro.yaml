@@ -1,11 +1,25 @@
 ---
-- name: Download reprepro key
-  ansible.builtin.get_url:
+- name: Check if the target URL is reachable
+  ansible.builtin.uri:
     url: "{{ linux_instance_generic_reprepro_key_url }}"
-    dest: "/etc/apt/trusted.gpg.d/reprepro.asc"
+    method: GET
+    status_code: 200
+    timeout: 5
+  register: url_check_result
   ignore_errors: true
 
-- name: Setup reprepro source
-  ansible.builtin.template:
-    src: "reprepro.list.j2"
-    dest: "/etc/apt/sources.list.d/reprepro.list"
+- name: "Run reprepro block"
+  block:
+  
+    - name: Download reprepro key
+      ansible.builtin.get_url:
+        url: "{{ linux_instance_generic_reprepro_key_url }}"
+        dest: "/etc/apt/trusted.gpg.d/reprepro.asc"
+      ignore_errors: true
+
+    - name: Setup reprepro source
+      ansible.builtin.template:
+        src: "reprepro.list.j2"
+        dest: "/etc/apt/sources.list.d/reprepro.list"
+
+  when: not url_check_result.failed
