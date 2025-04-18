@@ -63,11 +63,11 @@ function check_root(){
 function check_password(){
   if [[ ! -e "${PASSWORD_PATH}" ]]; then
     # Prompt for the first password input
-    read -sp "Enter password: " password_1
+    read -sp "Enter vault password (${PASSWORD_PATH}): " password_1
     echo # Add a newline after hidden input
     
     # Prompt for the confirmation password input
-    read -sp "Confirm password: " password_2
+    read -sp "Confirm vault password: " password_2
     echo # Add a newline after hidden input
     
     # Compare the two inputs
