@@ -16,9 +16,12 @@ set -o pipefail
 
 REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
 PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
+PASSWORD_FOLDER=$(dirname "${PASSWORD_PATH}")
+
 
 readonly REQUIREMENTS_URL
 readonly PASSWORD_PATH
+readonly PASSWORD_FOLDER
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -75,7 +78,7 @@ function check_password(){
       rais_error "Passwords do not match."
     fi
 
-    mkdir -p "${PASSWORD_PATH}"
+    mkdir -p "${PASSWORD_FOLDER}"
     echo "$password_1" > "${PASSWORD_PATH}"
     if [[ ! -e "${PASSWORD_PATH}" ]]; then
       raise_error "Could not create password file"
