@@ -7,6 +7,7 @@
     timeout: 5
   register: url_check_result
   ignore_errors: yes # IMPORTANT: Prevent playbook failure if URL is unreachable
+  no_log: true
   
 - name: Setup apt-cacher-ng source
   ansible.builtin.template:
