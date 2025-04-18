@@ -73,6 +73,12 @@ function check_password(){
     if [[ "$password_1" != "$password_2" ]]; then
       rais_error "Passwords do not match."
     fi
+
+    mkdir -p "${PASSWORD_PATH}"
+    echo "$password_1" > "${PASSWORD_PATH}"
+    if [[ ! -e "${PASSWORD_PATH}" ]]; then
+      raise_error "Could not create password file"
+    fi
   fi
 }
 
