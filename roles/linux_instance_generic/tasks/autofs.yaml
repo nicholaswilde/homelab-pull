@@ -4,6 +4,7 @@
     path: "/etc/auto.master"
     state: present
     line: "/mnt /etc/auto.nfs --ghost --timeout=60"
+  ignore_errors: true
 
 - name: Create auto.nfs
   ansible.builtin.lineinfile:
@@ -16,3 +17,4 @@
   ansible.builtin.service:
     name: autofs
     state: restarted
+  ignore_errors: true
