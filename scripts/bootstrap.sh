@@ -78,7 +78,7 @@ function check_password(){
       rais_error "Passwords do not match."
     fi
 
-    mkdir -p "${PASSWORD_FOLDER}"
+    [ ! -d "${PASSWORD_FOLDER}" ] && mkdir -p "${PASSWORD_FOLDER}"
     printf %s "$password_1" > "${PASSWORD_PATH}"
     if [[ ! -e "${PASSWORD_PATH}" ]]; then
       raise_error "Could not create password file"
