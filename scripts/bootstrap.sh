@@ -56,11 +56,8 @@ function command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Check if EUID is 0 (root)
-function check_root(){
-  if [[ $EUID -ne 0 ]]; then
-     raise_error "Error: This script must be run as root."
-  fi
+function start_meassage(){
+  print_text "Starting homelab-pull bootstrap script."
 }
 
 function check_password(){
@@ -133,7 +130,7 @@ function show_message(){
 }
 
 function main(){
-  # check_root
+  start_meassage
   check_password
   install_sudo
   sudo apt update
