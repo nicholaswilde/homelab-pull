@@ -1,30 +1,37 @@
 ---
 
-- name: Download dotfiles
-  ansible.builtin.git:
-    repo: "{{ linux_instance_generic_dotfiles_repo }}"
-    dest: "/tmp/dotfiles"
+- name: Run tmux Block
+  block:
   
-- name: Create .config directory if it does not exist
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config"
-    state: directory
+    - name: Download dotfiles
+      ansible.builtin.git:
+        repo: "{{ linux_instance_generic_dotfiles_repo }}"
+        dest: "/tmp/dotfiles"
+      
+    - name: Create .config directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config"
+        state: directory
 
-- name: Copy tmux to config directory
-  ansible.builtin.copy:
-    src: "/tmp/dotfiles/.config/tmux"
-    dest: "{{ ansible_env.HOME }}/.config"
-    remote_src: true
+    - name: Copy tmux to config directory
+      ansible.builtin.copy:
+        src: "/tmp/dotfiles/.config/tmux"
+        dest: "{{ ansible_env.HOME }}/.config"
+        remote_src: true
 
-- name: Create tpm directory if it does not exist
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
-    state: directory
+    - name: Create tpm directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+        state: directory
 
-- name: Install tmux plugins manager (tpm)
-  ansible.builtin.git:
-    repo: 'https://github.com/tmux-plugins/tpm'
-    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+    - name: Install tmux plugins manager (tpm)
+      ansible.builtin.git:
+        repo: 'https://github.com/tmux-plugins/tpm'
+        dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
 
-- name: Install tmux plugins
-  ansible.builtin.command: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
+    - name: Install tmux plugins
+      ansible.builtin.command: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
+      environment:
+        TMUX_PLUGIN_MANAGER_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
+  vars:
+    TMUX_PLUGIN_MGR_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
