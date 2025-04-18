@@ -79,7 +79,7 @@ function check_password(){
     fi
 
     mkdir -p "${PASSWORD_FOLDER}"
-    echo "$password_1" > "${PASSWORD_PATH}"
+    printf %s "$password_1" > "${PASSWORD_PATH}"
     if [[ ! -e "${PASSWORD_PATH}" ]]; then
       raise_error "Could not create password file"
     fi
