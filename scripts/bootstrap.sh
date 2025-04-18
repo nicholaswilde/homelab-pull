@@ -83,6 +83,8 @@ function check_password(){
     if [[ ! -e "${PASSWORD_PATH}" ]]; then
       raise_error "Could not create password file"
     fi
+  else
+    print_text "Password file already exists"
   fi
 }
 
