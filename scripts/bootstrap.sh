@@ -103,15 +103,22 @@ function install_deps(){
 }
 
 function install_pipx(){
-  print_text "Installing pipx"
   if ! command_exists pipx; then
+    print_text "Installing pipx"
     sudo apt install pipx -y
     export PATH=$PATH:$HOME/.local/bin
+  else
+    print_text "pipx is already installed"
   fi
 }
 
 function install_ansible_core(){
-  pipx install ansible-core
+  if ! command_exists ansible; then
+    print_text "Installing ansible-core"
+    pipx install ansible-core
+  else
+    print_text "ansible-core is already installed"
+  fi
 }
 
 function install_collections(){
