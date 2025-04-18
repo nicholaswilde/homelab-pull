@@ -69,8 +69,7 @@ function install_deps(){
   print_text "Installing dependencies"
   sudo apt install -y \
     wget \
-    git \
-    systemctl
+    git
 }
 
 function install_pipx(){
