@@ -92,6 +92,8 @@ function install_sudo(){
   if ! command_exists sudo; then
     print_text "Installing sudo"
     apt install sudo -y
+  else
+    print_text "sudo is already installed"
   fi
 }
 
