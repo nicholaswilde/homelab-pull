@@ -130,21 +130,8 @@ In the Docker container.
 cd ~ && \
 apt update && \
 apt install curl -y && \
-mkdir -p ~/.config/homelab-pull/ && \
-printf %s "mypassword" > ~/.config/homelab-pull/password && \
-bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
-```
-
-Update the `$PATH` environmental variable.
-
-```shell
+bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
 export PATH=$PATH:$HOME/.local/bin
-```
-
-Install Ansible Galaxy collection requirements.
-
-```shell
-$HOME/.local/bin/ansible-galaxy collection install -r <(curl -sSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml)
 ```
 
 Test the playbook.
