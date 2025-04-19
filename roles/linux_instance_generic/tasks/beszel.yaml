@@ -6,16 +6,12 @@
       ansible.builtin.uri:
         url: "{{ github_api_url }}"
         method: GET
-        return_content: yes # Return the body of the response
-        body_format: json   # Automatically parse the JSON response body
-        status_code: 200    # Expect a successful HTTP 200 status code
+        return_content: true
+        body_format: json
+        status_code: 200
         headers:
-          # GitHub API prefers an Accept header, though often works without
           Accept: "application/vnd.github.v3+json"
-          # Add User-Agent, good practice for APIs
           User-Agent: "Ansible-Playbook"
-          # Note: For frequent use or private repos, add authentication via Authorization header
-          # Authorization: "token YOUR_GITHUB_TOKEN"
       register: github_release_info
       # Optional: Make task robust against temporary network issues
       # retries: 3
@@ -25,12 +21,7 @@
     - name: Extract and store the latest version tag
       ansible.builtin.set_fact:
         desired_version: "{{ github_release_info.json.tag_name | regex_search(version_regex, '\\1') | first | default('none') }}"
-      # Ensure this runs only if the API call was successful and returned JSON
       when: github_release_info.status == 200 and github_release_info.json is defined
-
-    - name: show desired version
-      ansible.builtin.debug:
-        msg: "desired_version: {{ desired_version }}"
 
     - name: "Check current version of {{ app_name }}"
       ansible.builtin.command: "{{ app_version_command }}"
@@ -44,17 +35,17 @@
 
     - name: "Parse current version of {{ app_name }} if installed"
       ansible.builtin.set_fact:
-        # Extract the version using regex. Provides 'none' if not found or command failed.
         current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
-      # Only try to parse if the command succeeded
       when: version_check_result.rc == 0
-
-    - name:
-      ansible.builtin.debug:
-        msg: "desired_version: {{ desired_version }}, version_check_result.rc {{ version_check_result.rc }}"
 
     - name: Another cheat block
       block:
+        - name:
+          ansible.builtin.debug:
+            msg: |
+              "desired_version: {{ desired_version }}"
+              "current_version: {{ current_version }}"
+
         - name: Create beszel agent service file
           ansible.builtin.template:
             src: beszel-agent.service.j2
