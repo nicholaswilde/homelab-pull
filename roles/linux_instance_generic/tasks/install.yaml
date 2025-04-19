@@ -3,7 +3,7 @@
   ansible.builtin.uri:
     url: "{{ linux_instance_generic_proxy }}"
     method: GET
-    status_code: 200
+    status_code: 406
     timeout: 5
   register: url_check_result
   ignore_errors: yes
