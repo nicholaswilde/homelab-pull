@@ -1,35 +1,48 @@
 ---
-- name: Install beszel-agent
-  ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash"
-  args:
-    chdir: "/usr/local/bin"
-
-- name: Create beszel agent service file
-  ansible.builtin.template:
-    src: beszel-agent.service.j2
-    dest: /etc/systemd/system/beszel-agent.service
-
-- name: Setup update service
-  ansible.builtin.copy:
-    src: beszel-agent-update.service
-    dest: "/etc/systemd/system/beszel-agent-update.service"
-
-- name: Setup timer
-  ansible.builtin.copy:
-    src: beszel-agent-update.timer
-    dest: "/etc/systemd/system/beszel-agent-update.timer"
-
-- name: Just force systemd to reread configs (2.4 and above)
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-    name: beszel-agent.service
-    enabled: true
-    state: started
+- name: Check if the target URL is reachable
+  ansible.builtin.uri:
+    url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
+    method: GET
+    status_code: 200
+    timeout: 5
+  register: url_check_result
   ignore_errors: true
+  no_log: true
 
-- name: Enable beszel-agent-update.timer
-  ansible.builtin.systemd_service:
-    name: beszel-agent-update.timer
-    state: started
-    enabled: true
-  ignore_errors: true
+- name: Run beszel block
+  block:
+    - name: Install beszel-agent
+      ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash"
+      args:
+        chdir: "/usr/local/bin"
+
+    - name: Create beszel agent service file
+      ansible.builtin.template:
+        src: beszel-agent.service.j2
+        dest: "/etc/systemd/system/beszel-agent.service"
+
+    - name: Setup update service
+      ansible.builtin.copy:
+        src: beszel-agent-update.service
+        dest: "/etc/systemd/system/beszel-agent-update.service"
+
+    - name: Setup timer
+      ansible.builtin.copy:
+        src: beszel-agent-update.timer
+        dest: "/etc/systemd/system/beszel-agent-update.timer"
+
+    - name: Just force systemd to reread configs (2.4 and above)
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        name: beszel-agent.service
+        enabled: true
+        state: started
+      ignore_errors: true
+
+    - name: Enable beszel-agent-update.timer
+      ansible.builtin.systemd_service:
+        name: beszel-agent-update.timer
+        state: started
+        enabled: true
+      ignore_errors: true
+  when: not url_check_result.fail
