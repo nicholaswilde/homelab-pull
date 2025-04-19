@@ -43,6 +43,7 @@
         - name: Show desigred version
           ansible.builtin.debug:
             msg: "desired_version: {{ desired_version }}\ncurrent_version: {{ current_version }}"
+          when: current_version is defined
 
         - name: Create beszel agent service file
           ansible.builtin.template:
