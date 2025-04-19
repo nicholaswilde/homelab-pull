@@ -95,7 +95,7 @@ The password file then can be used to encrypt a string value `bar` with name `fo
 echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
 ```
 
-Save the output to a vars yaml file, such as `host_vars/all.yaml`
+Save the output to a vars yaml file, such as `group_vars/all.yaml`
 
 ---
 
