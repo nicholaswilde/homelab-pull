@@ -16,6 +16,7 @@
           - wall
           - "-n"
           - "📌  Notice 🤖  Homelab Pull has begun configuring this instance 🦾"
+      changed_when: false
 
 - name: "Configure ansible-pull"
   hosts: all
@@ -67,3 +68,4 @@
           - wall
           - "-n"
           - "📌  Notice 🤖  Homelab Pull has finished configuring this instance 🏁"
+      changed_when: false
