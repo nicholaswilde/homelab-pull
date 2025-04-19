@@ -2,12 +2,12 @@
 - name: Check if the target URL is reachable
   ansible.builtin.uri:
     url: "{{ linux_instance_generic_proxy }}"
-    method: GET # Or HEAD if you just need headers
-    status_code: 200 # Optional: Check for a specific successful status code
+    method: GET
+    status_code: 200
     timeout: 5
   register: url_check_result
-  ignore_errors: yes # IMPORTANT: Prevent playbook failure if URL is unreachable
-  no_log: true
+  ignore_errors: yes
+  # no_log: true
   
 - name: Setup apt-cacher-ng source
   ansible.builtin.template:
@@ -40,4 +40,3 @@
     state: latest
     update_cache: true
   ignore_errors: true
-
