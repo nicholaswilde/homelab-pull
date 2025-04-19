@@ -13,6 +13,7 @@
   ansible.builtin.copy:
     src: .bashrc
     dest: "{{ ansible_env.HOME }}/.bashrc"
+  register: update_bash_result
 
 - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
   ansible.builtin.replace:
@@ -24,3 +25,4 @@
   ansible.builtin.shell: "source {{ ansible_env.HOME }}/.bashrc"
   args:
     executable: /bin/bash
+  when: update_bash_result.changed

@@ -12,9 +12,11 @@
     state: present
     create: true
     line: "{{ linux_instance_generic_nfs_path }}"
+  register: auto_nfs_result
 
 - name: Restart service autofs, in all cases
   ansible.builtin.service:
     name: autofs
     state: restarted
   ignore_errors: true
+  when: auto_nfs_result.changed
