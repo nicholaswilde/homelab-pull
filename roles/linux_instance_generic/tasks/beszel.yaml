@@ -29,9 +29,9 @@
       changed_when: false
       failed_when: false
 
-    - name:
-      ansible.builtin.debug:
-        msg: "version_check_result: {{ version_check_result.stdout }}"
+    # - name:
+    #   ansible.builtin.debug:
+    #     msg: "version_check_result: {{ version_check_result.stdout }}"
 
     - name: "Parse current version of {{ app_name }} if installed"
       ansible.builtin.set_fact:
@@ -42,9 +42,7 @@
       block:
         - name:
           ansible.builtin.debug:
-            msg: |
-              "desired_version: {{ desired_version }}"
-              "current_version: {{ current_version }}"
+            msg: "desired_version: {{ desired_version }}\ncurrent_version: {{ current_version }}"
 
         - name: Create beszel agent service file
           ansible.builtin.template:
