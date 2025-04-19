@@ -1,6 +1,6 @@
 ---
 
-- name: cheat block
+- name: beszel-agent block
   block:
     - name: Query GitHub API for latest cheat release
       ansible.builtin.uri:
@@ -110,7 +110,7 @@
 
         - name: Execute the remote bash script using shell
           ansible.builtin.shell:
-            cmd: "/tmp/cheat.sh"
+            cmd: "/tmp/beszel-agent.sh"
             chdir: "/tmp/"
           ignore_errors: true
 
