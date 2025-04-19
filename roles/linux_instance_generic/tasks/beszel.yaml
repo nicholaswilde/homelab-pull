@@ -40,7 +40,7 @@
 
     - name: Another cheat block
       block:
-        - name:
+        - name: Show desigred version
           ansible.builtin.debug:
             msg: "desired_version: {{ desired_version }}\ncurrent_version: {{ current_version }}"
 
