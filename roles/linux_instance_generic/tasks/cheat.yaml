@@ -83,27 +83,27 @@
           ignore_errors: true
           when: not url_check_result.failed
 
-        - name: Download cheat config file
-          ansible.builtin.uri:
-            url: "https://i.jpillora.com/cheat/cheat?type=script"
-            return_content: true
-          register: this
-          ignore_errors: true
-          when: url_check_result.failed
-                  
+        # - name: Download cheat config file
+        #   ansible.builtin.uri:
+        #     url: "https://i.jpillora.com/cheat/cheat?type=script"
+        #     return_content: true
+        #   register: this
+        #   ignore_errors: true
+        #   when: url_check_result.failed
+
         - name: Write install script to file
           ansible.builtin.copy:
             content: "{{ this.content }}"
             dest: "/tmp/cheat.sh"
             mode: 0755
           ignore_errors: true
-          
+
         - name: Execute the remote bash script using shell
           ansible.builtin.shell:
             cmd: "/tmp/cheat.sh"
             chdir: "/tmp/"
           ignore_errors: true
-          
+
         - name: Move cheat
           ansible.builtin.copy:
             src: "/tmp/cheat"
@@ -115,8 +115,8 @@
 
         - name: Cleanup files
           ansible.builtin.file:
-            path: "{{ item }}"   # The exact path to the file you want to delete
-            state: absent     # This tells Ansible to make sure the file does not exist
+            path: "{{ item }}"
+            state: absent
           loop:
             - /tmp/cheat
             - /tmp/cheat.sh
