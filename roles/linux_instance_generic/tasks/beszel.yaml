@@ -75,24 +75,29 @@
             enabled: true
           ignore_errors: true
 
-        - name: Check if the target URL is reachable
-          ansible.builtin.uri:
-            url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
-            method: GET # Or HEAD if you just need headers
-            status_code: 200 # Optional: Check for a specific successful status code
-            timeout: 5
-          register: url_check_result
-          ignore_errors: yes # IMPORTANT: Prevent playbook failure if URL is unreachable
-          no_log: true
+#         - name: Check if the target URL is reachable
+#           ansible.builtin.uri:
+#             url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
+#             method: GET # Or HEAD if you just need headers
+#             status_code: 200 # Optional: Check for a specific successful status code
+#             timeout: 5
+#           register: url_check_result
+#           ignore_errors: yes # IMPORTANT: Prevent playbook failure if URL is unreachable
+#           no_log: true
+# 
+#         - name: Download cheat config file
+#           ansible.builtin.uri:
+#             url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
+#             return_content: true
+#           register: this
+#           ignore_errors: true
+#           when: not url_check_result.failed
 
-        - name: Download cheat config file
-          ansible.builtin.uri:
-            url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
-            return_content: true
-          register: this
-          ignore_errors: true
-          when: not url_check_result.failed
-
+        - name: Install beszel-agent
+          ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash"
+          args:
+            chdir: "/usr/local/bin"
+        
         # - name: Download cheat config file
         #   ansible.builtin.uri:
         #     url: "https://i.jpillora.com/cheat/cheat?type=script"
@@ -101,36 +106,36 @@
         #   ignore_errors: true
         #   when: url_check_result.failed
 
-        - name: Write install script to file
-          ansible.builtin.copy:
-            content: "{{ this.content }}"
-            dest: "/tmp/beszel-agent.sh"
-            mode: 0755
-          ignore_errors: true
-
-        - name: Execute the remote bash script using shell
-          ansible.builtin.shell:
-            cmd: "/tmp/beszel-agent.sh"
-            chdir: "/tmp/"
-          ignore_errors: true
-
-        - name: Move cheat
-          ansible.builtin.copy:
-            src: "/tmp/beszel-agent"
-            dest: "/usr/local/bin/beszel-agent"
-            remote_src: true
-            mode: 0755
-            force: true
-          ignore_errors: true
-
-        - name: Cleanup files
-          ansible.builtin.file:
-            path: "{{ item }}"
-            state: absent
-          loop:
-            - /tmp/beszel-agent
-            - /tmp/beszel-agent.sh
-          ignore_errors: true
+#         - name: Write install script to file
+#           ansible.builtin.copy:
+#             content: "{{ this.content }}"
+#             dest: "/tmp/beszel-agent.sh"
+#             mode: 0755
+#           ignore_errors: true
+# 
+#         - name: Execute the remote bash script using shell
+#           ansible.builtin.shell:
+#             cmd: "/tmp/beszel-agent.sh"
+#             chdir: "/tmp/"
+#           ignore_errors: true
+# 
+#         - name: Move cheat
+#           ansible.builtin.copy:
+#             src: "/tmp/beszel-agent"
+#             dest: "/usr/local/bin/beszel-agent"
+#             remote_src: true
+#             mode: 0755
+#             force: true
+#           ignore_errors: true
+# 
+#         - name: Cleanup files
+#           ansible.builtin.file:
+#             path: "{{ item }}"
+#             state: absent
+#           loop:
+#             - /tmp/beszel-agent
+#             - /tmp/beszel-agent.sh
+#           ignore_errors: true
 
       when:
         - version_check_result.rc != 0 or
