@@ -1,6 +1,21 @@
 ---
-- name: Set authorized keys taken from url
+- name: "Set authorized keys taken from url"
   ansible.posix.authorized_key:
     user: "{{ ansible_user }}"
     state: present
     key: "https://github.com/nicholaswilde.keys"
+
+- name: "Ensure .ssh directory exists with proper permissions"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: Write the ed25519 private key from vaulted variable
+  ansible.builtin.copy:
+    dest: "{{ ansible_user_dir }}/.ssh/id_ed25519"
+    content: "{{ linux_intance_generic_gpg_key }}"
+    mode: '0600'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+  no_log: true
