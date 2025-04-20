@@ -1,4 +1,4 @@
-homelab_pull_url: "git@github.com:nicholaswilde/homelab-pull.git"
+homelab_pull_url: "https://github.com/nicholaswilde/homelab-pull.git"
 homelab_pull_timer: |
   OnBootSec=5m
   OnCalendar=daily
