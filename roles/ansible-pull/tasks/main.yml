@@ -25,6 +25,6 @@
   become: false
   register: pipx_upgrade_result
   changed_when: "'upgraded ansible-core' in pipx_upgrade_result.stdout or 'installed package ansible-core' in pipx_upgrade_result.stdout"
-  failed_when: >
-    pipx_upgrade_result.rc != 0 and
-    'is not installed' not in pipx_upgrade_result.stderr # Don't fail if it just wasn't installed
+  # failed_when: >
+  #   pipx_upgrade_result.rc != 0 and
+  #   'is not installed' not in pipx_upgrade_result.stderr # Don't fail if it just wasn't installed
