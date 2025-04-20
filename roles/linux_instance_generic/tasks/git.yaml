@@ -35,8 +35,8 @@
     scope: global
     value: true
 
-# - name: git checkout
-#   ansible.builtin.git:
-#     repo: "{{ linux_instance_generic_git_repo }}"
-#     dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
-#     accept_hostkey: true
+- name: git checkout homelab repo
+  ansible.builtin.git:
+    repo: "{{ linux_instance_generic_git_repo }}"
+    dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
+    accept_hostkey: true
