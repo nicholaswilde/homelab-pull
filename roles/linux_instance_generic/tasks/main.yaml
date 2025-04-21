@@ -35,5 +35,8 @@
 - name: Setup tmux
   ansible.builtin.include_tasks: tmux.yaml
 
+- name: Setup apprise
+  ansible.builtin.include_tasks: apprise.yaml
+
 - name: Setup autofs
   ansible.builtin.include_tasks: autofs.yaml
