@@ -9,9 +9,11 @@ An [ansible-pull][1] repo for my homelab.
 
 I'm currently using [ansible][3] to push configurations to my homelab containers via SSH. See my [Homelab Playbooks][5] repo.
 
-This repo is meant to be a test of using GitOps, similar to [Flux CD][6], to configure my homelab by having each container pull this repo and run ansible locally. Pros of this method are discussed in this [Learn Linux TV video][4].
+This repo is meant to be a test of using GitOps, similar to [Flux CD][6], to configure my homelab by having each container pull this repo periodically and run ansible locally. Pros of this method are discussed in this [Learn Linux TV video][4].
 
 A downside is that `ansible-pull` needs to be installed on all containers, thus taking up resources, which goes against my general homelab methodology.
+
+Container specific updates are handled using a Taskfile located on the container. The upgrades are configured in my homelab repo and are periodically triggered by this repo.
 
 ---
 
