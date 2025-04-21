@@ -1,7 +1,7 @@
 # :house_with_garden: Homelab Pull :muscle:
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/)
 
-An [ansible-pull][1] repo for my homelab.
+An [ansible-pull][1] repo for my [homelab][3].
 
 ---
 
@@ -13,7 +13,7 @@ This repo is meant to be a test of using GitOps, similar to [Flux CD][6], to con
 
 A downside is that `ansible-pull` needs to be installed on all containers, thus taking up resources, which goes against my general homelab methodology.
 
-Container specific updates are handled using a Taskfile located on the container. The upgrades are configured in my homelab repo and are periodically triggered by this repo.
+Container specific updates are handled using a Taskfile located on the container. The upgrades are configured in my [homelab repo][9] and are periodically triggered by this repo.
 
 ---
 
@@ -170,3 +170,4 @@ ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)
 [6]: <https://fluxcd.io/>
 [7]: <https://github.com/settings/keys>
 [8]: <https://docs.ansible.com/ansible/latest/vault_guide/vault.html>
+[9]: <https://github.com/nicholaswilde/homelab>
