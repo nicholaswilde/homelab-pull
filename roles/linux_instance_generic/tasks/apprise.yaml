@@ -1,4 +1,10 @@
 ---
+- name: "Install apprise"
+  community.general.pipx:
+    name: "apprise"
+    state: latest
+  become: false
+
 - name: "Create apprise config file"
   ansible.builtin.template:
     src: "apprise.yaml.j2"

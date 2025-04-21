@@ -1,5 +1,5 @@
 ---
-- name: Install units for homelab-pull
+- name: "Install units for homelab-pull"
   ansible.builtin.template:
     dest: "/etc/systemd/system/{{ item | regex_replace('\\.j2$', '') }}"
     src: "{{ item }}"
@@ -7,24 +7,30 @@
     - homelab-pull.service.j2
     - homelab-pull.timer.j2
 
-- name: Just force systemd to reread configs (2.4 and above)
+- name: "Just force systemd to reread configs (2.4 and above)"
   ansible.builtin.systemd_service:
     daemon_reload: true
   ignore_errors: true
 
-- name: Enable a timer unit for dnf-automatic
+- name: "Enable a timer unit for dnf-automatic"
   ansible.builtin.systemd_service:
     name: homelab-pull.timer
     state: started
     enabled: true
   ignore_errors: true
 
-- name: Upgrade ansible-core using pipx
-  ansible.builtin.command:
-    cmd: pipx upgrade ansible-core
+- name: "Upgrade ansible-core using pipx"
+  community.general.pipx:
+    name: ansible-core
+    state: upgrade
   become: false
-  register: pipx_upgrade_result
-  changed_when: "'upgraded ansible-core' in pipx_upgrade_result.stdout or 'installed package ansible-core' in pipx_upgrade_result.stdout"
-  # failed_when: >
-  #   pipx_upgrade_result.rc != 0 and
-  #   'is not installed' not in pipx_upgrade_result.stderr # Don't fail if it just wasn't installed
+
+# - name: Upgrade ansible-core using pipx
+#   ansible.builtin.command:
+#     cmd: pipx upgrade ansible-core
+#   become: false
+#   register: pipx_upgrade_result
+#   changed_when: "'upgraded ansible-core' in pipx_upgrade_result.stdout or 'installed package ansible-core' in pipx_upgrade_result.stdout"
+#   # failed_when: >
+#   #   pipx_upgrade_result.rc != 0 and
+#   #   'is not installed' not in pipx_upgrade_result.stderr # Don't fail if it just wasn't installed
