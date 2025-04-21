@@ -3,3 +3,4 @@
   ansible.builtin.template:
     src: "apprise.yaml.j2"
     dest: "{{ ansible_env.HOME }}/.config/apprise.yaml"
+  become: false
