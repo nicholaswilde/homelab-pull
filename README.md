@@ -1,7 +1,7 @@
 # :house_with_garden: Homelab Pull :muscle:
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/)
 
-An [ansible-pull][1] repo for my homelab.
+An [ansible-pull][1] repo for my [homelab][3].
 
 ---
 
@@ -9,9 +9,11 @@ An [ansible-pull][1] repo for my homelab.
 
 I'm currently using [ansible][3] to push configurations to my homelab containers via SSH. See my [Homelab Playbooks][5] repo.
 
-This repo is meant to be a test of using GitOps, similar to [Flux CD][6], to configure my homelab by having each container pull this repo and run ansible locally. Pros of this method are discussed in this [Learn Linux TV video][4].
+This repo is meant to be a test of using GitOps, similar to [Flux CD][6], to configure my homelab by having each container pull this repo periodically and run ansible locally. Pros of this method are discussed in this [Learn Linux TV video][4].
 
 A downside is that `ansible-pull` needs to be installed on all containers, thus taking up resources, which goes against my general homelab methodology.
+
+Container specific updates are handled using a Taskfile located on the container. The upgrades are configured in my [homelab repo][9] and are periodically triggered by this repo.
 
 ---
 
@@ -44,7 +46,11 @@ uname -n
 # test-debian-1
 ```
 
-Create a `host_vars` file with the file name as the hostname, e.g. `host_vars/test-debian-1.yaml`
+Create a `host_vars` file with the file name as the hostname, e.g. `host_vars/test-debian-1.yaml`.
+
+```shell
+cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
+```
 
 Add the groups the host is a part of to the `pull_groups` list.
 
@@ -94,6 +100,19 @@ The password file then can be used to encrypt a string value `bar` with name `fo
 ```shell
 echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
 ```
+
+```yaml
+foo: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66323735363831366563616235633231666231356535633464313833663732393639333864353662
+          3764393232323138313534356336626333376431383065630a333536346664303633323937623361
+          36643539366333656239333262333331663533623931616362353264666437336136386364613666
+          3066343132653532660a393138663265316262366638313664323835626263653738613132393836
+          6336
+```
+
+>[!NOTE]
+>If `vault_password_file` is set in `ansible.cfg` and the above command is run inside the repo directory, the `--vault-password-file` argument does not need to be passed to the `ansible-vault` command.
 
 Save the output to a vars yaml file, such as `group_vars/all.yaml`
 
@@ -164,3 +183,4 @@ ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)
 [6]: <https://fluxcd.io/>
 [7]: <https://github.com/settings/keys>
 [8]: <https://docs.ansible.com/ansible/latest/vault_guide/vault.html>
+[9]: <https://github.com/nicholaswilde/homelab>
