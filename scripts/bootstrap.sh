@@ -134,6 +134,7 @@ function install_lpass(){
   else
     print_text "lastpass-cli is already installed"
   fi
+  mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
   lpass login "${LPASS_LOGIN}"
 }
