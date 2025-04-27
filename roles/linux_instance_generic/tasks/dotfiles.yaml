@@ -2,7 +2,7 @@
 - name: "git checkout dotfiles repo"
   ansible.builtin.git:
     repo: "{{ linux_instance_generic_dotfiles_repo }}"
-    dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
+    dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_dotfiles_folder }}"
     accept_hostkey: true
     force: true
   become: false
@@ -16,7 +16,7 @@
 - name: "Stow dotfile configurations"
   ansible.builtin.command:
     cmd: "stow -t {{ ansible_env.HOME }} ."
-    chdir: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}/dotfiles3"
+    chdir: "{{ ansible_env.HOME }}/{{ linux_instance_generic_dotfiles_folder }}"
   register: stow_result
   changed_when: "'LINK' in stow_result.stdout"
   become: false
