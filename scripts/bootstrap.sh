@@ -17,7 +17,9 @@ set -o pipefail
 REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
 PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 PASSWORD_FOLDER=$(dirname "${PASSWORD_PATH}")
-
+LPASS_SSH_ATTACH_ID="att-4322045537695550419-12027"
+LPASS_GPG_ATTACH_ID="att-8017296795546256342-44224"
+LPASS_LOGIN="ncwilde43@gmail.com"
 
 readonly REQUIREMENTS_URL
 readonly PASSWORD_PATH
@@ -125,6 +127,34 @@ function install_collections(){
   $HOME/.local/bin/ansible-galaxy collection install -r <(curl -fsSL "${REQUIREMENTS_URL}")
 }
 
+function install_lpass(){
+  if ! command_exists lpass; then
+    print_text "Installing lastpass-cli"
+    sudo apt install lastpass-cli -y
+  else
+    print_text "lastpass-cli is already installed"
+  fi
+  lpass login "${LPASS_LOGIN}"
+}
+
+function setup_gpg_key(){
+  if ! command_exists gpg; then
+    print_text "Setting up GPG key"
+    sudo apt install gpg -y
+  else
+    print_text "gpg is already installed"
+  fi
+  # pass-git-helper
+  GPG_TTY=$(tty)
+  export GPG_TTY
+  
+}
+
+function setup_ssh_key() {
+  print_text "Setting up SSH key"
+}
+
+
 function show_message(){
   print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
 }
@@ -138,6 +168,9 @@ function main(){
   install_pipx
   install_ansible_core
   install_collections
+  install_lpass
+  setup_gpg_key
+  setup_ssh_key
   show_message
 }
 
