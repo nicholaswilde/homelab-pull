@@ -141,12 +141,13 @@ function install_lpass(){
   fi
   [[ ! -d ~/.local/share/lpass ]] && mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
-  if ! not_logged_in; then
+  echo $(lpass status 2>&1)
+  # if ! not_logged_in; then
     print_text "Not logged in"
     lpass login "${LPASS_LOGIN}"
-  else
-    print_text "Logged in"
-  fi
+  # else
+    # print_text "Logged in"
+  # fi
 }
 
 function setup_gpg_key(){
