@@ -20,6 +20,7 @@ PASSWORD_FOLDER=$(dirname "${PASSWORD_PATH}")
 LPASS_SSH_ATTACH_ID="att-4322045537695550419-12027"
 LPASS_GPG_ATTACH_ID="att-8017296795546256342-44224"
 LPASS_LOGIN="ncwilde43@gmail.com"
+LPASS_SOP_AGE_ATTACH_ID="att-2571789250549588435-38084"
 
 readonly REQUIREMENTS_URL
 readonly PASSWORD_PATH
@@ -162,12 +163,22 @@ function setup_gpg_key(){
 }
 
 function setup_ssh_key() {
-  if [[ -f ~/.ssh/id_ed25519 ]]; then
+  if [[ -f "~/.ssh/id_ed25519" ]]; then
     print_text "SSH key already exists"
   else
     print_text "Setting up SSH key"
     lpass show ssh --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
     chmod 0600 ~/.ssh/id_ed25519
+  fi
+}
+
+function setup_sops_age_key(){
+  if [[ -f "~/.config/sops/age/keys.txt" ]]; then
+    print_text "SOPS age key already exists"
+  else
+    print_text "Setting up SOPS age key"
+    lpass show sops-age --attach="${LPASS_SOPS_AGE_ATTACH_ID}" -q > ~/.config/sops/age/keys.txt
+    chmod 0600 ~/.config/sops/age/keys.txt
   fi
 }
 
@@ -187,6 +198,7 @@ function main(){
   install_lpass
   setup_gpg_key
   setup_ssh_key
+  setup_sops_age_key
   show_message
 }
 
