@@ -1,1 +1,8 @@
 ---
+- name: git checkout dotfiles repo
+  ansible.builtin.git:
+    repo: "{{ linux_instance_generic_dotfiles_repo }}"
+    dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
+    accept_hostkey: true
+    force: true
+  become: false
