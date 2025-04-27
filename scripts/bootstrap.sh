@@ -134,9 +134,11 @@ function install_lpass(){
   else
     print_text "lastpass-cli is already installed"
   fi
-  mkdir -p ~/.local/share/lpass
+  [[ ! -d ~/.local/share/lpass ]] && mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
-  lpass login "${LPASS_LOGIN}"
+  if ! lpass status > /dev/null 2>&1; then
+    lpass login "${LPASS_LOGIN}"
+  fi
 }
 
 function setup_gpg_key(){
@@ -149,13 +151,14 @@ function setup_gpg_key(){
   # pass-git-helper
   GPG_TTY=$(tty)
   export GPG_TTY
-  
+  lpass show gpg --attach="${LPASS_GPG_ATTACH_ID}" -q | gpg --import
 }
 
 function setup_ssh_key() {
   print_text "Setting up SSH key"
+  lpass show ssh --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
+  chmod 0600 ~/.ssh/id_ed25519
 }
-
 
 function show_message(){
   print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
