@@ -177,6 +177,7 @@ function setup_sops_age_key(){
     print_text "SOPS age key already exists"
   else
     print_text "Setting up SOPS age key"
+    [[ ! -d ~/.config/sops/age ]] && mkdir -p ~/.config/sops/age
     lpass show sops-age --attach="${LPASS_SOPS_AGE_ATTACH_ID}" -q > ~/.config/sops/age/keys.txt
     chmod 0600 ~/.config/sops/age/keys.txt
   fi
