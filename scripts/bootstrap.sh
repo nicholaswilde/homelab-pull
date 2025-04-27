@@ -128,7 +128,7 @@ function install_collections(){
 }
 
 function not_logged_in(){
-  lpass status -q > /dev/null 2>&1
+  lpass status -q
   # lpass status > /dev/null 2>&1
 }
 
