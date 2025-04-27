@@ -5,6 +5,9 @@
 - name: Install stuff
   ansible.builtin.include_tasks: install.yaml
 
+- name: Setup dotfiles
+  ansible.builtin.include_tasks: dotfiles.yaml
+
 - name: Setup SOPS
   ansible.builtin.include_tasks: sops.yaml
 

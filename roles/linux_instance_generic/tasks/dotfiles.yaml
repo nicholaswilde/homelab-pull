@@ -1,0 +1,22 @@
+---
+- name: "git checkout dotfiles repo"
+  ansible.builtin.git:
+    repo: "{{ linux_instance_generic_dotfiles_repo }}"
+    dest: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}"
+    accept_hostkey: true
+    force: true
+  become: false
+
+- name: "Ensure stow is installed"
+  ansible.builtin.package:
+    name: stow
+    state: present
+  become: true
+
+- name: "Stow dotfile configurations"
+  ansible.builtin.command:
+    cmd: "stow -t {{ ansible_env.HOME }} ."
+    chdir: "{{ ansible_env.HOME }}/{{ linux_instance_generic_git_folder }}/dotfiles3"
+  register: stow_result
+  changed_when: "'LINK' in stow_result.stdout"
+  become: false
