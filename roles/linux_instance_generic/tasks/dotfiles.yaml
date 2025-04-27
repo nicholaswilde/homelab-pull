@@ -13,6 +13,16 @@
     state: present
   become: true
 
+- name: "Cleanup files"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ ansible_env.HOME }}/.bash_aliases"
+    - "{{ ansible_env.HOME }}/.bashrc"
+    - "{{ ansible_env.HOME }}/.gitconfig"
+  ignore_errors: true
+  
 - name: "Stow dotfile configurations"
   ansible.builtin.command:
     cmd: "stow -t {{ ansible_env.HOME }} ."

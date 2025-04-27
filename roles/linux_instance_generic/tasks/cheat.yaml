@@ -53,17 +53,17 @@
       ansible.builtin.debug:
         msg: "desired_version: {{ desired_version }}, version_check_result.rc {{ version_check_result.rc }}"
 
-    - name: Another cheat block
+    - name: "Another cheat block"
       block:
         - name: Create cheat directory
           ansible.builtin.file:
             path: "{{ ansible_env.HOME }}/.config/cheat/"
             state: directory
 
-        - name: Download cheat config file
-          ansible.builtin.get_url:
-            url: "https://github.com/nicholaswilde/dotfiles2/raw/refs/heads/main/.config/cheat/conf.yml"
-            dest: "{{ ansible_env.HOME }}/.config/cheat/conf.yml"
+        # - name: Download cheat config file
+        #   ansible.builtin.get_url:
+        #     url: "https://github.com/nicholaswilde/dotfiles2/raw/refs/heads/main/.config/cheat/conf.yml"
+        #     dest: "{{ ansible_env.HOME }}/.config/cheat/conf.yml"
 
         - name: Check if the target URL is reachable
           ansible.builtin.uri:
