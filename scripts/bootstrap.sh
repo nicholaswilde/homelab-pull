@@ -127,7 +127,7 @@ function install_collections(){
   $HOME/.local/bin/ansible-galaxy collection install -r <(curl -fsSL "${REQUIREMENTS_URL}")
 }
 
-function not_logged_in(){
+function logged_in(){
   lpass status -q
   # lpass status > /dev/null 2>&1
 }
@@ -141,8 +141,7 @@ function install_lpass(){
   fi
   [[ ! -d ~/.local/share/lpass ]] && mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
-  echo not_logged_in
-  if not_logged_in; then
+  if ! logged_in; then
     print_text "Not logged in"
     lpass login "${LPASS_LOGIN}"
   else
