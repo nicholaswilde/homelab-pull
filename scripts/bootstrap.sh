@@ -140,8 +140,11 @@ function install_lpass(){
   fi
   [[ ! -d ~/.local/share/lpass ]] && mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
-  if ! is_logged_in; then
+  if is_logged_in; then
+    print_text "Not logged in"
     lpass login "${LPASS_LOGIN}"
+  else
+    print_text "Logged in"
   fi
 }
 
