@@ -129,7 +129,6 @@ function install_collections(){
 
 function logged_in(){
   lpass status -q
-  # lpass status > /dev/null 2>&1
 }
 
 function install_lpass(){
