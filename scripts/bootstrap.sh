@@ -128,7 +128,7 @@ function install_collections(){
 }
 
 function not_logged_in(){
-  lpass status | grep -q "Not logged in."
+  lpass status -q > /dev/null 2>&1
   # lpass status > /dev/null 2>&1
 }
 
@@ -142,12 +142,12 @@ function install_lpass(){
   [[ ! -d ~/.local/share/lpass ]] && mkdir -p ~/.local/share/lpass
   export LPASS_DISABLE_PINENTRY=1
   echo not_logged_in
-  # if ! not_logged_in; then
+  if not_logged_in; then
     print_text "Not logged in"
     lpass login "${LPASS_LOGIN}"
-  # else
-    # print_text "Logged in"
-  # fi
+  else
+    print_text "Logged in"
+  fi
 }
 
 function setup_gpg_key(){
