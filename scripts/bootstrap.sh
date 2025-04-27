@@ -162,9 +162,13 @@ function setup_gpg_key(){
 }
 
 function setup_ssh_key() {
-  print_text "Setting up SSH key"
-  lpass show ssh --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
-  chmod 0600 ~/.ssh/id_ed25519
+  if [[ -f ~/.ssh/id_ed25519 ]]; then
+    print_text "SSH key already exists"
+  else
+    print_text "Setting up SSH key"
+    lpass show ssh --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
+    chmod 0600 ~/.ssh/id_ed25519
+  fi
 }
 
 function show_message(){
