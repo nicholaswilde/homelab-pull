@@ -7,15 +7,15 @@ An [ansible-pull][1] repo for my [homelab][3].
 
 ## :pushpin: TL;DR
 
-Repo
+### Repo
 
 ```shell
-(
-  WIP
-)
+cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 ```
 
-Host
+Edit `host_vars/hostname>.yaml`
+
+### Host
 
 ```shell
 (
