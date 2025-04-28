@@ -62,6 +62,12 @@ Use the bootstrap script to finish setting up the host.
 bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
 ```
 
+Add the `pipx` `bin` dir to `PATH`.
+
+```shell
+export PATH=$PATH:$HOME/.local/bin
+```
+
 ---
 
 ## :gear: Config
