@@ -7,7 +7,7 @@ An [ansible-pull][1] repo for my [homelab][3].
 
 ## :pushpin: TL;DR
 
-#### :card_file_box: Repo
+### :card_file_box: Repo
 
 ```shell
 cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
@@ -15,7 +15,7 @@ cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 
 Edit `host_vars/<hostname>.yaml`
 
-#### :computer: Host
+### :computer: Host
 
 ```shell
 (
@@ -42,12 +42,16 @@ Container specific updates are handled using a Taskfile located on the container
 
 ## :hammer_and_wrench: Installation
 
+### Dependencies
+
 Install dependencies on the host.
 
 ```shell
 sudo apt update
 sudo apt install curl
 ```
+
+### Bootstrap
 
 Use the bootstrap script to finish setting up the host.
 
