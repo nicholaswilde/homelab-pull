@@ -5,6 +5,19 @@ An [ansible-pull][1] repo for my [homelab][3].
 
 ---
 
+## :pushpin: TL;DR
+
+```shell
+(
+  sudo apt update && \
+  sudo apt install curl && \
+  bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
+  ~/.local//bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+)
+```
+
+---
+
 ## :framed_picture: Background
 
 I'm currently using [ansible][3] to push configurations to my homelab containers via SSH. See my [Homelab Playbooks][5] repo.
