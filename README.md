@@ -7,6 +7,16 @@ An [ansible-pull][1] repo for my [homelab][3].
 
 ## :pushpin: TL;DR
 
+Repo
+
+```shell
+(
+  WIP
+)
+```
+
+Host
+
 ```shell
 (
   sudo apt update && \
