@@ -17,14 +17,31 @@ set -o pipefail
 REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
 PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 PASSWORD_FOLDER=$(dirname "${PASSWORD_PATH}")
-LPASS_SSH_ATTACH_ID="att-4322045537695550419-12027"
-LPASS_GPG_ATTACH_ID="att-8017296795546256342-44224"
+
 LPASS_LOGIN="ncwilde43@gmail.com"
+
+LPASS_SSH_NAME="ssh"
+LPASS_SSH_ATTACH_ID="att-4322045537695550419-12027"
+
+LPASS_GPG_NAME="gpg"
+LPASS_GPG_ATTACH_ID="att-8017296795546256342-44224"
+
+LPASS_SOPS_AGE_NAME="sops-age"
 LPASS_SOPS_AGE_ATTACH_ID="att-2571789250549588435-38084"
+
+LPASS_ANSIBLE_VAULT_NAME="homelan-pull"
 
 readonly REQUIREMENTS_URL
 readonly PASSWORD_PATH
 readonly PASSWORD_FOLDER
+readonly LPASS_LOGIN
+readonly LPASS_SSH_NAME
+readonly LPASS_SSH_ATTACH_ID
+readonly LPASS_GPG_NAME
+readonly LPASS_GPG_ATTACH_ID
+readonly LPASS_SOPS_AGE_NAME
+readonly LPASS_SOPS_AGE_ATTACH_ID
+readonly LPASS_ANSIBLE_VAULT_NAME
 
 bold=$(tput bold)
 normal=$(tput sgr0)
