@@ -13,7 +13,7 @@ An [ansible-pull][1] repo for my [homelab][3].
 cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 ```
 
-Edit `host_vars/hostname>.yaml`
+Edit `host_vars/<hostname>.yaml`
 
 ### Host
 
