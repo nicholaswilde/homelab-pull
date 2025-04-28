@@ -166,6 +166,17 @@ function install_lpass(){
   fi
 }
 
+function setup_ansible_vault(){
+  if [[ -e "${PASSWORD_PATH}" ]]; then
+    print_text "ansible-vault password already exists"
+  else
+    print_text "Setting up ansible-vault password"
+    [ ! -d "${PASSWORD_FOLDER}" ] && mkdir -p "${PASSWORD_FOLDER}"
+    lpass show "${LPASS_ANSIBLE_VAULT_NAME}" --password -q > "${PASSWORD_PATH}"
+    chmod 0600 "${PASSWORD_PATH}"
+  fi
+}
+
 function setup_gpg_key(){
   if ! command_exists gpg; then
     print_text "Setting up GPG key"
@@ -207,17 +218,18 @@ function show_message(){
 
 function main(){
   start_meassage
-  check_password
   install_sudo
   sudo apt update
   install_deps
   install_pipx
-  install_ansible_core
-  install_collections
   install_lpass
+  setup_ansible_vault
   setup_gpg_key
   setup_ssh_key
   setup_sops_age_key
+  # check_password
+  install_ansible_core
+  install_collections
   show_message
 }
 
