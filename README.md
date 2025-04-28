@@ -98,6 +98,8 @@ Update variables that being passed into each role. List of variables can be foun
 
 ## :lock: Secrets
 
+### Ansible Vault
+
 Secrets are encrypted in variable files as strings using [`ansible-vault`][8] and a password file.
 
 A password file can be generated via the command line.
@@ -142,6 +144,10 @@ foo: !vault |
 >If `vault_password_file` is set in `ansible.cfg` and the above command is run inside the repo directory, the `--vault-password-file` argument does not need to be passed to the `ansible-vault` command.
 
 Save the output to a vars yaml file, such as `group_vars/all.yaml`
+
+### :lock LastPass or Bitwarden
+
+WIP
 
 ---
 
