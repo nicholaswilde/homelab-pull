@@ -15,7 +15,7 @@ cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 
 Edit `host_vars/<hostname>.yaml`
 
-### Host
+### :computer: Host
 
 ```shell
 (
