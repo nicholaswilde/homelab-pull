@@ -14,6 +14,8 @@
 set -e
 set -o pipefail
 
+# source <(curl -fsSL "https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/.env")
+
 : ${REQUIREMENTS_URL:="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"}
 : ${PASSWORD_PATH:="${HOME}/.config/homelab-pull/password"}
 : ${PASSWORD_FOLDER:=$(dirname "${PASSWORD_PATH}")}
