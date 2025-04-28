@@ -60,10 +60,33 @@ Use the bootstrap script to finish setting up the host.
 >[!WARNING]
 >Always inspect a shell script before running it!
 
+Set variables used in the script.
+
+```shell
+OWNER_NAME="nicholaswilde"
+REPO_NAME="homelab-pull"
+
+REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
+PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
+
+LPASS_LOGIN="myemail@email.com"
+
+LPASS_SSH_NAME:="ssh"
+LPASS_SSH_ATTACH_ID="att-4322045537695550419-12027"
+
+LPASS_GPG_NAME="gpg"
+LPASS_GPG_ATTACH_ID="att-8017296795546256342-44224"
+
+LPASS_SOPS_AGE_NAME="sops-age"
+LPASS_SOPS_AGE_ATTACH_ID:="att-2571789250549588435-38084"
+
+LPASS_ANSIBLE_VAULT_NAME:="homelab-pull"
+```
+
+Run the script.
+
 ```shell
 (
-  OWNER_NAME="nicholaswilde" && \
-  REPO_NAME="homelab-pull" && \
   bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
 )
 ```
