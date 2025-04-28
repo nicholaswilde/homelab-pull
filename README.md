@@ -68,6 +68,15 @@ Add the `pipx` `bin` dir to `PATH`.
 export PATH=$PATH:$HOME/.local/bin
 ```
 
+Alternatively, add it permanently to `.bashrc`.
+
+```
+(
+  echo 'export PATH="$PATH"$HOME/.local/bin"' >> ~/.bashrc && \
+  source ~/.bashrc
+)
+```
+
 ---
 
 ## :gear: Config
