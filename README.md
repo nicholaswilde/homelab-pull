@@ -51,7 +51,7 @@ sudo apt update
 sudo apt install curl
 ```
 
-### Bootstrap
+### :hiking_boot: Bootstrap
 
 Use the bootstrap script to finish setting up the host.
 
