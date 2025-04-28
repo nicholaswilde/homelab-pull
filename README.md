@@ -62,7 +62,7 @@ Use the bootstrap script to finish setting up the host.
 bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
 ```
 
-Add the `pipx` `bin` dir to `PATH`.
+Add the `pipx` `bin` dir temporarily to `PATH`.
 
 ```shell
 export PATH=$PATH:$HOME/.local/bin
@@ -72,7 +72,7 @@ Alternatively, add it permanently to `.bashrc`.
 
 ```shell
 (
-  echo 'export PATH="$PATH"$HOME/.local/bin"' >> ~/.bashrc && \
+  echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc && \
   source ~/.bashrc
 )
 ```
