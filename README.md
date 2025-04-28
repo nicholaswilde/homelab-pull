@@ -42,7 +42,7 @@ Container specific updates are handled using a Taskfile located on the container
 
 ## :hammer_and_wrench: Installation
 
-### Dependencies
+### :paperclips: Dependencies
 
 Install dependencies on the host.
 
