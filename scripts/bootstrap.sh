@@ -14,10 +14,13 @@
 set -e
 set -o pipefail
 
-# source <(curl -fsSL "https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/.env")
+: ${OWNER_NAME:="nicholaswilde"}
+: ${REPO_NAME:="homelab-pull"}
 
-: ${REQUIREMENTS_URL:="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"}
-: ${PASSWORD_PATH:="${HOME}/.config/homelab-pull/password"}
+# source <(curl -fsSL "https://github.com/${OWNER_NAME}/${REPO_NAME}/raw/refs/heads/main/scripts/.env")
+
+: ${REQUIREMENTS_URL:="https://github.com/${OWNER_NAME}/${REPO_NAME}/raw/refs/heads/main/requirements.yaml"}
+: ${PASSWORD_PATH:="${HOME}/.config/: ${REPO_NAME}/password"}
 : ${PASSWORD_FOLDER:=$(dirname "${PASSWORD_PATH}")}
 
 : ${LPASS_LOGIN:="ncwilde43@gmail.com"}
@@ -31,7 +34,7 @@ set -o pipefail
 : ${LPASS_SOPS_AGE_NAME:="sops-age"}
 : ${LPASS_SOPS_AGE_ATTACH_ID:="att-2571789250549588435-38084"}
 
-: ${LPASS_ANSIBLE_VAULT_NAME:="homelan-pull"}
+: ${LPASS_ANSIBLE_VAULT_NAME:="homelab-pull"}
 
 readonly REQUIREMENTS_URL
 readonly PASSWORD_PATH
