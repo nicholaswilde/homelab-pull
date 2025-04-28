@@ -7,7 +7,7 @@ An [ansible-pull][1] repo for my [homelab][3].
 
 ## :pushpin: TL;DR
 
-### Repo
+#### :card_file_box: Repo
 
 ```shell
 cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
@@ -15,7 +15,7 @@ cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 
 Edit `host_vars/<hostname>.yaml`
 
-### :computer: Host
+#### :computer: Host
 
 ```shell
 (
