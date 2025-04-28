@@ -70,7 +70,7 @@ export PATH=$PATH:$HOME/.local/bin
 
 Alternatively, add it permanently to `.bashrc`.
 
-```
+```shell
 (
   echo 'export PATH="$PATH"$HOME/.local/bin"' >> ~/.bashrc && \
   source ~/.bashrc
