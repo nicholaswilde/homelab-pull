@@ -21,6 +21,8 @@ Edit `host_vars/<hostname>.yaml`
 (
   sudo apt update && \
   sudo apt install -y curl && \
+  OWNER_NAME="nicholaswilde" && \
+  REPO_NAME="homelab-pull" && \
   bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
   ~/.local//bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 )
@@ -59,7 +61,11 @@ Use the bootstrap script to finish setting up the host.
 >Always inspect a shell script before running it!
 
 ```shell
-bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
+(
+  OWNER_NAME="nicholaswilde" && \
+  REPO_NAME="homelab-pull" && \
+  bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
+)
 ```
 
 Add the `pipx` `bin` dir temporarily to `PATH`.
