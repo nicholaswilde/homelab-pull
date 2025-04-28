@@ -176,7 +176,7 @@ function setup_gpg_key(){
   # pass-git-helper
   GPG_TTY=$(tty)
   export GPG_TTY
-  lpass show gpg --attach="${LPASS_GPG_ATTACH_ID}" -q | gpg --import
+  lpass show "${LPASS_GPG_NAME}" --attach="${LPASS_GPG_ATTACH_ID}" -q | gpg --import
 }
 
 function setup_ssh_key() {
@@ -185,7 +185,7 @@ function setup_ssh_key() {
   else
     print_text "Setting up SSH key"
     [[ ! -d ~/.ssh ]] && mkdir -p ~/.ssh
-    lpass show ssh --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
+    lpass show "${LPASS_SSH_NAME}" --attach="${LPASS_SSH_ATTACH_ID}" -q > ~/.ssh/id_ed25519
     chmod 0600 ~/.ssh/id_ed25519
   fi
 }
@@ -196,7 +196,7 @@ function setup_sops_age_key(){
   else
     print_text "Setting up SOPS age key"
     [[ ! -d ~/.config/sops/age ]] && mkdir -p ~/.config/sops/age
-    lpass show sops-age --attach="${LPASS_SOPS_AGE_ATTACH_ID}" -q > ~/.config/sops/age/keys.txt
+    lpass show "${LPASS_SOPS_AGE_NAME}" --attach="${LPASS_SOPS_AGE_ATTACH_ID}" -q > ~/.config/sops/age/keys.txt
     chmod 0600 ~/.config/sops/age/keys.txt
   fi
 }
