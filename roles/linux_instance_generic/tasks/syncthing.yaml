@@ -109,4 +109,4 @@
   when: >
     services_info.ansible_facts.services is defined and
     syncthing_service_name in services_info.ansible_facts.services and
-        services_info.ansible_facts.services[syncthing_service_name].state != 'running'
+    services_info.ansible_facts.services[syncthing_service_name].state != 'running'
