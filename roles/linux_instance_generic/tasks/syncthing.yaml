@@ -51,6 +51,50 @@
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
       when: syncthing_version_output is defined
+    - name: Check if user lingering is already enabled
+      ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
+      register: linger_status
+      changed_when: false
+      failed_when: linger_status.rc != 0 and "does not exist" not in linger_status.stderr # Fail if user doesn't exist
+      check_mode: no # Always run this check command
+
+    - name: Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)
+      ansible.builtin.command: "loginctl enable-linger {{ syncthing_run_user }}"
+      when: "'Linger=no' in linger_status.stdout or 'does not exist' in linger_status.stderr" # Only run if not enabled or user check failed cleanly before (e.g. first run)
+      changed_when: true # Assume this changes state if run
+      check_mode: no # Make changes even in check mode if needed, as state check is separate
+
+    - name: Enable and start the Syncthing service for the specified user
+      ansible.builtin.systemd:
+        name: syncthing # '.service' is implied
+        scope: user
+        enabled: yes
+        state: started
+      # This task needs to run *as* the target user to interact
+      # with their systemd instance correctly.
+      become_user: "{{ syncthing_run_user }}"
+      # We also need to pass the necessary environment variable for systemd user bus
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
+      notify: Check Syncthing Status # Optional: Trigger handler to check status
+
+  handlers:
+    - name: Check Syncthing Status
+      listen: Check Syncthing Status # Match the notify name
+      ansible.builtin.command: "systemctl --user status syncthing.service"
+      become_user: "{{ syncthing_run_user }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
+      changed_when: false
+      register: syncthing_status_output
+
+    - name: Display Syncthing Status
+      listen: Check Syncthing Status
+      ansible.builtin.debug:
+        msg: "{{ syncthing_status_output.stdout_lines | default([]) + syncthing_status_output.stderr_lines | default([]) }}"
+      when: syncthing_status_output is defined
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}" # Adjust architecture mapping if needed
