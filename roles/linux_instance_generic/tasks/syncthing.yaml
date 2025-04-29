@@ -1,5 +1,5 @@
 ---
-- name: Install Syncthing using APT
+- name: "Install Syncthing using APT"
   block:
     - name: "Update apt cache"
       ansible.builtin.apt:
