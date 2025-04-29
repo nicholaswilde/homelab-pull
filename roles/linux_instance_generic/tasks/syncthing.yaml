@@ -23,7 +23,7 @@
 
     - name: "Ensure keyring directory exists"
       ansible.builtin.file:
-        path: "{{ syncthing_keyring_path | dirname }}" # Gets the directory path /etc/apt/keyrings
+        path: "{{ syncthing_keyring_path | dirname }}"
         state: directory
         mode: '0755'
 
@@ -32,16 +32,16 @@
         url: https://syncthing.net/release-key.gpg
         dest: "{{ syncthing_keyring_path }}"
         mode: '0644'
-        force: no # Don't download if the file already exists
+        force: false
 
     - name: "Add Syncthing APT repository"
       ansible.builtin.apt_repository:
         repo: "deb [signed-by={{ syncthing_keyring_path }} arch={{ syncthing_repo_arch }}] https://apt.syncthing.net/ syncthing stable"
         state: present
-        filename: syncthing # Creates /etc/apt/sources.list.d/syncthing.list
+        filename: syncthing
         update_cache: yes
 
-    - name: Install Syncthing package
+    - name: "Install Syncthing package"
       ansible.builtin.apt:
         name: syncthing
         state: present
@@ -50,7 +50,7 @@
     - name: "Display Syncthing version (optional)"
       ansible.builtin.command: "syncthing --version"
       register: syncthing_version_output
-      changed_when: false #
+      changed_when: false
 
     - name: "Print Syncthing version"
       ansible.builtin.debug:
