@@ -34,7 +34,7 @@
         repo: "deb [signed-by={{ syncthing_keyring_path }} arch={{ syncthing_repo_arch }}] https://apt.syncthing.net/ syncthing stable"
         state: present
         filename: syncthing
-        update_cache: yes
+        update_cache: true
 
     - name: "Install Syncthing package"
       ansible.builtin.apt:
@@ -57,7 +57,7 @@
       register: linger_status
       changed_when: false
       failed_when: linger_status.rc != 0 and "does not exist" not in linger_status.stderr # Fail if user doesn't exist
-      check_mode: no # Always run this check command
+      check_mode: false
 
     - name: "Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)"
       ansible.builtin.command: "loginctl enable-linger {{ syncthing_run_user }}"
@@ -67,7 +67,7 @@
 
     - name: "Enable and start the Syncthing service for the specified user"
       ansible.builtin.systemd:
-        name: syncthing # '.service' is implied
+        name: syncthing
         scope: user
         enabled: true
         state: started
@@ -79,7 +79,7 @@
 
   handlers:
     - name: "Check Syncthing Status"
-      listen: Check Syncthing Status # Match the notify name
+      listen: "Check Syncthing Status"
       ansible.builtin.command: "systemctl --user status syncthing.service"
       become_user: "{{ syncthing_run_user }}"
       environment:
@@ -88,8 +88,8 @@
       changed_when: false
       register: syncthing_status_output
 
-    - name: Display Syncthing Status
-      listen: Check Syncthing Status
+    - name: "Display Syncthing Status"
+      listen: "Check Syncthing Status"
       ansible.builtin.debug:
         msg: "{{ syncthing_status_output.stdout_lines | default([]) + syncthing_status_output.stderr_lines | default([]) }}"
       when: syncthing_status_output is defined
