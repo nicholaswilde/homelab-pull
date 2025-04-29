@@ -51,20 +51,21 @@
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
       when: syncthing_version_output is defined
-    - name: Check if user lingering is already enabled
+
+    - name: "Check if user lingering is already enabled"
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
       register: linger_status
       changed_when: false
       failed_when: linger_status.rc != 0 and "does not exist" not in linger_status.stderr # Fail if user doesn't exist
       check_mode: no # Always run this check command
 
-    - name: Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)
+    - name: "Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)"
       ansible.builtin.command: "loginctl enable-linger {{ syncthing_run_user }}"
       when: "'Linger=no' in linger_status.stdout or 'does not exist' in linger_status.stderr" # Only run if not enabled or user check failed cleanly before (e.g. first run)
       changed_when: true # Assume this changes state if run
       check_mode: no # Make changes even in check mode if needed, as state check is separate
 
-    - name: Enable and start the Syncthing service for the specified user
+    - name: "Enable and start the Syncthing service for the specified user"
       ansible.builtin.systemd:
         name: syncthing # '.service' is implied
         scope: user
@@ -80,7 +81,7 @@
       notify: Check Syncthing Status # Optional: Trigger handler to check status
 
   handlers:
-    - name: Check Syncthing Status
+    - name: "Check Syncthing Status"
       listen: Check Syncthing Status # Match the notify name
       ansible.builtin.command: "systemctl --user status syncthing.service"
       become_user: "{{ syncthing_run_user }}"
