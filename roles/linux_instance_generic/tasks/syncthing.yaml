@@ -69,16 +69,13 @@
       ansible.builtin.systemd:
         name: syncthing # '.service' is implied
         scope: user
-        enabled: yes
+        enabled: true
         state: started
-      # This task needs to run *as* the target user to interact
-      # with their systemd instance correctly.
       become_user: "{{ syncthing_run_user }}"
-      # We also need to pass the necessary environment variable for systemd user bus
       environment:
         XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
         DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
-      notify: Check Syncthing Status # Optional: Trigger handler to check status
+      notify: Check Syncthing Status
 
   handlers:
     - name: "Check Syncthing Status"
