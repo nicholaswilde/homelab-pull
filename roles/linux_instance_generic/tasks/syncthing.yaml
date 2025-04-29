@@ -6,13 +6,13 @@
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}" # Adjust architecture mapping if needed
 
-    - name: Update apt cache
+    - name: "Update apt cache"
       ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 3600 # Only update if cache is older than 1 hour
       changed_when: false
 
-    - name: Install prerequisites for adding apt repository
+    - name: "Install prerequisites for adding apt repository"
       ansible.builtin.apt:
         name:
           - apt-transport-https
@@ -21,20 +21,20 @@
         state: present
         update_cache: true
 
-    - name: Ensure keyring directory exists
+    - name: "Ensure keyring directory exists"
       ansible.builtin.file:
         path: "{{ syncthing_keyring_path | dirname }}" # Gets the directory path /etc/apt/keyrings
         state: directory
         mode: '0755'
 
-    - name: Download Syncthing GPG key
+    - name: "Download Syncthing GPG key"
       ansible.builtin.get_url:
         url: https://syncthing.net/release-key.gpg
         dest: "{{ syncthing_keyring_path }}"
         mode: '0644'
         force: no # Don't download if the file already exists
 
-    - name: Add Syncthing APT repository
+    - name: "Add Syncthing APT repository"
       ansible.builtin.apt_repository:
         repo: "deb [signed-by={{ syncthing_keyring_path }} arch={{ syncthing_repo_arch }}] https://apt.syncthing.net/ syncthing stable"
         state: present
@@ -45,14 +45,14 @@
       ansible.builtin.apt:
         name: syncthing
         state: present
-        update_cache: yes # Update cache again just before installing to ensure freshness
+        update_cache: true
 
-    - name: Display Syncthing version (optional)
-      ansible.builtin.command: syncthing --version
+    - name: "Display Syncthing version (optional)"
+      ansible.builtin.command: "syncthing --version"
       register: syncthing_version_output
-      changed_when: false # This command doesn't change state
+      changed_when: false #
 
-    - name: Print Syncthing version
+    - name: "Print Syncthing version"
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
       when: syncthing_version_output is defined
