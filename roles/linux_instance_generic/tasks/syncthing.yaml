@@ -77,24 +77,30 @@
       environment:
         XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
         DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
-      # notify: "Check Syncthing Status"
 
-  # handlers:
-  #   - name: "Check Syncthing Status"
-  #     listen: "Check Syncthing Status"
-  #     ansible.builtin.command: "systemctl --user status syncthing.service"
-  #     become_user: "{{ syncthing_run_user }}"
-  #     environment:
-  #       XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
-  #       DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
-  #     changed_when: false
-  #     register: syncthing_status_output
+    - name: "Pause for 5 seconds"
+      ansible.builtin.pause:
+        seconds: 5
+        # Optional: Add echo: no to prevent the default "Paused" message
+        # echo: no
+      
+    - name: "Ensure Syncthing GUI listens on all interfaces"
+      ansible.builtin.replace:
+        path: "{{ ansible_env.HOME }}/.local/state/syncthing/config.xml"
+        regexp: '127\.0\.0\.1:8384'
+        replace: '0.0.0.0:8384'
+        backup: true
 
-  #   - name: "Display Syncthing Status"
-  #     listen: "Check Syncthing Status"
-  #     ansible.builtin.debug:
-  #       msg: "{{ syncthing_status_output.stdout_lines | default([]) + syncthing_status_output.stderr_lines | default([]) }}"
-  #     when: syncthing_status_output is defined
+    - name: "Restart Syncthing systemd service"
+      ansible.builtin.systemd:
+        name: syncthing # <-- !! Or maybe syncthing.service or syncthing@username.service !!
+        state: restarted
+        scope: user
+      become_user: "{{ syncthing_run_user }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
+        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
+
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
