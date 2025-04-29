@@ -52,6 +52,6 @@
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
       when: syncthing_version_output is defined
-vars:
+  vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}" # Adjust architecture mapping if needed
