@@ -97,7 +97,7 @@
 
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd:
-        name: "syncthing@{{ syncthing_run_user }}.service"
+        name: "{{ syncthing_service_name }}"
         state: restarted
         scope: user
 
