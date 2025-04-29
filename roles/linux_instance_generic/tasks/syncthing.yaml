@@ -93,13 +93,9 @@
 
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd:
-        name: syncthing # <-- !! Or maybe syncthing.service or syncthing@username.service !!
+        name: "syncthing@{{ syncthing_run_user }}.service"
         state: restarted
         scope: user
-      become_user: "{{ syncthing_run_user }}"
-      environment:
-        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
-        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
 
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
