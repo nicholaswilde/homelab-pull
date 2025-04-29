@@ -28,6 +28,7 @@
         dest: "{{ syncthing_keyring_path }}"
         mode: '0644'
         force: false
+      become: true
 
     - name: "Add Syncthing APT repository"
       ansible.builtin.apt_repository:
@@ -41,6 +42,7 @@
         name: syncthing
         state: present
         update_cache: true
+      become: true
 
     - name: "Display Syncthing version (optional)"
       ansible.builtin.command: "syncthing --version"
