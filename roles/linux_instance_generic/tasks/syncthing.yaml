@@ -85,8 +85,7 @@
     - name: "Pause for 5 seconds"
       ansible.builtin.pause:
         seconds: 5
-        # Optional: Add echo: no to prevent the default "Paused" message
-        # echo: no
+        echo: false
       
     - name: "Ensure Syncthing GUI listens on all interfaces"
       ansible.builtin.replace:
