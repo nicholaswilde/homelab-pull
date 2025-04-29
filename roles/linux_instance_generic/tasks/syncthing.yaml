@@ -75,24 +75,24 @@
       environment:
         XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
         DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
-      notify: "Check Syncthing Status"
+      # notify: "Check Syncthing Status"
 
-  handlers:
-    - name: "Check Syncthing Status"
-      listen: "Check Syncthing Status"
-      ansible.builtin.command: "systemctl --user status syncthing.service"
-      become_user: "{{ syncthing_run_user }}"
-      environment:
-        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
-        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
-      changed_when: false
-      register: syncthing_status_output
+  # handlers:
+  #   - name: "Check Syncthing Status"
+  #     listen: "Check Syncthing Status"
+  #     ansible.builtin.command: "systemctl --user status syncthing.service"
+  #     become_user: "{{ syncthing_run_user }}"
+  #     environment:
+  #       XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
+  #       DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
+  #     changed_when: false
+  #     register: syncthing_status_output
 
-    - name: "Display Syncthing Status"
-      listen: "Check Syncthing Status"
-      ansible.builtin.debug:
-        msg: "{{ syncthing_status_output.stdout_lines | default([]) + syncthing_status_output.stderr_lines | default([]) }}"
-      when: syncthing_status_output is defined
+  #   - name: "Display Syncthing Status"
+  #     listen: "Check Syncthing Status"
+  #     ansible.builtin.debug:
+  #       msg: "{{ syncthing_status_output.stdout_lines | default([]) + syncthing_status_output.stderr_lines | default([]) }}"
+  #     when: syncthing_status_output is defined
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
