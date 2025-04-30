@@ -78,6 +78,9 @@ Run the script.
 )
 ```
 
+>[!NOTE]
+>Debian based systems install ansible via `apt`, else via `pipx`.
+
 Add the `pipx` `bin` dir temporarily to `PATH`.
 
 ```shell
