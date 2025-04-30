@@ -85,6 +85,15 @@ function start_meassage(){
   print_text "Starting homelab-pull bootstrap script."
 }
 
+function detect_os(){
+  if [[ -f /etc/os-release ]]; then
+    source /etc/os-release && echo $VERSION_CODENAME | sed -e 's/bookworm/jammy/' -e 's/bullseye/focal/' -e 's/buster/bionic/'
+  else
+    echo "unknown"
+  fi
+}
+
+
 function check_password(){
   if [[ ! -e "${PASSWORD_PATH}" ]]; then
     # Prompt for the first password input
