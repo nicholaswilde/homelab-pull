@@ -33,8 +33,6 @@
       - gh
       - screen
       - dnsutils
-      - task
-      - sops
       - jq
       - tmux
     state: latest

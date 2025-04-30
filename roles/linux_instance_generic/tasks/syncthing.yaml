@@ -39,7 +39,7 @@
         repo: "deb [signed-by={{ syncthing_keyring_path }} arch={{ syncthing_repo_arch }}] https://apt.syncthing.net/ syncthing stable"
         state: present
         filename: syncthing
-        update_cache: true
+        # update_cache: true
 
     - name: "Install Syncthing package"
       ansible.builtin.apt:
