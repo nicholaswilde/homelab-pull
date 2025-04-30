@@ -24,7 +24,7 @@ Edit `host_vars/<hostname>.yaml`
   OWNER_NAME="nicholaswilde" && \
   REPO_NAME="homelab-pull" && \
   bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
-  ~/.local//bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+  ~/.local/bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 )
 ```
 
