@@ -227,12 +227,12 @@ function main(){
   sudo apt update
   install_deps
   install_pipx
-  install_lpass
-  setup_ansible_vault
-  setup_gpg_key
-  setup_ssh_key
-  setup_sops_age_key
-  # check_password
+  # install_lpass
+  # setup_ansible_vault
+  # setup_gpg_key
+  # setup_ssh_key
+  # setup_sops_age_key
+  check_password
   install_ansible_core
   install_collections
   show_message
