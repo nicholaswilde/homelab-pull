@@ -23,8 +23,19 @@ Edit `host_vars/<hostname>.yaml`
   sudo apt install -y curl && \
   OWNER_NAME="nicholaswilde" && \
   REPO_NAME="homelab-pull" && \
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/homelab-pull/refs/heads/main/scripts/bootstrap.sh)" && \
-  ~/.local/bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)" && \
+)
+
+Optionally, add ~/.local/bin to `PATH`.
+
+(
+  export PATH=$PATH:$HOME/.local/bin
+)
+
+Run `ansible-pull`
+
+(
+  ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 )
 ```
 
