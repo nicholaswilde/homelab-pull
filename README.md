@@ -84,15 +84,13 @@ PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 Run the script.
 
 ```shell
-(
-  bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)"
-)
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)"
 ```
 
 >[!NOTE]
 >Debian based systems install ansible via `apt`, else via `pipx`.
 
-Add the `pipx` `bin` dir temporarily to `PATH`.
+Add the `pipx` `bin` dir temporarily to `PATH`, if applicable.
 
 ```shell
 export PATH=$PATH:$HOME/.local/bin
