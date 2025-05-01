@@ -2,7 +2,7 @@
 - name: "Check if Syncthing is installed"
   ansible.builtin.command: "syncthing --version"
   register: syncthing_is_installed
-  changed_when: false
+  changed_when: syncthing_is_installed.rc != 0
   ignore_errors: true
 
 - name: "Install Syncthing using APT"
