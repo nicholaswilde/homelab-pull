@@ -68,7 +68,7 @@ function start_meassage(){
 }                                                                                                                                                                                                                  
                                                                                                                                                                                                                    
 function get_os_codename(){                                                                                                                                                                                        
-  if [[ -f /etc/os-release ]]; then                                                                                                                                                                                
+  if [ -f /etc/os-release ]; then                                                                                                                                                                                
     source /etc/os-release && echo $VERSION_CODENAME | \                                                                                                                                                           
       sed \                                                                                                                                                                                                        
         -e 's/bookworm/jammy/' \                                                                                                                                                                                   
