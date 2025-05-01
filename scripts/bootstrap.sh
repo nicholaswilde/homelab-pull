@@ -162,6 +162,7 @@ function main(){
   install_sudo
   sudo apt update
   check_password
+  install_deps
   install_ansible_core
   install_collection
   show_message
