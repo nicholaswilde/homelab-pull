@@ -23,7 +23,7 @@ Edit `host_vars/<hostname>.yaml`
   sudo apt install -y curl && \
   OWNER_NAME="nicholaswilde" && \
   REPO_NAME="homelab-pull" && \
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)" && \
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)"
 )
 ```
 
