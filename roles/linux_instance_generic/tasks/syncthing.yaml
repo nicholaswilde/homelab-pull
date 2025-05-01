@@ -72,15 +72,15 @@
       check_mode: false
 
     - name: "Enable and start the Syncthing service for the specified user"
-      ansible.builtin.systemd:
-        name: syncthing
-        scope: user
+      ansible.builtin.systemd_service:
+        name: "{{ syncthing_service_name }}"
+        # scope: user
         enabled: true
         state: started
-      become_user: "{{ syncthing_run_user }}"
-      environment:
-        XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
-        DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
+      # become_user: "{{ syncthing_run_user }}"
+      # environment:
+      #   XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
+      #   DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
 
     - name: "Pause for 5 seconds"
       ansible.builtin.pause:
@@ -95,10 +95,10 @@
         backup: true
 
     - name: "Restart Syncthing systemd service"
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         name: "{{ syncthing_service_name }}"
         state: restarted
-        scope: user
+        # scope: user
 
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
