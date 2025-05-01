@@ -1,7 +1,8 @@
 ---
-- name: "Gather service facts"
-  ansible.builtin.service_facts:
-  register: services_info
+- name: "Check if Syncthing is installed"
+  ansible.builtin.command: "syncthing --version"
+    register: syncthing_version_output
+    changed_when: false
 
 - name: "Install Syncthing using APT"
   block:
@@ -112,7 +113,4 @@
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
     syncthing_run_user: "{{ ansible_user }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
-  # when: >
-  #   services_info.ansible_facts.services is defined and
-  #   syncthing_service_name in services_info.ansible_facts.services and
-  #   services_info.ansible_facts.services[syncthing_service_name].state != 'running'
+  when: syncthing_version_output.rc != 0
