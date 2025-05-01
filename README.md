@@ -23,7 +23,7 @@ Edit `host_vars/<hostname>.yaml`
   sudo apt install -y curl && \
   OWNER_NAME="nicholaswilde" && \
   REPO_NAME="homelab-pull" && \
-  bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/homelab-pull/refs/heads/main/scripts/bootstrap.sh)" && \
   ~/.local/bin/ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 )
 ```
@@ -220,7 +220,7 @@ In the Docker container.
 cd ~ && \
 apt update && \
 apt install curl -y && \
-bash -c "$(curl -fsSL https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/scripts/bootstrap.sh)" && \
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/homelab-pull/refs/heads/main/scripts/bootstrap.sh)" && \
 export PATH=$PATH:$HOME/.local/bin
 ```
 
