@@ -95,6 +95,8 @@
         - "syncthing cli config options local-ann-enabled set false"
         - "syncthing cli config options global-ann-enabled set false"
         - "syncthing cli config options relays-enabled set false"
+        # - "syncthing cli config options ur-accepted set 3"
+        # - "syncthing cli config options ur-seen set 3"
       
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd_service:
