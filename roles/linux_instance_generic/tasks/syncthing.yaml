@@ -112,6 +112,7 @@
         - "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
         - "syncthing cli config options natenabled set false"
         - "syncthing cli config options local-ann-enabled set false"
+         - "syncthing cli config options global-ann-enabled set false"
         - "syncthing cli config options relays-enabled set false"
       
     - name: "Restart Syncthing systemd service"
