@@ -105,29 +105,14 @@
 
       # Combine these into a loop
     - name: "Change Syncthing setting"
-      ansible.builtin.command: "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
+      ansible.builtin.command: "{{ item }}"
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
-
-    - name: "Change Syncthing setting"
-      ansible.builtin.command: "syncthing cli config options natenabled set false"
-      become_user: "{{ syncthing_run_user }}"
-      ignore_errors: true
-      
-    - name: "Change Syncthing setting"
-      ansible.builtin.command: "syncthing cli config options global-ann-enabled set false"
-      become_user: "{{ syncthing_run_user }}"
-      ignore_errors: true
-      
-    - name: "Change Syncthing setting"
-      ansible.builtin.command: "syncthing cli config options local-ann-enabled set false"
-      become_user: "{{ syncthing_run_user }}"
-      ignore_errors: true
-      
-    - name: "Change Syncthing setting"
-      ansible.builtin.command: "syncthing cli config options relays-enabled set false"
-      become_user: "{{ syncthing_run_user }}"
-      ignore_errors: true
+      loop:
+        - "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
+        - "syncthing cli config options natenabled set false"
+        - "syncthing cli config options local-ann-enabled set false"
+        - "syncthing cli config options relays-enabled set false"
       
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd_service:
