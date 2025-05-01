@@ -1,7 +1,7 @@
 ---
 - name: "Check if Syncthing is installed"
   ansible.builtin.command: "syncthing --version"
-  register: syncthing_version_output
+  register: syncthing_is_installed
   changed_when: false
   ignore_errors: true
 
@@ -114,4 +114,4 @@
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
     syncthing_run_user: "{{ ansible_user }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
-  when: syncthing_version_output.rc != 0
+  when: syncthing_is_installed.rc != 0
