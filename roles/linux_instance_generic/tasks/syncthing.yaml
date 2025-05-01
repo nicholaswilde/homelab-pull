@@ -76,34 +76,15 @@
     - name: "Enable and start the Syncthing service for the specified user"
       ansible.builtin.systemd_service:
         name: "{{ syncthing_service_name }}"
-        # scope: user
         enabled: true
         state: started
       become: true
-      # become_user: "{{ syncthing_run_user }}"
-      # environment:
-      #   XDG_RUNTIME_DIR: "/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}"
-      #   DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ lookup('pipe', 'id -u ' + syncthing_run_user) }}/bus"
 
     - name: "Pause for 5 seconds"
       ansible.builtin.pause:
         seconds: 5
         echo: false
-      
-    # - name: "Ensure Syncthing GUI listens on all interfaces"
-    #   ansible.builtin.replace:
-    #     path: "{{ ansible_env.HOME }}/.local/state/syncthing/config.xml"
-    #     regexp: "{{ item.regexp }}"
-    #     replace: "{{ item.replace }}"
-    #     backup: true
-    #   loop:
-    #     - { regexp: '127\.0\.0\.1:8384', replace: '0.0.0.0:8384' }
-    #     - { regexp: 'tls=false', replace: 'tls=true' }
-    #     - { regexp: 'globalAnnounceEnabled=true', replace: 'globalAnnounceEnabled=false' }
-    #     - { regexp: 'localAnnounceEnabled=true', replace: 'localAnnounceEnabled=false' }
-    #     - { regexp: 'natEnabled=true', replace: 'natEnabled=false' }
 
-      # Combine these into a loop
     - name: "Change Syncthing setting"
       ansible.builtin.command: "{{ item }}"
       become_user: "{{ syncthing_run_user }}"
