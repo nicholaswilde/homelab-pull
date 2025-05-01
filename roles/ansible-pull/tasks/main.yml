@@ -19,11 +19,11 @@
     enabled: true
   ignore_errors: true
 
-- name: "Upgrade ansible-core using pipx"
-  community.general.pipx:
-    name: ansible-core
-    state: upgrade
-  become: false
+# - name: "Upgrade ansible-core using pipx"
+#   community.general.pipx:
+#     name: ansible-core
+#     state: upgrade
+#   become: false
 
 # - name: Upgrade ansible-core using pipx
 #   ansible.builtin.command:
