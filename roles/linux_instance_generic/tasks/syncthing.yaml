@@ -100,7 +100,6 @@
         - { regexp: 'globalAnnounceEnabled=true', replace: 'globalAnnounceEnabled=false' }
         - { regexp: 'localAnnounceEnabled=true', replace: 'localAnnounceEnabled=false' }
         - { regexp: 'natEnabled=true', replace: 'natEnabled=false' }
-        
 
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd_service:
