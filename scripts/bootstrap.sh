@@ -150,11 +150,13 @@ function install_ansible_core(){
 
 function install_collections(){
   print_text "Installing collections"
-  $HOME/.local/bin/ansible-galaxy collection install -r <(curl -fsSL "${REQUIREMENTS_URL}")
+  ansible-galaxy collection install -r <(curl -fsSL "${REQUIREMENTS_URL}")
 }
 
 function show_message(){
-  print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
+  if [ -f $HOME/.local/bin/ansible-pull ]; then
+    print_text "Add to your bash profile: 'export PATH=\$PATH:\$HOME/.local/bin'"
+  fi
 }
 
 function main(){
