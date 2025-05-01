@@ -18,13 +18,13 @@
           - "📌  Notice 🤖  Homelab Pull has begun configuring this instance 🦾"
       changed_when: false
 
-- name: "Configure ansible-pull"
-  hosts: all
-  become: true
-  roles:
-    - ansible-pull
-  tags:
-    - ansible-pull
+# - name: "Configure ansible-pull"
+#   hosts: all
+#   become: true
+#   roles:
+#     - ansible-pull
+#   tags:
+#     - ansible-pull
 
 - name: "Run linux_instance_generic role"
   hosts: lxcs
@@ -34,13 +34,13 @@
   tags:
     - linux_instance_generic
 
-- name: "Run update_apt role"
-  hosts: apt
-  become: true
-  roles:
-    - update_apt
-  tags:
-    - update_apt
+# - name: "Run update_apt role"
+#   hosts: apt
+#   become: true
+#   roles:
+#     - update_apt
+#   tags:
+#     - update_apt
 
 # - name: "Run update_docker role"
 #   hosts: docker
@@ -50,13 +50,13 @@
 #   tags:
 #     - update_docker
 
-- name: "Run cleanup role"
-  hosts: all
-  become: true
-  roles:
-    - clean
-  tags:
-    - clean
+# - name: "Run cleanup role"
+#   hosts: all
+#   become: true
+#   roles:
+#     - clean
+#   tags:
+#     - clean
 
 - name: End ansible-pull
   hosts: all
