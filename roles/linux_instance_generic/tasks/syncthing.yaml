@@ -3,6 +3,7 @@
   ansible.builtin.command: "syncthing --version"
   register: syncthing_version_output
   changed_when: false
+  ignore_errors: true
 
 - name: "Install Syncthing using APT"
   block:
