@@ -1,8 +1,8 @@
 ---
 - name: "Check if Syncthing is installed"
   ansible.builtin.command: "syncthing --version"
-    register: syncthing_version_output
-    changed_when: false
+  register: syncthing_version_output
+  changed_when: false
 
 - name: "Install Syncthing using APT"
   block:
