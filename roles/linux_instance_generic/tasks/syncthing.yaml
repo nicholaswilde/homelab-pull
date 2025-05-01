@@ -103,6 +103,7 @@
     #     - { regexp: 'localAnnounceEnabled=true', replace: 'localAnnounceEnabled=false' }
     #     - { regexp: 'natEnabled=true', replace: 'natEnabled=false' }
 
+      # Combine these into a loop
     - name: "Change Syncthing setting"
       ansible.builtin.command: "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
       become_user: "{{ syncthing_run_user }}"
@@ -132,7 +133,9 @@
       ansible.builtin.systemd_service:
         name: "{{ syncthing_service_name }}"
         state: restarted
-        # scope: user
+
+#   <         <urAccepted>3</urAccepted> or 0
+#   <urSeen>3</urSeen> or 0
 
   vars:
     syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
