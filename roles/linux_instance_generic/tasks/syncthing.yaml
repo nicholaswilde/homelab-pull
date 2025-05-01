@@ -90,19 +90,34 @@
         seconds: 5
         echo: false
       
-    - name: "Ensure Syncthing GUI listens on all interfaces"
-      ansible.builtin.replace:
-        path: "{{ ansible_env.HOME }}/.local/state/syncthing/config.xml"
-        regexp: "{{ item.regexp }}"
-        replace: "{{ item.replace }}"
-        backup: true
-      loop:
-        - { regexp: '127\.0\.0\.1:8384', replace: '0.0.0.0:8384' }
-        - { regexp: 'tls=false', replace: 'tls=true' }
-        - { regexp: 'globalAnnounceEnabled=true', replace: 'globalAnnounceEnabled=false' }
-        - { regexp: 'localAnnounceEnabled=true', replace: 'localAnnounceEnabled=false' }
-        - { regexp: 'natEnabled=true', replace: 'natEnabled=false' }
+    # - name: "Ensure Syncthing GUI listens on all interfaces"
+    #   ansible.builtin.replace:
+    #     path: "{{ ansible_env.HOME }}/.local/state/syncthing/config.xml"
+    #     regexp: "{{ item.regexp }}"
+    #     replace: "{{ item.replace }}"
+    #     backup: true
+    #   loop:
+    #     - { regexp: '127\.0\.0\.1:8384', replace: '0.0.0.0:8384' }
+    #     - { regexp: 'tls=false', replace: 'tls=true' }
+    #     - { regexp: 'globalAnnounceEnabled=true', replace: 'globalAnnounceEnabled=false' }
+    #     - { regexp: 'localAnnounceEnabled=true', replace: 'localAnnounceEnabled=false' }
+    #     - { regexp: 'natEnabled=true', replace: 'natEnabled=false' }
 
+    - name: "Change Syncthing setting"
+      ansible.builtin.command: "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
+
+    - name: "Change Syncthing setting"
+      ansible.builtin.command: "syncthing cli config options natenabled set false"
+
+    - name: "Change Syncthing setting"
+      ansible.builtin.command: "syncthing cli config options global-ann-enabled set false"
+
+    - name: "Change Syncthing setting"
+      ansible.builtin.command: "syncthing cli config options local-ann-enabled set false"
+
+    - name: "Change Syncthing setting"
+      ansible.builtin.command: "syncthing cli config options relays-enabled set false"
+      
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd_service:
         name: "{{ syncthing_service_name }}"
