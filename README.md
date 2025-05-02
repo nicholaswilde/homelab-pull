@@ -66,7 +66,7 @@ sudo apt install -y curl
 
 ### :hiking_boot: Bootstrap
 
-Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] .
+Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] as well as the required collections.
 
 >[!WARNING]
 >Always inspect a shell script before running it!
