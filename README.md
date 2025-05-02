@@ -84,7 +84,7 @@ PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 Run the script.
 
 ```shell
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/scripts/bootstrap.sh)"
 ```
 
 >[!NOTE]
