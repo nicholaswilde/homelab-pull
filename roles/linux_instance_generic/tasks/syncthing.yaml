@@ -118,5 +118,6 @@
 
 - name: "Show api key"
   ansible.builtin.debug:
-    msg: "{{ api_key }}"
+    msg: "{{ api_key.stdout }}"
+  when: api_key is defined
 
