@@ -213,7 +213,9 @@ journalctl -xeu homelab-pull
 
 ## :alarm_clock: Cronjob
 
-The ansible-pull role installs homelab-pull as a cronjob and is executed periodically via a timer.
+The `ansible-pull` role installs `homelab-pull` as a cronjob and is executed periodically via a timer.
+
+The timer interval can be adjusted via the `roles/ansible-pull/defaults/main.yml` file.
 
 ---
 
