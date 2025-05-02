@@ -101,6 +101,10 @@
         - "syncthing cli config gui password set {{ ansible_become_pass }}"
         - "syncthing cli operations restart"
 
+    - name: "Pause for 5 seconds"
+      ansible.builtin.pause:
+        seconds: 5
+        echo: false
     # - name: "Restart Syncthing systemd service"
     #   ansible.builtin.systemd_service:
     #     name: "{{ syncthing_service_name }}"
