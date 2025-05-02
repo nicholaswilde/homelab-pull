@@ -211,6 +211,12 @@ journalctl -xeu homelab-pull
 
 ---
 
+## :alarm_clock: Cronjob
+
+The ansible-pull role installs homelab-pull as a cronjob and is executed periodically via a timer.
+
+---
+
 ## :whale2: Testing Using Docker
 
 Launch into a shell in a Debian Docker container.
