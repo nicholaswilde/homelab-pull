@@ -140,6 +140,6 @@
       ansible.builtin.debug:
         var: delete_result
   vars:
-    api_endpoint: "http://192.168.2.126:8384/rest/config/folders/default"
-    # api_key: "{{ api_key.stdout }}"
+    api_endpoint: "http://localhost:8384/rest/config/folders/default"
+  when: api_key is defined
 
