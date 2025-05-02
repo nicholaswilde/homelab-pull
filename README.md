@@ -77,7 +77,7 @@ Set variables used in the script.
 OWNER_NAME="nicholaswilde"
 REPO_NAME="homelab-pull"
 
-REQUIREMENTS_URL="https://github.com/nicholaswilde/homelab-pull/raw/refs/heads/main/requirements.yaml"
+REQUIREMENTS_URL="https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/main/requirements.yaml"
 PASSWORD_PATH="${HOME}/.config/homelab-pull/password"
 ```
 
