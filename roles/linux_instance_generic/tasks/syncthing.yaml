@@ -142,10 +142,23 @@
         # Optional: If you need to see the response body (often empty for DELETE)
         # return_content: yes
       register: delete_result
-
+    
     - name: "Show DELETE request result"
       ansible.builtin.debug:
         var: delete_result.msg
+      when: delete_result is defined
+
+    - name: "Get the device id"
+      ansible.builtin.command: "syncthing cli config devices list"
+      register: device_ids
+      become_user: "{{ ansible_user }}"
+      ignore_errors: true
+    
+    - name: "Show device id result"
+      ansible.builtin.debug:
+        var: device_ids[0]
+      when: device_ids is defined
+
   vars:
     api_endpoint: "http://localhost:8384/rest/config/folders/default"
   when: api_key is defined
