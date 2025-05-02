@@ -154,14 +154,19 @@
       become_user: "{{ ansible_user }}"
       ignore_errors: true
     
-    - name: "Show device id result"
+    - name: "Show device ids result"
       ansible.builtin.debug:
         var: device_ids
       when: device_ids is defined
       
-    - name: "Show device id result"
+    - name: "Set fact for device id"
+      ansible.builtin.set_fact:
+        device_id: device_ids.stdout_lines[0]
+      when: device_ids is defined
+      
+    - name: "Show device id"
       ansible.builtin.debug:
-        var: device_ids.stdout_lines[0]
+        var: device_id
       when: device_ids is defined
 
   vars:
