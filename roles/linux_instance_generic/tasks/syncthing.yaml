@@ -98,16 +98,6 @@
         - "syncthing cli config options uraccepted set 3"
         - "syncthing cli config options urseen set 3"
 
-    - name: "Get the api key"
-      ansible.builtin.command: "syncthing cli config gui apikey get"
-      register: api_key
-      become_user: "{{ syncthing_run_user }}"
-      ignore_errors: true
-
-    - name: "Show api key"
-      ansible.builtin.debug:
-        msg: "{{ api_key }}"
-
     - name: "Restart Syncthing systemd service"
       ansible.builtin.systemd_service:
         name: "{{ syncthing_service_name }}"
@@ -119,3 +109,14 @@
     syncthing_run_user: "{{ ansible_user }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
+
+- name: "Get the api key"
+  ansible.builtin.command: "syncthing cli config gui apikey get"
+  register: api_key
+  become_user: "{{ syncthing_run_user }}"
+  ignore_errors: true
+
+- name: "Show api key"
+  ansible.builtin.debug:
+    msg: "{{ api_key }}"
+
