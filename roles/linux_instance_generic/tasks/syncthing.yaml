@@ -102,14 +102,11 @@
         - "syncthing cli config gui password set {{ ansible_become_pass }}"
         - "syncthing cli operations restart"
 
-    - name: "Pause for 5 seconds"
-      ansible.builtin.pause:
-        seconds: 5
-        echo: false
-    # - name: "Restart Syncthing systemd service"
-    #   ansible.builtin.systemd_service:
-    #     name: "{{ syncthing_service_name }}"
-    #     state: restarted
+    - name: "Wait up to 20 seconds for port 8384 to become open on the target host"
+      ansible.builtin.wait_for:
+        port: 8384
+        delay: 5
+        timeout: 20
 
   vars:
     syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
