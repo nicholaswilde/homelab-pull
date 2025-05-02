@@ -97,14 +97,17 @@
         - "syncthing cli config options relays-enabled set false"
         - "syncthing cli config options uraccepted set 3"
         - "syncthing cli config options urseen set 3"
+        - "syncthing cli config gui user set nicholas"
+        - "syncthing cli config gui password set {{ ansible_become_pass }}"
+        - "syncthing cli operations restart"
 
-    - name: "Restart Syncthing systemd service"
-      ansible.builtin.systemd_service:
-        name: "{{ syncthing_service_name }}"
-        state: restarted
+    # - name: "Restart Syncthing systemd service"
+    #   ansible.builtin.systemd_service:
+    #     name: "{{ syncthing_service_name }}"
+    #     state: restarted
 
   vars:
-    syncthing_keyring_path: /etc/apt/keyrings/syncthing-archive-keyring.gpg
+    syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
     syncthing_run_user: "{{ ansible_user }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
@@ -136,10 +139,9 @@
         # return_content: yes
       register: delete_result
 
-    - name: Show DELETE request result
+    - name: "Show DELETE request result"
       ansible.builtin.debug:
-        var: delete_result
+        var: delete_result.msg
   vars:
     api_endpoint: "http://localhost:8384/rest/config/folders/default"
   when: api_key is defined
-
