@@ -121,3 +121,25 @@
     msg: "{{ api_key.stdout }}"
   when: api_key is defined
 
+- name: "Syncthing settings block"
+  block:
+    - name: "Send DELETE request to remove default folder config"
+      ansible.builtin.uri:
+        url: "{{ api_endpoint }}"
+        method: DELETE
+        headers:
+          X-API-Key: "{{ api_key }}"
+        # Optional: Define expected successful status codes.
+        # DELETE might return 200 (OK), 202 (Accepted), or 204 (No Content) on success.
+        status_code: [200, 202, 204]
+        # Optional: If you need to see the response body (often empty for DELETE)
+        # return_content: yes
+      register: delete_result
+
+    - name: Show DELETE request result
+      ansible.builtin.debug:
+        var: delete_result
+  vars:
+    api_endpoint: "http://192.168.2.126:8384/rest/config/folders/default"
+    api_key: "{{ api_key.stdout }}"
+
