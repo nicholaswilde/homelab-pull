@@ -161,7 +161,7 @@
       
     - name: "Set fact for device id"
       ansible.builtin.set_fact:
-        device_id: device_ids.stdout_lines[0]
+        device_id: " {{ device_ids.stdout_lines[0] }} "
       when: device_ids | length > 0
       
     - name: "Show device id"
