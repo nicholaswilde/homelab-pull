@@ -217,6 +217,15 @@ The `ansible-pull` role installs `homelab-pull` as a cronjob and is executed per
 
 The timer interval can be adjusted via the `roles/ansible-pull/defaults/main.yml` file.
 
+```yaml
+homelab_pull_timer: |
+  OnBootSec=5m
+  OnCalendar=daily
+  RandomizedDelaySec=30m
+```
+
+Ensure to change the repo url via the `` variable.
+
 ---
 
 ## :whale2: Testing Using Docker
