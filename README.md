@@ -224,7 +224,7 @@ homelab_pull_timer: |
   RandomizedDelaySec=30m
 ```
 
-Ensure to change the repo url via the `` variable.
+Ensure to change the repo url via the `homelab_pull_url` variable.
 
 ---
 
