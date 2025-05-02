@@ -15,7 +15,7 @@ cp host_vars/.template.yaml.tmpl host_vars/<hostname>.yaml
 
 Edit `host_vars/<hostname>.yaml`
 
-### :computer: Host
+### :computer: Managed Node
 
 ```shell
 (
@@ -33,7 +33,7 @@ Optionally, add ~/.local/bin to `PATH`.
 export PATH=$PATH:$HOME/.local/bin
 ```
 
-Run `ansible-pull`
+Run `ansible-pull`.
 
 ```
 ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
@@ -57,7 +57,7 @@ Container specific updates are handled using a Taskfile located on the container
 
 ### :paperclips: Dependencies
 
-Install dependencies on the host.
+Install dependencies on the managed node.
 
 ```shell
 sudo apt update
@@ -66,7 +66,7 @@ sudo apt install -y curl
 
 ### :hiking_boot: Bootstrap
 
-Use the bootstrap script to finish setting up the host.
+Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] .
 
 >[!WARNING]
 >Always inspect a shell script before running it!
@@ -88,7 +88,7 @@ Run the script.
 ```
 
 >[!NOTE]
->Debian based systems install ansible via `apt`, else via `pipx`.
+>Debian based systems install ansible-core via `apt`, else via `pipx`.
 
 Add the `pipx` `bin` dir temporarily to `PATH`, if applicable.
 
@@ -96,7 +96,7 @@ Add the `pipx` `bin` dir temporarily to `PATH`, if applicable.
 export PATH=$PATH:$HOME/.local/bin
 ```
 
-Alternatively, add it permanently to `.bashrc`.
+Alternatively, add it permanently to `.bashrc`, if applicable.
 
 ```shell
 (
@@ -109,7 +109,7 @@ Alternatively, add it permanently to `.bashrc`.
 
 ## :gear: Config
 
-Find the hostname of the remote.
+Find the hostname of the managed node.
 
 ```shell
 uname -n
@@ -273,3 +273,4 @@ ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)
 [7]: <https://github.com/settings/keys>
 [8]: <https://docs.ansible.com/ansible/latest/vault_guide/vault.html>
 [9]: <https://github.com/nicholaswilde/homelab>
+[10]: <https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html>
