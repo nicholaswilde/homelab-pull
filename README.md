@@ -192,7 +192,7 @@ Save the output to a vars yaml file, such as `group_vars/all.yaml`
 
 ## :pencil: Usage
 
-On the host that you'd like to run the playbook.
+On the managed node that you'd like to run the playbook.
 
 ```shell
 ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
