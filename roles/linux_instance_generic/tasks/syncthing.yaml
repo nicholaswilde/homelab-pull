@@ -113,7 +113,7 @@
 - name: "Get the api key"
   ansible.builtin.command: "syncthing cli config gui apikey get"
   register: api_key
-  become_user: "{{ syncthing_run_user }}"
+  become_user: "{{ ansible_user }}"
   ignore_errors: true
 
 - name: "Show api key"
