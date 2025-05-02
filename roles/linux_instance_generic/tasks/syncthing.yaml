@@ -162,12 +162,12 @@
     - name: "Set fact for device id"
       ansible.builtin.set_fact:
         device_id: device_ids.stdout_lines[0]
-      when: device_ids is defined
+      when: device_ids | length > 0
       
     - name: "Show device id"
       ansible.builtin.debug:
         var: device_id
-      when: device_ids is defined
+      when: device_id is defined
 
   vars:
     api_endpoint: "http://localhost:8384/rest/config/folders/default"
