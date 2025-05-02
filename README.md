@@ -188,10 +188,6 @@ foo: !vault |
 
 Save the output to a vars yaml file, such as `group_vars/all.yaml`
 
-### :lock: LastPass or Bitwarden
-
-WIP
-
 ---
 
 ## :pencil: Usage
