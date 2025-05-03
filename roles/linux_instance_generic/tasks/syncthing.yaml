@@ -115,11 +115,12 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-- name: "Get the api key"
+- name: "Get the API key"
   ansible.builtin.command: "syncthing cli config gui apikey get"
   register: api_keys
   become_user: "{{ ansible_user }}"
   ignore_errors: true
+  changed_when: false
 
 - name: "Set fact for api key"
   ansible.builtin.set_fact:
