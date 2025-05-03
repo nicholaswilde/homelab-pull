@@ -125,7 +125,7 @@
   ansible.builtin.debug:
     msg: "{{ api_key.stdout }}"
   when: api_key is defined
-  ignonre_errors: true
+  ignore_errors: true
 
 - name: "Syncthing settings block"
   block:
