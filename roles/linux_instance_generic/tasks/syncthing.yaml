@@ -183,15 +183,15 @@
       register: get_device_result
       when: device_id is defined
 
-    - name: "Extract Device IDs using json_query"
+    - name: "Extract Device IDs using map filter"
       ansible.builtin.set_fact:
-        syncthing_device_ids_jq: "{{ get_device_result.json | json_query('[*].deviceID') }}"
+        syncthing_device_ids_map: "{{ get_device_result.json | map(attribute='deviceID') | list }}"
       when: get_device_result.json is defined
 
     - name: "Display extracted Device IDs (using json_query result)"
       ansible.builtin.debug:
-        var: syncthing_device_ids_jq
-      when: syncthing_device_ids_jq is defined
+        var: syncthing_device_ids_map
+      when: syncthing_device_ids_map is defined
 
     - name: "Add device to main node"
       ansible.builtin.uri:
