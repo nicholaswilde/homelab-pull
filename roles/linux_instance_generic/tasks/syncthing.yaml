@@ -217,6 +217,11 @@
       become_user: "{{ ansible_user }}"
       ignore_errors: true
 
+    - name: "device_ids"
+      ansible.builtin.debug:
+        var: device_ids
+      when: device_ids is defined
+
     - name: "Add managed node to main node"
       ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ linux_generic_instance_syncthing_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
       register: add_main_result
