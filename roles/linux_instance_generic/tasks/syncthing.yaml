@@ -138,6 +138,7 @@
       ansible.builtin.command: "syncthing cli config folders list"
       register: folders_list
       ignore_errors: true
+      changed_when: false
 
     - name: "Send DELETE request to remove default folder"
       ansible.builtin.uri:
@@ -170,7 +171,7 @@
         var: linux_generic_instance_syncthing_api_key
       when: linux_generic_instance_syncthing_api_key is defined
 
-    - name: "Add device to main node"
+    - name: "Get a list of devices from the main node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
         method: GET
@@ -188,7 +189,7 @@
         syncthing_device_ids_map: "{{ get_device_result.json | map(attribute='deviceID') | list }}"
       when: get_device_result.json is defined
 
-    - name: "Display extracted Device IDs (using json_query result)"
+    - name: "Display extracted Device IDs"
       ansible.builtin.debug:
         var: syncthing_device_ids_map
       when: syncthing_device_ids_map is defined
@@ -204,7 +205,7 @@
         status_code: [200, 202, 204]
         body: '{"deviceID": "{{ device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
-      when: device_id is defined
+      when: device_id is defined and device_id not in syncthing_device_ids_map
 
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
@@ -215,6 +216,7 @@
       ansible.builtin.command: 'syncthing cli config devices list'
       register: device_ids
       become_user: "{{ ansible_user }}"
+      changed_when: false
       ignore_errors: true
 
     - name: "device_ids"
@@ -227,7 +229,7 @@
       register: add_main_result
       become_user: "{{ ansible_user }}"
       ignore_errors: true
-      when: "'linux_generic_instance_syncthing_device_id' not in device_ids.stdout_lines"
+      when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
 
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
