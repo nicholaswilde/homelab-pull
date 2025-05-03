@@ -165,6 +165,11 @@
         var: device_id
       when: device_id is defined
 
+    - name: "linux_generic_instance_syncthing_api_key"
+      ansible.builtin.debug:
+        var: linux_generic_instance_syncthing_api_key
+      when: linux_generic_instance_syncthing_api_key is defined
+      
     - name: "Add device to main node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
