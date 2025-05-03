@@ -129,18 +129,20 @@
 
 - name: "Syncthing settings block"
   block:
+    - name: "Get a list of folders"
+      ansible.builtin.command: "syncthing cli config folders list"
+      register: folders_list
+      ignore_errors: true
+
     - name: "Send DELETE request to remove default folder config"
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: DELETE
         headers:
           X-API-Key: "{{ api_key.stdout }}"
-        # Optional: Define expected successful status codes.
-        # DELETE might return 200 (OK), 202 (Accepted), or 204 (No Content) on success.
         status_code: [200, 202, 204]
-        # Optional: If you need to see the response body (often empty for DELETE)
-        # return_content: yes
       register: delete_result
+      when: "'default' in folders_list.stdout"
 
     - name: "Show DELETE request result"
       ansible.builtin.debug:
