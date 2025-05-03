@@ -128,7 +128,7 @@
 
 - name: "Show api key"
   ansible.builtin.debug:
-    msg: "{{ api_key }}"
+    var: api_key
   when: api_key is defined
   ignore_errors: true
 
