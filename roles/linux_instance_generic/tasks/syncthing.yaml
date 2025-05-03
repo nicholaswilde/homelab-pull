@@ -183,10 +183,10 @@
       register: add_result
       when: device_id is defined
 
-    - name: "linux_instance_generic_syncthing_device_id"
+    - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
-        var: linux_instance_generic_syncthing_device_id
-      when: linux_instance_generic_syncthing_device_id is defined
+        var: linux_generic_instance_syncthing_device_id
+      when: linux_generic_instance_syncthing_device_id is defined
 
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
