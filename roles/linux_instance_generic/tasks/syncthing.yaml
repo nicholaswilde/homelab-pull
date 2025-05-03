@@ -171,7 +171,7 @@
         method: POST
         body_format: json
         headers:
-          X-API-Key: "{{ linux_generic_instance_syncthing_api_key }}"
+          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | b64decode }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
         body: '{"deviceID": "{{ device_id }}", "name": "test-debian-1", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
