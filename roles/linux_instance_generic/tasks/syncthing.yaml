@@ -173,6 +173,29 @@
     - name: "Add device to main node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
+        method: GET
+        body_format: json
+        return_content: true
+        headers:
+          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: get_device_result
+      when: device_id is defined
+
+    - name: "Extract Device IDs using json_query"
+      ansible.builtin.set_fact:
+        syncthing_device_ids_jq: "{{ get_device_result.json | json_query('[*].deviceID') }}"
+      when: get_device_result.json is defined
+
+    - name: "Display extracted Device IDs (using json_query result)"
+      ansible.builtin.debug:
+        var: syncthing_device_ids_jq
+      when: syncthing_device_ids_jq is defined
+
+    - name: "Add device to main node"
+      ansible.builtin.uri:
+        url: "{{ api_devices_endpoint }}"
         method: POST
         body_format: json
         headers:
@@ -204,7 +227,7 @@
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
         msg: "{{ add_main_result.stdout }}"
-      when: add_main_result is defined
+      when: add_main_result.stdout is defined
 
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
