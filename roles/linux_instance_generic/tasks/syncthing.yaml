@@ -188,6 +188,17 @@
         var: linux_generic_instance_syncthing_device_id
       when: linux_generic_instance_syncthing_device_id is defined
 
+    - name: "Add managed node to main node"
+      ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ linux_generic_instance_syncthing_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
+      register: add_main_result
+      become_user: "{{ ansible_user }}"
+      ignore_errors: true
+
+    - name: "linux_generic_instance_syncthing_device_id"
+      ansible.builtin.debug:
+        msg: "{{ add_main_result.stdout }}"
+      when: add_main_result is defined
+      
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
     api_devices_endpoint: "http://192.168.2.28:{{ linux_instance_generic_syncthing_port }}/rest/config/devices"
