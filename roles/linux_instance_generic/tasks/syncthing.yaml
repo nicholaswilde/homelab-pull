@@ -165,6 +165,19 @@
         var: device_id
       when: device_id is defined
 
+    - name: "Add device to main node"
+      ansible.builtin.uri:
+        url: "{{ api_devices_endpoint }}"
+        method: POST
+        body_format: json
+        headers:
+          X-API-Key: "{{ linux_generic_instance_syncthing_api_key }}"
+          Content-Type: "application/json"
+        status_code: [200, 202, 204]
+        body: '{"deviceID": "{{ device_id }}", "name": "test-debian-1", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
+      register: add_result
+      when: device_id is defined
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
+    api_devices_endpoint: "http://192.168.2.28:{{ linux_instance_generic_syncthing_port }}/rest/config/devices"
   when: api_key is defined
