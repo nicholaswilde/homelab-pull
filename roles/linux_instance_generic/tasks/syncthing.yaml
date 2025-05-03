@@ -117,13 +117,18 @@
 
 - name: "Get the api key"
   ansible.builtin.command: "syncthing cli config gui apikey get"
-  register: api_key
+  register: api_keys
   become_user: "{{ ansible_user }}"
   ignore_errors: true
 
+- name: "Set fact for api key"
+  ansible.builtin.set_fact:
+    api_key: "{{ api_keys.stdout_lines[0] }}"
+  when: api_keys | length > 0
+
 - name: "Show api key"
   ansible.builtin.debug:
-    msg: "{{ api_key.stdout }}"
+    msg: "{{ api_key }}"
   when: api_key is defined
   ignore_errors: true
 
@@ -134,7 +139,7 @@
       register: folders_list
       ignore_errors: true
 
-    - name: "Send DELETE request to remove default folder config"
+    - name: "Send DELETE request to remove default folder"
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: DELETE
@@ -144,25 +149,15 @@
       register: delete_result
       when: "'default' in folders_list.stdout"
 
-    - name: "Show DELETE request result"
-      ansible.builtin.debug:
-        var: delete_result.msg
-      when: delete_result is defined
-
     - name: "Get the device id"
       ansible.builtin.command: "syncthing cli config devices list"
       register: device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
 
-    - name: "Show device ids result"
-      ansible.builtin.debug:
-        var: device_ids
-      when: device_ids is defined
-
     - name: "Set fact for device id"
       ansible.builtin.set_fact:
-        device_id: " {{ device_ids.stdout_lines[0] }} "
+        device_id: "{{ device_ids.stdout_lines[0] }}"
       when: device_ids | length > 0
 
     - name: "Show device id"
