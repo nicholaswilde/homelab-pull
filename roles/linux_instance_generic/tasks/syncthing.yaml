@@ -155,6 +155,7 @@
       register: device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
+      changed_when: false
 
     - name: "Set fact for device id"
       ansible.builtin.set_fact:
