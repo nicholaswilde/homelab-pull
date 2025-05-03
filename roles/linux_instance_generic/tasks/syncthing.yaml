@@ -169,7 +169,7 @@
       ansible.builtin.debug:
         var: linux_generic_instance_syncthing_api_key
       when: linux_generic_instance_syncthing_api_key is defined
-      
+
     - name: "Add device to main node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
@@ -182,6 +182,10 @@
         body: '{"deviceID": "{{ device_id }}", "name": "test-debian-1", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
       when: device_id is defined
+
+    - name: Display inventory_hostname
+      ansible.builtin.debug:
+        msg: "The hostname for this host, according to the inventory, is {{ inventory_hostname }}"
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
     api_devices_endpoint: "http://192.168.2.28:{{ linux_instance_generic_syncthing_port }}/rest/config/devices"
