@@ -30,7 +30,7 @@
 
     - name: "Download Syncthing GPG key"
       ansible.builtin.get_url:
-        url: https://syncthing.net/release-key.gpg
+        url: "https://syncthing.net/release-key.gpg"
         dest: "{{ syncthing_keyring_path }}"
         mode: '0644'
         force: false
@@ -125,6 +125,7 @@
   ansible.builtin.debug:
     msg: "{{ api_key.stdout }}"
   when: api_key is defined
+  ignonre_errors: true
 
 - name: "Syncthing settings block"
   block:
@@ -140,7 +141,7 @@
         # Optional: If you need to see the response body (often empty for DELETE)
         # return_content: yes
       register: delete_result
-    
+
     - name: "Show DELETE request result"
       ansible.builtin.debug:
         var: delete_result.msg
@@ -151,17 +152,17 @@
       register: device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
-    
+
     - name: "Show device ids result"
       ansible.builtin.debug:
         var: device_ids
       when: device_ids is defined
-      
+
     - name: "Set fact for device id"
       ansible.builtin.set_fact:
         device_id: " {{ device_ids.stdout_lines[0] }} "
       when: device_ids | length > 0
-      
+
     - name: "Show device id"
       ansible.builtin.debug:
         var: device_id
