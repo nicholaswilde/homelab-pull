@@ -58,7 +58,7 @@
     - name: "Print Syncthing version"
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
-      when: syncthing_version_output is defined
+      when: syncthing_version_output is defined and debug_enabled
 
     - name: "Check if user lingering is already enabled"
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
@@ -233,6 +233,38 @@
       become_user: "{{ ansible_user }}"
       ignore_errors: true
       when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
+
+    - name: "Get a list of devices from the control node"
+      ansible.builtin.uri:
+        url: "http://192.168.2.28:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/rpmhl-qggvt"
+        method: GET
+        body_format: json
+        return_content: true
+        headers:
+          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: get_folder_result
+
+    - name: Extract the list of device objects
+      ansible.builtin.set_fact:
+        # Use default([]) in case the 'devices' key is missing or null
+        device_objects: "{{ get_folder_result.json.devices | default([]) }}"
+
+    - name: Create a list map of just the device IDs
+      ansible.builtin.set_fact:
+        # Use the map filter to extract the 'deviceID' attribute from each object
+        device_id_list: "{{ device_objects | map(attribute='deviceID') | list }}"
+      # This check prevents errors if device_objects wasn't a list (e.g., due to API error/change)
+      # Though default([]) above largely handles this for missing/null keys.
+      when: device_objects is iterable and device_objects is not string
+
+    - name: Display the list of Device IDs
+      ansible.builtin.debug:
+        var: device_id_list
+      when: device_id_list is defined # Only show if the list was successfully created
+      
+      # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
 
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
