@@ -90,12 +90,13 @@
       ansible.builtin.command: "{{ item }}"
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
+      no_log: true
       loop:
         - "syncthing cli config gui raw-address set \"0.0.0.0:{{ linux_instance_generic_syncthing_port }}\""
-        - "syncthing cli config options natenabled set false"
-        - "syncthing cli config options local-ann-enabled set false"
+        # - "syncthing cli config options natenabled set false"
+        # - "syncthing cli config options local-ann-enabled set false"
         - "syncthing cli config options global-ann-enabled set false"
-        - "syncthing cli config options relays-enabled set false"
+        # - "syncthing cli config options relays-enabled set false"
         - "syncthing cli config options uraccepted set 3"
         - "syncthing cli config options urseen set 3"
         - "syncthing cli config gui user set nicholas"
