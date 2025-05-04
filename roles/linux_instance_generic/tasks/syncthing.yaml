@@ -178,7 +178,7 @@
 
     - name: "Set fact for managed node device id2"
       ansible.builtin.set_fact:
-        device_id2: "{{ device_ids2.json | map(attribute='myID') | string }}"
+        device_id2: "{{ device_ids2.stdout | map(attribute='myID') | string }}"
       when: device_ids2 is defined
 
     - name: "Show managed node device id2"
