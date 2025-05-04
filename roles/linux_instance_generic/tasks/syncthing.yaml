@@ -171,20 +171,25 @@
 
     - name: "Get the device id of2 the managed node"
       ansible.builtin.command: "syncthing cli show system"
-      register: device_ids2
+      register: managed_node_device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
       changed_when: false
 
     - name: "Set fact for managed node device id2"
       ansible.builtin.set_fact:
-        device_id2: "{{ device_ids2.stdout | from_json }}"
-      when: device_ids2 is defined
+        managed_node_device_id_json: "{{ managed_node_device_ids.stdout | from_json }}"
+      when: managed_node_device_ids is defined
+
+    - name: "Set fact for managed node device id2"
+      ansible.builtin.set_fact:
+        managed_node_device_id: "{{ managed_node_device_id_json.myID }}"
+      when: managed_node_device_id_json is defined
 
     - name: "Show managed node device id2"
       ansible.builtin.debug:
-        var: device_id2.myID
-      when: device_id2 is defined and debug_enabled
+        var: managed_node_device_id
+      when: managed_node_device_id is defined and debug_enabled
       
     - name: "linux_generic_instance_syncthing_api_key"
       ansible.builtin.debug:
