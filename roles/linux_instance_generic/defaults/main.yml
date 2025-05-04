@@ -18,3 +18,5 @@ linux_instance_generic_reprepro_base_url: "http://deb.l.nicholaswilde.io"
 linux_instance_generic_reprepro_key_url: "http://deb.l.nicholaswilde.io/public.gpg.key"
 
 linux_instance_generic_syncthing_port: '8384'
+
+debug_enabled: false

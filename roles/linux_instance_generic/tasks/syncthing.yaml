@@ -131,7 +131,7 @@
 - name: "Show api key"
   ansible.builtin.debug:
     var: api_key
-  when: api_key is defined
+  when: api_key is defined and debug_enabled
   ignore_errors: true
 
 - name: "Syncthing settings block"
@@ -167,7 +167,7 @@
     - name: "Show managed node device id"
       ansible.builtin.debug:
         var: device_id
-      when: device_id is defined
+      when: device_id is defined and debug_enabled
 
     - name: "linux_generic_instance_syncthing_api_key"
       ansible.builtin.debug:
@@ -195,7 +195,7 @@
     - name: "Display extracted Device IDs"
       ansible.builtin.debug:
         var: syncthing_device_ids_map
-      when: syncthing_device_ids_map is defined
+      when: syncthing_device_ids_map is defined and debug_enabled
 
     - name: "Add device to the control node"
       ansible.builtin.uri:
@@ -213,7 +213,7 @@
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
         var: linux_generic_instance_syncthing_device_id
-      when: linux_generic_instance_syncthing_device_id is defined
+      when: linux_generic_instance_syncthing_device_id is defined and debug_enabled
 
     - name: "Get a list of nodes on the managed node"
       ansible.builtin.command: 'syncthing cli config devices list'
@@ -225,7 +225,7 @@
     - name: "device_ids"
       ansible.builtin.debug:
         var: device_ids.stdout_lines
-      when: device_ids.stdout_lines is defined
+      when: device_ids.stdout_lines is defined and debug_enabled
 
     - name: "Add managed node to main node"
       ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ linux_generic_instance_syncthing_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
