@@ -149,7 +149,7 @@
           X-API-Key: "{{ api_key.stdout }}"
         status_code: [200, 202, 204]
       register: delete_result
-      when: "'default' in folders_list.stdout"
+      # when: "'default' in folders_list.stdout"
 
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli config devices list"
