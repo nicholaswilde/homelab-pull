@@ -178,12 +178,12 @@
 
     - name: "Set fact for managed node device id2"
       ansible.builtin.set_fact:
-        device_id2: "{{ device_ids2.stdout | map(attribute='myID') | list }}"
+        device_id2: "{{ device_ids2.stdout | from_json }}"
       when: device_ids2 is defined
 
     - name: "Show managed node device id2"
       ansible.builtin.debug:
-        var: device_id2
+        var: device_id2.myID
       when: device_id2 is defined and debug_enabled
       
     - name: "linux_generic_instance_syncthing_api_key"
