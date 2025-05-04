@@ -80,7 +80,7 @@
         state: started
       become: true
 
-    - name: "Wait up to 20 seconds for port 8384 to become open on the target host"
+    - name: "Wait up to 20 seconds for port {{ linux_instance_generic_syncthing_port }} to become open on the target host"
       ansible.builtin.wait_for:
         port: "{{ linux_instance_generic_syncthing_port }}"
         delay: 5
@@ -91,7 +91,7 @@
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       loop:
-        - "syncthing cli config gui raw-address set \"0.0.0.0:8384\""
+        - "syncthing cli config gui raw-address set \"0.0.0.0:{{ linux_instance_generic_syncthing_port }}\""
         - "syncthing cli config options natenabled set false"
         - "syncthing cli config options local-ann-enabled set false"
         - "syncthing cli config options global-ann-enabled set false"
@@ -102,7 +102,7 @@
         - "syncthing cli config gui password set {{ ansible_become_pass }}"
         - "syncthing cli operations restart"
 
-    - name: "Wait up to 20 seconds for port 8384 to become open on the target host"
+    - name: "Wait up to 20 seconds for port {{ linux_instance_generic_syncthing_port }} to become open on the target host"
       ansible.builtin.wait_for:
         port: "{{ linux_instance_generic_syncthing_port }}"
         delay: 5
@@ -115,7 +115,7 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-- name: "Get the API key"
+- name: "Get the API key of the managed node"
   ansible.builtin.command: "syncthing cli config gui apikey get"
   register: api_keys
   become_user: "{{ ansible_user }}"
@@ -135,13 +135,13 @@
 
 - name: "Syncthing settings block"
   block:
-    - name: "Get a list of folders"
+    - name: "Get a list of folders on the managed node"
       ansible.builtin.command: "syncthing cli config folders list"
       register: folders_list
       ignore_errors: true
       changed_when: false
 
-    - name: "Send DELETE request to remove default folder"
+    - name: "Send DELETE request to remove default folder from the managed node"
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: DELETE
@@ -151,19 +151,19 @@
       register: delete_result
       when: "'default' in folders_list.stdout"
 
-    - name: "Get the device id"
+    - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli config devices list"
       register: device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
       changed_when: false
 
-    - name: "Set fact for device id"
+    - name: "Set fact for managed node device id"
       ansible.builtin.set_fact:
         device_id: "{{ device_ids.stdout_lines[0] }}"
       when: device_ids | length > 0
 
-    - name: "Show device id"
+    - name: "Show managed node device id"
       ansible.builtin.debug:
         var: device_id
       when: device_id is defined
@@ -173,7 +173,7 @@
         var: linux_generic_instance_syncthing_api_key
       when: linux_generic_instance_syncthing_api_key is defined
 
-    - name: "Get a list of devices from the main node"
+    - name: "Get a list of devices from the control node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
         method: GET
@@ -196,7 +196,7 @@
         var: syncthing_device_ids_map
       when: syncthing_device_ids_map is defined
 
-    - name: "Add device to main node"
+    - name: "Add device to the control node"
       ansible.builtin.uri:
         url: "{{ api_devices_endpoint }}"
         method: POST
@@ -232,11 +232,6 @@
       become_user: "{{ ansible_user }}"
       ignore_errors: true
       when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
-
-    - name: "linux_generic_instance_syncthing_device_id"
-      ansible.builtin.debug:
-        msg: "{{ add_main_result.stdout }}"
-      when: add_main_result.stdout is defined
 
   vars:
     api_endpoint: "http://localhost:{{ linux_instance_generic_syncthing_port }}/rest/config/folders/default"
