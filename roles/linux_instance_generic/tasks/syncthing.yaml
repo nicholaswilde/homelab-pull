@@ -234,7 +234,7 @@
         body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
       when: managed_node_device_id is defined and managed_node_device_id not in syncthing_device_ids_map
-  when: managed_node_api_key is defined
+  when: managed_node_api_key is defined and url_check_result is defined
   ignore_errors: true
 
 - name: "Add control node to the managed node"
