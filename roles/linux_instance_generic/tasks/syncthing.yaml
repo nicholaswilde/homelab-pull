@@ -144,8 +144,7 @@
       ignore_errors: true
       changed_when: false
 
-      # TODO: Replace this by command line or start without creating default folder. --no-default-folder
-
+    # TODO: Replace this by command line or start without creating default folder. --no-default-folder
     - name: "Send DELETE request to remove default folder from the managed node"
       ansible.builtin.uri:
         url: "{{ managed_node_api_folders_endpoint }}/default"
@@ -155,10 +154,6 @@
         status_code: [200, 202, 204]
       register: delete_result
       when: "'default' in folders_list.stdout and managed_node_api_key is defined"
-  vars:
-    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
-    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: managed_node_api_key is defined
   ignore_errors: true    
 
