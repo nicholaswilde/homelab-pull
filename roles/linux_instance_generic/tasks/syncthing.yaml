@@ -260,7 +260,7 @@
   block:
     - name: "Get a list of devices from the control node folder"
       ansible.builtin.uri:
-        url: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders/{{ folder.id }}"
+        url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
         method: GET
         body_format: json
         return_content: true
@@ -286,7 +286,7 @@
 
     - name: "Add managed node to the control node folder"
       ansible.builtin.uri:
-        url: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders/{{ folder.id }}"
+        url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
         method: PATCH
         body_format: json
         headers:
