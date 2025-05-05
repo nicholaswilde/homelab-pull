@@ -1,15 +1,17 @@
 ---
-- name: Setup apt
-  ansible.builtin.include_tasks: apt.yaml
+# - name: Setup apt
+#   ansible.builtin.include_tasks: apt.yaml
 
 # - name: Setup reprepro
 #   ansible.builtin.include_tasks: reprepro.yaml
 
-- name: Install stuff
-  ansible.builtin.include_tasks: install.yaml
+# - name: Install stuff
+#   ansible.builtin.include_tasks: install.yaml
 
 - name: Install syncthing
   ansible.builtin.include_tasks: syncthing.yaml
+  vars:
+    foo: bar
 
 # - name: Setup dotfiles
 #   ansible.builtin.include_tasks: dotfiles.yaml

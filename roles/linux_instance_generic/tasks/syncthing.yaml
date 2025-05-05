@@ -152,23 +152,6 @@
       register: delete_result
       when: "'default' in folders_list.stdout and api_key is defined"
 
-#     - name: "Get the device id of the managed node"
-#       ansible.builtin.command: "syncthing cli config devices list"
-#       register: device_ids
-#       become_user: "{{ ansible_user }}"
-#       ignore_errors: true
-#       changed_when: false
-# 
-#     - name: "Set fact for managed node device id"
-#       ansible.builtin.set_fact:
-#         device_id: "{{ device_ids.stdout_lines[0] }}"
-#       when: device_ids | length > 0
-# 
-#     - name: "Show managed node device id"
-#       ansible.builtin.debug:
-#         var: device_id
-#       when: device_id is defined and debug_enabled
-
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli show system"
       register: managed_node_device_ids
@@ -190,7 +173,7 @@
       ansible.builtin.debug:
         var: managed_node_device_id
       when: managed_node_device_id is defined and debug_enabled
-      
+
     - name: "linux_generic_instance_syncthing_api_key"
       ansible.builtin.debug:
         var: linux_generic_instance_syncthing_api_key
