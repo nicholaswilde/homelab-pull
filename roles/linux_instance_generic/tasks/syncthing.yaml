@@ -139,6 +139,7 @@
 
 - name: "Syncthing settings block"
   block:
+  ignore_errors: true
     - name: "Get a list of folders on the managed node"
       ansible.builtin.command: "syncthing cli config folders list"
       register: folders_list
