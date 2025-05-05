@@ -116,9 +116,8 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-- name: "Managed node API key block"
+- name: "Get the managed node API key"
   block:
-
     - name: "Get the API key of the managed node"
       ansible.builtin.command: "syncthing cli config gui apikey get"
       register: managed_node_api_keys
@@ -137,7 +136,7 @@
       when: managed_node_api_key is defined and debug_enabled
       ignore_errors: true
 
-- name: "Syncthing settings block"
+- name: "Delete the default folder from the managed node"
   block:
     - name: "Get a list of folders on the managed node"
       ansible.builtin.command: "syncthing cli config folders list"
@@ -156,7 +155,15 @@
         status_code: [200, 202, 204]
       register: delete_result
       when: "'default' in folders_list.stdout and managed_node_api_key is defined"
+  vars:
+    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+  when: managed_node_api_key is defined
+  ignore_errors: true    
 
+- name: "Get managed node device ID"
+  block:
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli show system"
       register: managed_node_device_ids
@@ -164,21 +171,29 @@
       ignore_errors: true
       changed_when: false
 
-    - name: "Set fact for managed node device id"
+    - name: "Set fact for managed node device ID"
       ansible.builtin.set_fact:
         managed_node_device_id_json: "{{ managed_node_device_ids.stdout | from_json }}"
       when: managed_node_device_ids is defined
 
-    - name: "Set fact for managed node device id2"
+    - name: "Set fact for managed node device ID"
       ansible.builtin.set_fact:
         managed_node_device_id: "{{ managed_node_device_id_json.myID }}"
       when: managed_node_device_id_json is defined
 
-    - name: "Show managed node device id2"
+    - name: "Show managed node device ID"
       ansible.builtin.debug:
         var: managed_node_device_id
       when: managed_node_device_id is defined and debug_enabled
-
+  vars:
+    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+  when: managed_node_api_key is defined
+  ignore_errors: true
+  
+- name: "Add managed node to the control node"
+  block:
     - name: "linux_generic_instance_syncthing_api_key"
       ansible.builtin.debug:
         var: linux_generic_instance_syncthing_api_key
@@ -207,7 +222,7 @@
         var: syncthing_device_ids_map
       when: syncthing_device_ids_map is defined and debug_enabled
 
-    - name: "Add device to the control node"
+    - name: "Add managed node to the control node"
       ansible.builtin.uri:
         url: "{{ control_node_api_devices_endpoint }}"
         method: POST
@@ -219,13 +234,21 @@
         body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
       when: managed_node_device_id is defined and managed_node_device_id not in syncthing_device_ids_map
+  vars:
+    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+  when: managed_node_api_key is defined
+  ignore_errors: true
 
+- name: "Add control node to the managed node"
+  block:
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
         var: linux_generic_instance_syncthing_device_id
       when: linux_generic_instance_syncthing_device_id is defined and debug_enabled
 
-    - name: "Get a list of nodes on the managed node"
+    - name: "Get a list of devices on the managed node"
       ansible.builtin.command: 'syncthing cli config devices list'
       register: device_ids
       become_user: "{{ syncthing_run_user }}"
@@ -243,8 +266,16 @@
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
-
-    - name: "Get a list of devices from the folder on the control node"
+  vars:
+    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+  when: managed_node_api_key is defined
+  ignore_errors: true
+  
+- name: "Add managed node to the control node folder"
+  block:
+    - name: "Get a list of devices from the control node folder"
       ansible.builtin.uri:
         url: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders/rpmhl-qggvt"
         method: GET
@@ -270,7 +301,7 @@
         var: device_id_list
       when: device_id_list is defined and debug_enabled
 
-    - name: "Add device to the control node folder"
+    - name: "Add managed node to the control node folder"
       ansible.builtin.uri:
         url: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders/rpmhl-qggvt"
         method: PATCH
@@ -284,7 +315,6 @@
       when: managed_node_device_id is defined and managed_node_device_id not in device_id_list
 
       # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
-
   vars:
     # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
     managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
