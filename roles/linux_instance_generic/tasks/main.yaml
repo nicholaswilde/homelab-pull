@@ -13,6 +13,7 @@
   vars:
     control_node_ip: "{{ linux_instance_generic_syncthing_control_node_ip }}" 
     control_node_port: "{{ linux_instance_generic_syncthing_port }}"
+    syncthing_run_user: "{{ ansible_user }}"
 
 # - name: Setup dotfiles
 #   ansible.builtin.include_tasks: dotfiles.yaml
