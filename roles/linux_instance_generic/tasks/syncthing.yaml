@@ -42,7 +42,6 @@
         repo: "deb [signed-by={{ syncthing_keyring_path }} arch={{ syncthing_repo_arch }}] https://apt.syncthing.net/ syncthing stable"
         state: present
         filename: syncthing
-        # update_cache: true
 
     - name: "Install Syncthing package"
       ansible.builtin.apt:
@@ -185,10 +184,10 @@
   
 - name: "Add managed node to the control node"
   block:
-    - name: "control_node_api_key"
+    - name: "Show control_node_api_key"
       ansible.builtin.debug:
         var: control_node_api_key
-      when: control_node_api_key is defined
+      when: control_node_api_key is defined and debug_enabled
 
     - name: "Get a list of devices from the control node"
       ansible.builtin.uri:
