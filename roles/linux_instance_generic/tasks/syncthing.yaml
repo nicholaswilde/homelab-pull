@@ -4,6 +4,7 @@
   register: syncthing_is_installed
   changed_when: syncthing_is_installed.rc != 0
   ignore_errors: true
+  no_log: true
 
 - name: "Install Syncthing using APT"
   block:
