@@ -185,10 +185,10 @@
   
 - name: "Add managed node to the control node"
   block:
-    - name: "linux_generic_instance_syncthing_api_key"
+    - name: "control_node_api_key"
       ansible.builtin.debug:
-        var: linux_generic_instance_syncthing_api_key
-      when: linux_generic_instance_syncthing_api_key is defined
+        var: control_node_api_key
+      when: control_node_api_key is defined
 
     - name: "Get a list of devices from the control node"
       ansible.builtin.uri:
@@ -219,7 +219,7 @@
         method: POST
         body_format: json
         headers:
-          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          X-API-Key: "{{ control_node_api_key | string }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
         body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
@@ -265,7 +265,7 @@
         body_format: json
         return_content: true
         headers:
-          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          X-API-Key: "{{ control_node_api_key | string }}"
           Content-Type: "application/json"
         status_code: 200
       register: get_folder_result
@@ -290,7 +290,7 @@
         method: PATCH
         body_format: json
         headers:
-          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          X-API-Key: "{{ control_node_api_key | string }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
         body: '{ "devices": [ { "deviceID": "{{ managed_node_device_id }}" } ] }'
