@@ -121,20 +121,20 @@
 
     - name: "Get the API key of the managed node"
       ansible.builtin.command: "syncthing cli config gui apikey get"
-      register: api_keys
+      register: managed_node_api_keys
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       changed_when: false
 
     - name: "Set fact for API key"
       ansible.builtin.set_fact:
-        api_key: "{{ api_keys.stdout_lines[0] }}"
-      when: api_keys | length > 0
+        managed_node_api_key: "{{ managed_node_api_keys.stdout_lines[0] }}"
+      when: managed_node_api_keys | length > 0
 
     - name: "Show API key"
       ansible.builtin.debug:
-        var: api_key
-      when: api_key is defined and debug_enabled
+        var: managed_node_api_key
+      when: managed_node_api_key is defined and debug_enabled
       ignore_errors: true
 
 - name: "Syncthing settings block"
@@ -152,10 +152,10 @@
         url: "{{ managed_node_api_folders_endpoint }}/default"
         method: DELETE
         headers:
-          X-API-Key: "{{ api_key }}"
+          X-API-Key: "{{ managed_node_api_key }}"
         status_code: [200, 202, 204]
       register: delete_result
-      when: "'default' in folders_list.stdout and api_key is defined"
+      when: "'default' in folders_list.stdout and managed_node_api_key is defined"
 
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli show system"
@@ -289,5 +289,5 @@
     # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
     managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
     control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
-  when: api_key is defined
+  when: managed_node_api_key is defined
   ignore_errors: true
