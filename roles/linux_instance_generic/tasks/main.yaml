@@ -14,6 +14,10 @@
     control_node_ip: "{{ linux_instance_generic_syncthing_control_node_ip }}" 
     control_node_port: "{{ linux_instance_generic_syncthing_port }}"
     syncthing_run_user: "{{ ansible_user }}"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+    control_node_api_folders_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders"
+    managed_node_api_devices_endpoint: "http://localhost:{{ control_node_port }}/rest/config/devices"
 
 # - name: Setup dotfiles
 #   ansible.builtin.include_tasks: dotfiles.yaml
