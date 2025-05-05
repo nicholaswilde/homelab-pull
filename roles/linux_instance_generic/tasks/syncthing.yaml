@@ -197,7 +197,7 @@
         body_format: json
         return_content: true
         headers:
-          X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
+          X-API-Key: "{{ control_node_api_key | string }}"
           Content-Type: "application/json"
         status_code: 200
       register: get_device_result
