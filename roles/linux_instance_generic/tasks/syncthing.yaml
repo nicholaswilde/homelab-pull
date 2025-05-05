@@ -135,6 +135,16 @@
       when: managed_node_api_key is defined and debug_enabled
       ignore_errors: true
 
+# - name: Check if the control node URL is reachable
+  # ansible.builtin.uri:
+    # url: "{{ linux_instance_generic_reprepro_key_url }}"
+    # method: GET
+    # status_code: 200
+    # timeout: 5
+  # register: url_check_result
+  # ignore_errors: true
+  # no_log: true
+
 - name: "Delete the default folder from the managed node"
   block:
     - name: "Get a list of folders on the managed node"
