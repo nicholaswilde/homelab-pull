@@ -11,7 +11,7 @@
 - name: Install syncthing
   ansible.builtin.include_tasks: syncthing.yaml
   vars:
-    foo: bar
+    control_node_ip: "{{ linux_instance_generic_syncthing_control_node_ip }}" 
 
 # - name: Setup dotfiles
 #   ansible.builtin.include_tasks: dotfiles.yaml
