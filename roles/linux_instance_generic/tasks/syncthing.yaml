@@ -116,23 +116,26 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-- name: "Get the API key of the managed node"
-  ansible.builtin.command: "syncthing cli config gui apikey get"
-  register: api_keys
-  become_user: "{{ syncthing_run_user }}"
-  ignore_errors: true
-  changed_when: false
+- name: API block
+  block:
 
-- name: "Set fact for API key"
-  ansible.builtin.set_fact:
-    api_key: "{{ api_keys.stdout_lines[0] }}"
-  when: api_keys | length > 0
+    - name: "Get the API key of the managed node"
+      ansible.builtin.command: "syncthing cli config gui apikey get"
+      register: api_keys
+      become_user: "{{ syncthing_run_user }}"
+      ignore_errors: true
+      changed_when: false
 
-- name: "Show API key"
-  ansible.builtin.debug:
-    var: api_key
-  when: api_key is defined and debug_enabled
-  ignore_errors: true
+    - name: "Set fact for API key"
+      ansible.builtin.set_fact:
+        api_key: "{{ api_keys.stdout_lines[0] }}"
+      when: api_keys | length > 0
+
+    - name: "Show API key"
+      ansible.builtin.debug:
+        var: api_key
+      when: api_key is defined and debug_enabled
+      ignore_errors: true
 
 - name: "Syncthing settings block"
   block:
