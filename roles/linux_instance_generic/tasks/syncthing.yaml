@@ -310,6 +310,6 @@
       path: ~/.ssh
   loop_control:
     loop_var: folder
-  when: managed_node_api_key is defined
+  when: managed_node_api_key is defined and url_check_result is defined
   ignore_errors: true
   
