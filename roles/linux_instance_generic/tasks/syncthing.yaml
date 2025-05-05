@@ -80,9 +80,9 @@
         state: started
       become: true
 
-    - name: "Wait up to 20 seconds for port {{ linux_instance_generic_syncthing_port }} to become open on the target host"
+    - name: "Wait up to 20 seconds for port {{ control_node_port }} to become open on the target host"
       ansible.builtin.wait_for:
-        port: "{{ linux_instance_generic_syncthing_port }}"
+        port: "{{ control_node_port }}"
         delay: 5
         timeout: 20
 
@@ -103,9 +103,9 @@
         - "syncthing cli config gui password set {{ ansible_become_pass }}"
         - "syncthing cli operations restart"
 
-    - name: "Wait up to 20 seconds for port {{ linux_instance_generic_syncthing_port }} to become open on the target host"
+    - name: "Wait up to 20 seconds for port {{ control_node_port }} to become open on the target host"
       ansible.builtin.wait_for:
-        port: "{{ linux_instance_generic_syncthing_port }}"
+        port: "{{ control_node_port }}"
         delay: 5
         timeout: 20
 
@@ -123,12 +123,12 @@
   ignore_errors: true
   changed_when: false
 
-- name: "Set fact for api key"
+- name: "Set fact for API key"
   ansible.builtin.set_fact:
     api_key: "{{ api_keys.stdout_lines[0] }}"
   when: api_keys | length > 0
 
-- name: "Show api key"
+- name: "Show API key"
   ansible.builtin.debug:
     var: api_key
   when: api_key is defined and debug_enabled
