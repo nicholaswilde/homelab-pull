@@ -139,7 +139,6 @@
 
 - name: "Syncthing settings block"
   block:
-  ignore_errors: true
     - name: "Get a list of folders on the managed node"
       ansible.builtin.command: "syncthing cli config folders list"
       register: folders_list
@@ -290,3 +289,4 @@
     api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
     api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: api_key is defined
+  ignore_errors: true
