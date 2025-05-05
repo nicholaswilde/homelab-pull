@@ -149,7 +149,7 @@
 
     - name: "Send DELETE request to remove default folder from the managed node"
       ansible.builtin.uri:
-        url: "{{ api_endpoint }}"
+        url: "{{ managed_node_api_folders_endpoint }}/default"
         method: DELETE
         headers:
           X-API-Key: "{{ api_key }}"
@@ -186,7 +186,7 @@
 
     - name: "Get a list of devices from the control node"
       ansible.builtin.uri:
-        url: "{{ api_devices_endpoint }}"
+        url: "{{ control_node_api_devices_endpoint }}"
         method: GET
         body_format: json
         return_content: true
@@ -209,7 +209,7 @@
 
     - name: "Add device to the control node"
       ansible.builtin.uri:
-        url: "{{ api_devices_endpoint }}"
+        url: "{{ control_node_api_devices_endpoint }}"
         method: POST
         body_format: json
         headers:
@@ -286,7 +286,8 @@
       # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
 
   vars:
-    api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
+    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
+    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: api_key is defined
   ignore_errors: true
