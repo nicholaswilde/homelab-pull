@@ -152,31 +152,31 @@
       register: delete_result
       when: "'default' in folders_list.stdout and api_key is defined"
 
+#     - name: "Get the device id of the managed node"
+#       ansible.builtin.command: "syncthing cli config devices list"
+#       register: device_ids
+#       become_user: "{{ ansible_user }}"
+#       ignore_errors: true
+#       changed_when: false
+# 
+#     - name: "Set fact for managed node device id"
+#       ansible.builtin.set_fact:
+#         device_id: "{{ device_ids.stdout_lines[0] }}"
+#       when: device_ids | length > 0
+# 
+#     - name: "Show managed node device id"
+#       ansible.builtin.debug:
+#         var: device_id
+#       when: device_id is defined and debug_enabled
+
     - name: "Get the device id of the managed node"
-      ansible.builtin.command: "syncthing cli config devices list"
-      register: device_ids
-      become_user: "{{ ansible_user }}"
-      ignore_errors: true
-      changed_when: false
-
-    - name: "Set fact for managed node device id"
-      ansible.builtin.set_fact:
-        device_id: "{{ device_ids.stdout_lines[0] }}"
-      when: device_ids | length > 0
-
-    - name: "Show managed node device id"
-      ansible.builtin.debug:
-        var: device_id
-      when: device_id is defined and debug_enabled
-
-    - name: "Get the device id of2 the managed node"
       ansible.builtin.command: "syncthing cli show system"
       register: managed_node_device_ids
       become_user: "{{ ansible_user }}"
       ignore_errors: true
       changed_when: false
 
-    - name: "Set fact for managed node device id2"
+    - name: "Set fact for managed node device id"
       ansible.builtin.set_fact:
         managed_node_device_id_json: "{{ managed_node_device_ids.stdout | from_json }}"
       when: managed_node_device_ids is defined
@@ -207,7 +207,7 @@
           Content-Type: "application/json"
         status_code: 200
       register: get_device_result
-      when: device_id is defined
+      when: managed_node_device_id is defined
 
     - name: "Extract Device IDs using map filter"
       ansible.builtin.set_fact:
@@ -228,9 +228,9 @@
           X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
-        body: '{"deviceID": "{{ device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
+        body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
-      when: device_id is defined and device_id not in syncthing_device_ids_map
+      when: managed_node_device_id is defined and managed_node_device_id not in syncthing_device_ids_map
 
     - name: "linux_generic_instance_syncthing_device_id"
       ansible.builtin.debug:
@@ -291,9 +291,9 @@
           X-API-Key: "{{ linux_generic_instance_syncthing_api_key | string }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
-        body: '{ "devices": [ { "deviceID": "{{ device_id }}" } ] }'
+        body: '{ "devices": [ { "deviceID": "{{ managed_node_device_id }}" } ] }'
       register: add_result
-      when: device_id is defined and device_id not in device_id_list
+      when: managed_node_device_id is defined and managed_node_device_id not in device_id_list
 
       # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
 
