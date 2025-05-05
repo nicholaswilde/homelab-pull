@@ -21,6 +21,7 @@
     control_node_api_folders_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders"
     managed_node_api_devices_endpoint: "http://localhost:{{ managed_node_port }}/rest/config/devices"
     control_node_device_id: "{{ linux_generic_instance_syncthing_device_id }}"
+
 # - name: Setup dotfiles
 #   ansible.builtin.include_tasks: dotfiles.yaml
 
