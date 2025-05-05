@@ -296,13 +296,11 @@
         body: '{ "devices": [ { "deviceID": "{{ managed_node_device_id }}" } ] }'
       register: add_result
       when: managed_node_device_id is defined and managed_node_device_id not in device_id_list
-    
-      # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
-
-  when: managed_node_api_key is defined
-  ignore_errors: true
   loop:
     - id: rpmhl-qggvt
       path: ~/.ssh
   loop_control:
     loop_var: folder
+  when: managed_node_api_key is defined
+  ignore_errors: true
+  
