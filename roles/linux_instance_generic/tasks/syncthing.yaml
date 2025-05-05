@@ -185,10 +185,6 @@
       ansible.builtin.debug:
         var: managed_node_device_id
       when: managed_node_device_id is defined and debug_enabled
-  vars:
-    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
-    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: managed_node_api_key is defined
   ignore_errors: true
   
@@ -234,10 +230,6 @@
         body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
       when: managed_node_device_id is defined and managed_node_device_id not in syncthing_device_ids_map
-  vars:
-    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
-    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: managed_node_api_key is defined
   ignore_errors: true
 
@@ -266,10 +258,6 @@
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
-  vars:
-    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
-    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
   when: managed_node_api_key is defined
   ignore_errors: true
   
@@ -315,9 +303,6 @@
       when: managed_node_device_id is defined and managed_node_device_id not in device_id_list
 
       # curl -s -X PATCH -H "X-API-Key: 35P6t2XKq9KKF0R5b4JRu58m1uZGplLn" -d '{ "devices": [ { "deviceID": "6Q5DZNK-OUR81B9-7XVBNEW-G98K9LW-E7ZI313-MSF2DZJ-YU0POJ9-N4FGYV9" } ] }' localhost:8384/rest/config/folders/default
-  vars:
-    # api_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders/default"
-    managed_node_api_folders_endpoint: "http://localhost:{{ control_node_port }}/rest/config/folders"
-    control_node_api_devices_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/devices"
+
   when: managed_node_api_key is defined
   ignore_errors: true
