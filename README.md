@@ -254,6 +254,20 @@ ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)
 
 ---
 
+## :stethoscope: Troubleshooting
+
+Troubleshooting can be done by passing setting `debug_enabled` to `true` or passing in the `-vvv` argument.
+
+```shell
+ansible-pull -e "debug_enabled=true" -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+```shell
+ansible-pull -vvv -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+```
+
+---
+
 ## :balance_scale: License
 
 ​[​Apache License 2.0](./LICENSE)
