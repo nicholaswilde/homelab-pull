@@ -113,14 +113,13 @@
   vars:
     syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
-    syncthing_run_user: "{{ ansible_user }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
 - name: "Get the API key of the managed node"
   ansible.builtin.command: "syncthing cli config gui apikey get"
   register: api_keys
-  become_user: "{{ ansible_user }}"
+  become_user: "{{ syncthing_run_user }}"
   ignore_errors: true
   changed_when: false
 
@@ -158,7 +157,7 @@
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli show system"
       register: managed_node_device_ids
-      become_user: "{{ ansible_user }}"
+      become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       changed_when: false
 
@@ -226,7 +225,7 @@
     - name: "Get a list of nodes on the managed node"
       ansible.builtin.command: 'syncthing cli config devices list'
       register: device_ids
-      become_user: "{{ ansible_user }}"
+      become_user: "{{ syncthing_run_user }}"
       changed_when: false
       ignore_errors: true
 
@@ -238,7 +237,7 @@
     - name: "Add managed node to main node"
       ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ linux_generic_instance_syncthing_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
       register: add_main_result
-      become_user: "{{ ansible_user }}"
+      become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
 
