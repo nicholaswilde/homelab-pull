@@ -116,7 +116,7 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-- name: API block
+- name: "Managed node API key block"
   block:
 
     - name: "Get the API key of the managed node"
