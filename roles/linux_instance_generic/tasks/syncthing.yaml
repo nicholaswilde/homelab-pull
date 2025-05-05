@@ -229,10 +229,10 @@
 
 - name: "Add control node to the managed node"
   block:
-    - name: "linux_generic_instance_syncthing_device_id"
+    - name: "Show control_node_device_id"
       ansible.builtin.debug:
-        var: linux_generic_instance_syncthing_device_id
-      when: linux_generic_instance_syncthing_device_id is defined and debug_enabled
+        var: control_node_device_id
+      when: control_node_device_id is defined and debug_enabled
 
     - name: "Get a list of devices on the managed node"
       ansible.builtin.command: 'syncthing cli config devices list'
@@ -247,11 +247,11 @@
       when: device_ids.stdout_lines is defined and debug_enabled
 
     - name: "Add managed node to main node"
-      ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ linux_generic_instance_syncthing_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
+      ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ control_node_device_id }}" --name "amd2" --addresses dynamic --auto-accept-folders'
       register: add_main_result
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
-      when: linux_generic_instance_syncthing_device_id not in device_ids.stdout_lines
+      when: control_node_device_id not in device_ids.stdout_lines
   when: managed_node_api_key is defined
   ignore_errors: true
   
