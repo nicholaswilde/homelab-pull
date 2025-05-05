@@ -142,7 +142,7 @@
       ignore_errors: true
       changed_when: false
 
-      # TODO: Replace this by command line or start without creating default folder.
+      # TODO: Replace this by command line or start without creating default folder. --no-default-folder
 
     - name: "Send DELETE request to remove default folder from the managed node"
       ansible.builtin.uri:
