@@ -10,8 +10,7 @@
   block:
     - name: "Get a list of devices from the control node folder"
       ansible.builtin.uri:
-        # url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
-        url: "{{ control_node_api_folders_endpoint }}/rpmhl-qggvt"
+        url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
         method: GET
         body_format: json
         return_content: true
@@ -37,8 +36,7 @@
 
     - name: "Add managed node to the control node folder"
       ansible.builtin.uri:
-        # url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
-        url: "{{ control_node_api_folders_endpoint }}/rpmhl-qggvt"
+        url: "{{ control_node_api_folders_endpoint }}/{{ folder.id }}"
         method: PATCH
         body_format: json
         headers:
@@ -66,7 +64,7 @@
       when: managed_node_folders.stdout_lines is defined and debug_enabled
 
     - name: "Add control node folder to managed node"
-      ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "ssh" --path "~/.ssh"'
+      ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "ssh" --path "{{ folder.path }}"'
       register: add_folder_result
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
