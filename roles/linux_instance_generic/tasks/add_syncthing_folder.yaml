@@ -1,4 +1,11 @@
 ---
+- name: "Show loop item"
+  ansible.builtin.debug:
+    var: folder.id
+- name: "Show loop item"
+  ansible.builtin.debug:
+    var: folder.path
+
 - name: "Add control node folder to the managed node"
   block:
     - name: "Get a list of folders on the managed node"
