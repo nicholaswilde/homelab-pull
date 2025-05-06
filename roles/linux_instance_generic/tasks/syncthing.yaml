@@ -66,7 +66,7 @@
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
 
-_ name: "Enable Syncthing service and change config"
+- name: "Enable Syncthing service and change config"
   block:
     - name: "Check if user lingering is already enabled"
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
