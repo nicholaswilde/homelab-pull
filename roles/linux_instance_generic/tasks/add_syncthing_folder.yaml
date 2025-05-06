@@ -1,9 +1,9 @@
 ---
 - name: "Show folder.id"
   ansible.builtin.debug:
-    var:
-      - folder.id
-      - folder.path
+    msg:
+      - "folder.id: {{ folder.id }}"
+      - "folder.path: {{ folder.path }}"
   when: debug_enabled
 
 # - name: "Show folder.path"
