@@ -320,6 +320,13 @@
 
 - name: "Run add_syncthing_folder.yaml"
   ansible.builtin.include_tasks: "add_syncthing_folder.yaml"
+  loop:
+    - id: "rpmhl-qggvt"
+      path: "~/.ssh"
+  loop_control:
+    loop_var: "folder"
+
+    
   
 # - name: "Add control node folder to the managed node"
 #   block:
