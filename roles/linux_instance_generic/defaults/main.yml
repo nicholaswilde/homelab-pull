@@ -19,5 +19,6 @@ linux_instance_generic_reprepro_key_url: "http://deb.l.nicholaswilde.io/public.g
 
 linux_instance_generic_syncthing_port: '8384'
 linux_instance_generic_syncthing_control_node_ip: "192.168.2.28"
+linux_instance_generic_syncthing_control_node_label: "amd2"
 
 debug_enabled: false
