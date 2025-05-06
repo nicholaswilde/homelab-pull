@@ -1,15 +1,10 @@
 ---
-- name: "Show folder.id"
+- name: "Show folder object"
   ansible.builtin.debug:
     msg:
       - "folder.id: {{ folder.id }}"
       - "folder.path: {{ folder.path }}"
   when: debug_enabled
-
-# - name: "Show folder.path"
-#   ansible.builtin.debug:
-#     var: folder.path
-#   when: debug_enabled
 
 - name: "Add control node folder to the managed node"
   block:
