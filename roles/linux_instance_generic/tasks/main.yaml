@@ -29,13 +29,13 @@
 - name: Setup beszel
   ansible.builtin.include_tasks: beszel.yaml
 
-- name: Setup cheat
+- name: "Setup cheat"
   ansible.builtin.include_tasks: cheat.yaml
   apply:
     tags:
       - test
-  tags:
-    - always
+  # tags:
+  #   - always
 # - name: Setup SSH
 #   ansible.builtin.include_tasks: ssh.yaml
 
