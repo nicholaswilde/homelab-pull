@@ -20,8 +20,14 @@
   loop:
     - "{{ ansible_env.HOME }}/.bash_aliases"
     - "{{ ansible_env.HOME }}/.bash_exports"
+    - "{{ ansible_env.HOME }}/.bash_functions"
+    - "{{ ansible_env.HOME }}/.config/cheat"
+    - "{{ ansible_env.HOME }}/.config/gh"
+    - "{{ ansible_env.HOME }}/.config/micro"
     - "{{ ansible_env.HOME }}/.bashrc"
     - "{{ ansible_env.HOME }}/.gitconfig"
+    - "{{ ansible_env.HOME }}/.gnupg/gpg-agent.conf"
+    - "{{ ansible_env.HOME }}/.gnupg/gpg.conf"
   ignore_errors: true
 
 - name: "Stow dotfile configurations"
