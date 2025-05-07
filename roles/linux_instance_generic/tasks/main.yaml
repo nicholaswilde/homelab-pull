@@ -5,8 +5,8 @@
 - name: Setup reprepro
   ansible.builtin.include_tasks: reprepro.yaml
 
-# - name: Install stuff
-#   ansible.builtin.include_tasks: install.yaml
+- name: Install stuff
+  ansible.builtin.include_tasks: install.yaml
 
 - name: Install syncthing
   ansible.builtin.include_tasks: syncthing.yaml
