@@ -1,10 +1,12 @@
 ---
-- hosts: all
+- hosts: "all"
   tasks:
-    - name: add hosts to inventory groups
+    - name: "Add hosts to inventory groups"
       add_host:
         name: "{{ inventory_hostname }}"
         groups: "{{ hostvars[inventory_hostname].pull_groups }}"
-      changed_when: False
-      
+      changed_when: false
+      tags:
+        - always
+
 - import_playbook: playbook.yml
