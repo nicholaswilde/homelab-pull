@@ -74,9 +74,7 @@
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
       register: linger_status
       changed_when: false
-      failed_when:
-        - linger_status.rc != 0
-        - "does not exist" not in linger_status.stderr
+      failed_when: linger_status.rc != 0 and "does not exist" not in linger_status.stderr
       check_mode: false
 
     - name: "Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)"
