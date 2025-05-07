@@ -8,6 +8,9 @@
 - name: Install stuff
   ansible.builtin.include_tasks: install.yaml
 
+- name: Setup dotfiles
+  ansible.builtin.include_tasks: dotfiles.yaml
+
 - name: Install syncthing
   ansible.builtin.include_tasks: syncthing.yaml
   # when: "{{ ansible_hostname }} != 'amd2'"
@@ -22,9 +25,6 @@
     control_node_api_folders_endpoint: "http://{{ control_node_ip }}:{{ control_node_port }}/rest/config/folders"
     managed_node_api_devices_endpoint: "http://localhost:{{ managed_node_port }}/rest/config/devices"
     control_node_device_id: "{{ linux_generic_instance_syncthing_device_id }}"
-
-# - name: Setup dotfiles
-#   ansible.builtin.include_tasks: dotfiles.yaml
 
 # - name: Setup SOPS
 #   ansible.builtin.include_tasks: sops.yaml
