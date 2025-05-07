@@ -65,7 +65,7 @@
       when: managed_node_folders.stdout_lines is defined and debug_enabled
 
     - name: "Add control node folder to managed node"
-      ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "{{ folder.label }}" --path "{{ folder.path }}" --send-ownership --sync-ownership'
+      ansible.builtin.command: "syncthing cli config folders add --id {{ folder.id }} --label {{ folder.label }} --path {{ folder.path }} --send-ownership --sync-ownership"
       register: add_folder_result
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
