@@ -277,10 +277,10 @@
   ansible.builtin.include_tasks: "add_syncthing_folder.yaml"
   loop:
     - id: "rpmhl-qggvt"
-      path: "~/.ssh"
+      path: "{{ ansible_env.HOME }}/.ssh"
       label: "ssh"
     - id: "pxzmd-jwxga"
-      path: "~/.gnupg"
+      path: "{{ ansible_env.HOME }}/.gnupg"
       label: "gpg"
   loop_control:
     loop_var: "folder"
