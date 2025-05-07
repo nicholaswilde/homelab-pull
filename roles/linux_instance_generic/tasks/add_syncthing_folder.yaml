@@ -117,19 +117,22 @@
         path: "{{ folder.path }}"
         state: directory
         owner: "{{ syncthing_run_user }}"
-        # group: "your_user_group" # Replace with the appropriate group
         mode: '0700' # drwx------
 
     - name: "Set permissions for files within {{ folder.path  | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -type f -exec chmod 600 {} \\;"
       changed_when: true
-
+      ignore_errors: true
+      
     - name: "Set permissions for subdirectories within {{ folder.path | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -mindepth 1 -type d -exec chmod 700 {} \\;"
       changed_when: true
-      
+      ignore_errors: true
+
     - name: "Set permissions for *.pub files within {{ folder.path | basename }}"
       ansible.builtin.command: 'find "{{ folder.path }}" -type f -name "*.pub" -exec chmod 644 {} \;'
       changed_when: true
       when: folder.label == "ssh"
+      ignore_errors: true
+      
   when: folder.label == "gpg" or folder.label == "ssh"
