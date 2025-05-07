@@ -10,7 +10,7 @@
 
 - name: Install syncthing
   ansible.builtin.include_tasks: syncthing.yaml
-  when: "{{ ansible_hostname }} != amd2"
+  when: "{{ ansible_hostname }} != 'amd2'"
   vars:
     control_node_api_key: "{{ linux_generic_instance_syncthing_api_key }}"
     control_node_ip: "{{ linux_instance_generic_syncthing_control_node_ip }}" 
