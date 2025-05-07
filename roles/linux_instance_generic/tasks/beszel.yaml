@@ -1,6 +1,5 @@
 ---
-
-- name: beszel-agent block
+- name: "beszel-agent block"
   block:
     - name: Query GitHub API for latest cheat release
       ansible.builtin.uri:
@@ -14,14 +13,16 @@
           User-Agent: "Ansible-Playbook"
       register: github_release_info
       # Optional: Make task robust against temporary network issues
-      # retries: 3
-      # delay: 5
-      # until: github_release_info.status == 200
+      retries: 3
+      delay: 5
+      until: github_release_info.status == 200
 
-    - name: Extract and store the latest version tag
+    - name: "Extract and store the latest version tag"
       ansible.builtin.set_fact:
         desired_version: "{{ github_release_info.json.tag_name | regex_search(version_regex, '\\1') | first | default('none') }}"
-      when: github_release_info.status == 200 and github_release_info.json is defined
+      when:
+        - github_release_info.status == 200
+        - github_release_info.json is defined
 
     - name: "Check current version of {{ app_name }}"
       ansible.builtin.command: "{{ app_version_command }}"
@@ -34,29 +35,29 @@
         current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
       when: version_check_result.rc == 0
 
-    - name: Another cheat block
+    - name: "Another cheat block"
       block:
-        - name: Show desigred version
+        - name: "Show desigred version"
           ansible.builtin.debug:
             msg: "desired_version: {{ desired_version }}\ncurrent_version: {{ current_version }}"
           when: current_version is defined
 
-        - name: Create beszel agent service file
+        - name: "Create beszel agent service file"
           ansible.builtin.template:
             src: beszel-agent.service.j2
             dest: "/etc/systemd/system/beszel-agent.service"
 
-        - name: Setup update service
+        - name: "Setup update service"
           ansible.builtin.copy:
             src: beszel-agent-update.service
             dest: "/etc/systemd/system/beszel-agent-update.service"
 
-        - name: Setup timer
+        - name: "Setup timer"
           ansible.builtin.copy:
             src: beszel-agent-update.timer
             dest: "/etc/systemd/system/beszel-agent-update.timer"
 
-        - name: Just force systemd to reread configs (2.4 and above)
+        - name: "Just force systemd to reread configs"
           ansible.builtin.systemd_service:
             daemon_reload: true
             name: beszel-agent.service
@@ -64,14 +65,14 @@
             state: started
           ignore_errors: true
 
-        - name: Enable beszel-agent-update.timer
+        - name: "Enable beszel-agent-update.timer"
           ansible.builtin.systemd_service:
             name: beszel-agent-update.timer
             state: started
             enabled: true
           ignore_errors: true
 
-        - name: Check if the target URL is reachable
+        - name: "Check if the target URL is reachable"
           ansible.builtin.uri:
             url: "https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent"
             method: GET
@@ -81,13 +82,13 @@
           ignore_errors: true
           no_log: true
 
-        - name: Install beszel-agent
+        - name: "Install beszel-agent"
           ansible.builtin.shell: "curl -s https://installer.l.nicholaswilde.io/henrygd/beszel?as=beszel-agent | bash"
           args:
             chdir: "/usr/local/bin"
           when: not url_check_result.failed
 
-        - name: Install beszel-agent
+        - name: "Install beszel-agent"
           ansible.builtin.shell: "curl -s https://i.jpillora.com/henrygd/beszel?as=beszel-agent | bash"
           args:
             chdir: "/usr/local/bin"
@@ -103,6 +104,5 @@
     repo_name: "beszel"
     owner_name: "henrygd"
     app_version_command: "{{ app_name }} version"
-    # desired_version: "4.4.3"  # The specific version you want installed
     version_regex: '(\d+\.\d+\.\d+)'
     github_api_url: "https://api.github.com/repos/{{ owner_name }}/{{ repo_name }}/releases/latest"
