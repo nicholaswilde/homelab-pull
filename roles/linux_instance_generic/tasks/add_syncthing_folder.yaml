@@ -129,7 +129,7 @@
       changed_when: true
       
     - name: "Set permissions for *.pub files within {{ folder.path | basename }}"
-      ansible.builtin.command: 'find "{{ folder.path }}" -type f -name "*.pub" -exec chmod 644 {} \\;'
+      ansible.builtin.command: 'find "{{ folder.path }}" -type f -name "*.pub" -exec chmod 644 {} \;'
       changed_when: true
       when: folder.label == "ssh"
   when: folder.label == "gpg" or folder.label == "ssh"
