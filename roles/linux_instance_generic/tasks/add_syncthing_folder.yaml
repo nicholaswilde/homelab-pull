@@ -110,9 +110,9 @@
   when: managed_node_api_key is defined and not url_check_result.failed
   ignore_errors: true
 
-- name: "Update gpg block"
+- name: "Update {{ folder.label }} permissions"
   block:
-    - name: "Ensure .gnupg directory exists and has correct permissions"
+    - name: "Ensure {{ folder.path | basename }} directory exists and has correct permissions"
       ansible.builtin.file:
         path: "{{ folder.path }}"
         state: directory
@@ -120,11 +120,16 @@
         # group: "your_user_group" # Replace with the appropriate group
         mode: '0700' # drwx------
 
-    - name: "Set permissions for files within .gnupg"
+    - name: "Set permissions for files within {{ folder.path  | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -type f -exec chmod 600 {} \\;"
       changed_when: true
 
-    - name: "Set permissions for subdirectories within .gnupg"
+    - name: "Set permissions for subdirectories within {{ folder.path | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -mindepth 1 -type d -exec chmod 700 {} \\;"
       changed_when: true
-  when: folder.label == "gpg"
+      
+    - name: "Set permissions for *.pub files within {{ folder.path | basename }}"
+      ansible.builtin.command: 'find "{{ folder.path }}" -type f -name "*.pub" -exec chmod 644 {} \\;'
+      changed_when: true
+      when: folder.label == "ssh"
+  when: folder.label == "gpg" or folder.label == "ssh"
