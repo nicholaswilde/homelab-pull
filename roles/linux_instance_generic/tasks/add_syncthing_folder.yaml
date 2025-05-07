@@ -62,7 +62,9 @@
     - name: "managed_node_folders"
       ansible.builtin.debug:
         var: managed_node_folders.stdout_lines
-      when: managed_node_folders.stdout_lines is defined and debug_enabled
+      when:
+        - managed_node_folders.stdout_lines is defined
+        - debug_enabled
 
     - name: "Add control node folder to managed node"
       ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "{{ folder.label }}" --path "{{ folder.path }}"'
@@ -88,7 +90,9 @@
     - name: "Create a list map of just the device IDs from the folder"
       ansible.builtin.set_fact:
         device_id_list: "{{ folder_objects | map(attribute='deviceID') | list }}"
-      when: folder_objects is iterable and folder_objects is not string
+      when:
+        - folder_objects is iterable
+        - folder_objects is not string
 
     - name: "Display the list of Device IDs"
       ansible.builtin.debug:
@@ -106,8 +110,12 @@
         status_code: [200, 202, 204]
         body: '{ "devices": [ { "deviceID": "{{ control_node_device_id }}" } ] }'
       register: add_result
-      when: control_node_device_id is defined and control_node_device_id not in device_id_list
-  when: managed_node_api_key is defined and not url_check_result.failed
+      when:
+        - control_node_device_id is defined
+        - control_node_device_id not in device_id_list
+  when:
+    - managed_node_api_key is defined
+    - not url_check_result.failed
   ignore_errors: true
 
 - name: "Update {{ folder.label }} permissions"
@@ -134,5 +142,7 @@
       changed_when: true
       when: folder.label == "ssh"
       ignore_errors: true
-      
-  when: folder.label == "gpg" or folder.label == "ssh"
+
+  when:
+    - folder.label == "gpg" or folder.label == "ssh"
+    - add_result is defined
