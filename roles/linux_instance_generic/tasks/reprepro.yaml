@@ -1,5 +1,5 @@
 ---
-- name: Check if the target URL is reachable
+- name: "Check if the reprepro server is reachable"
   ansible.builtin.uri:
     url: "{{ linux_instance_generic_reprepro_key_url }}"
     method: GET
@@ -11,19 +11,18 @@
 
 - name: "Run reprepro block"
   block:
-
-    - name: Download reprepro key
+    - name: "Download reprepro key"
       ansible.builtin.get_url:
         url: "{{ linux_instance_generic_reprepro_key_url }}"
         dest: "/etc/apt/trusted.gpg.d/reprepro.asc"
       ignore_errors: true
 
-    - name: Setup reprepro source
+    - name: "Setup reprepro source"
       ansible.builtin.template:
         src: "reprepro.list.j2"
         dest: "/etc/apt/sources.list.d/reprepro.list"
 
-    - name: "Install apt packages"
+    - name: "Install apt packages task and sops"
       ansible.builtin.apt:
         pkg:
           - task
@@ -31,5 +30,4 @@
         state: latest
         update_cache: true
       ignore_errors: true
-
   when: not url_check_result.failed
