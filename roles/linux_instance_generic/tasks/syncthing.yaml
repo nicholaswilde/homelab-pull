@@ -58,7 +58,9 @@
     - name: "Print Syncthing version"
       ansible.builtin.debug:
         msg: "{{ syncthing_version_output.stdout }}"
-      when: syncthing_version_output is defined and debug_enabled
+      when:
+        - syncthing_version_output is defined
+        - debug_enabled
 
   vars:
     syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
@@ -72,7 +74,9 @@
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
       register: linger_status
       changed_when: false
-      failed_when: linger_status.rc != 0 and "does not exist" not in linger_status.stderr
+      failed_when:
+        - linger_status.rc != 0
+        - "does not exist" not in linger_status.stderr
       check_mode: false
 
     - name: "Enable systemd lingering for the Syncthing user (recommended for auto-start on boot)"
@@ -140,7 +144,9 @@
     - name: "Show API key"
       ansible.builtin.debug:
         var: managed_node_api_key
-      when: managed_node_api_key is defined and debug_enabled
+      when:
+        - managed_node_api_key is defined
+        - debug_enabled
       ignore_errors: true
 
 - name: Check if the control node URL is reachable
@@ -196,7 +202,9 @@
     - name: "Show managed node device ID"
       ansible.builtin.debug:
         var: managed_node_device_id
-      when: managed_node_device_id is defined and debug_enabled
+      when:
+        - managed_node_device_id is defined
+        - debug_enabled
   when: managed_node_api_key is defined
   ignore_errors: true
   
@@ -205,7 +213,9 @@
     - name: "Show control_node_api_key"
       ansible.builtin.debug:
         var: control_node_api_key
-      when: control_node_api_key is defined and debug_enabled
+      when:
+        - control_node_api_key is defined
+        - debug_enabled
 
     - name: "Get a list of devices from the control node"
       ansible.builtin.uri:
@@ -228,7 +238,9 @@
     - name: "Display extracted Device IDs"
       ansible.builtin.debug:
         var: syncthing_device_ids_map
-      when: syncthing_device_ids_map is defined and debug_enabled
+      when:
+        - syncthing_device_ids_map is defined
+        - debug_enabled
 
     - name: "Add managed node to the control node"
       ansible.builtin.uri:
@@ -241,8 +253,12 @@
         status_code: [200, 202, 204]
         body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
       register: add_result
-      when: managed_node_device_id is defined and managed_node_device_id not in syncthing_device_ids_map
-  when: managed_node_api_key is defined and not url_check_result.failed
+      when:
+        - managed_node_device_id is defined
+        - managed_node_device_id not in syncthing_device_ids_map
+  when:
+    - managed_node_api_key is defined
+    - not url_check_result.failed
   ignore_errors: true
 
 - name: "Add control node to the managed node"
@@ -250,7 +266,9 @@
     - name: "Show control_node_device_id"
       ansible.builtin.debug:
         var: control_node_device_id
-      when: control_node_device_id is defined and debug_enabled
+      when:
+        - control_node_device_id is defined
+        - debug_enabled
 
     - name: "Get a list of devices on the managed node"
       ansible.builtin.command: 'syncthing cli config devices list'
@@ -262,7 +280,9 @@
     - name: "device_ids"
       ansible.builtin.debug:
         var: device_ids.stdout_lines
-      when: device_ids.stdout_lines is defined and debug_enabled
+      when:
+        - device_ids.stdout_lines is defined
+        - debug_enabled
 
     - name: "Add managed node to main node"
       ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ control_node_device_id }}" --name "{{ linux_instance_generic_syncthing_control_node_label }}" --addresses dynamic'
@@ -287,3 +307,5 @@
       label: "sops"
   loop_control:
     loop_var: "folder"
+  when:
+    - not url_check_result.failed
