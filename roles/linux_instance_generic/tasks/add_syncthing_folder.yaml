@@ -64,7 +64,7 @@
       when: managed_node_folders.stdout_lines is defined and debug_enabled
 
     - name: "Add control node folder to managed node"
-      ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "ssh" --path "{{ folder.path }}"'
+      ansible.builtin.command: 'syncthing cli config folders add --id "{{ folder.id }}" --label "{{ folder.label }}" --path "{{ folder.path }}"'
       register: add_folder_result
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true

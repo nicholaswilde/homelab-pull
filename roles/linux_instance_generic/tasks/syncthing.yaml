@@ -278,5 +278,9 @@
   loop:
     - id: "rpmhl-qggvt"
       path: "~/.ssh"
+      label: "ssh"
+    - id: "pxzmd-jwxga"
+      path: "~/.gnupg"
+      label: "gpg"
   loop_control:
     loop_var: "folder"
