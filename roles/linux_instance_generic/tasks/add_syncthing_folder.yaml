@@ -2,6 +2,7 @@
 - name: "Show folder object"
   ansible.builtin.debug:
     msg:
+      - "folder.label: {{ folder.label }}"
       - "folder.id: {{ folder.id }}"
       - "folder.path: {{ folder.path }}"
   when: debug_enabled
