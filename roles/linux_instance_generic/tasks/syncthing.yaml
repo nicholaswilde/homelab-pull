@@ -282,5 +282,8 @@
     - id: "pxzmd-jwxga"
       path: "{{ ansible_env.HOME }}/.gnupg"
       label: "gpg"
+    - id: "plxr3-eyjeu"
+      path: "{{ ansible_env.HOME }}/.config/sops/age"
+      label: "sops"
   loop_control:
     loop_var: "folder"
