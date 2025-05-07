@@ -30,7 +30,8 @@
   ansible.builtin.include_tasks: beszel.yaml
 
 - name: "Setup cheat"
-  ansible.builtin.include_tasks: cheat.yaml
+  ansible.builtin.include_tasks:
+    file: "cheat.yaml"
     apply:
       tags:
         - test
