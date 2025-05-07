@@ -31,11 +31,11 @@
 
 - name: "Setup cheat"
   ansible.builtin.include_tasks: cheat.yaml
-  apply:
-    tags:
-      - test
-  # tags:
-  #   - always
+    apply:
+      tags:
+        - test
+  tags:
+    - always
 # - name: Setup SSH
 #   ansible.builtin.include_tasks: ssh.yaml
 
