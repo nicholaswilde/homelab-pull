@@ -109,3 +109,22 @@
       when: control_node_device_id is defined and control_node_device_id not in device_id_list
   when: managed_node_api_key is defined and not url_check_result.failed
   ignore_errors: true
+
+- name: "Update gpg block"
+  block:
+    - name: "Ensure .gnupg directory exists and has correct permissions"
+      ansible.builtin.file:
+        path: "{{ folder.path }}"
+        state: directory
+        owner: "{{ syncthing_run_user }}"
+        # group: "your_user_group" # Replace with the appropriate group
+        mode: '0700' # drwx------
+
+    - name: "Set permissions for files within .gnupg"
+      ansible.builtin.command: "find {{ folder.path }} -type f -exec chmod 600 {} \\;"
+      changed_when: true
+
+    - name: "Set permissions for subdirectories within .gnupg"
+      ansible.builtin.command: "find {{ folder.path }} -mindepth 1 -type d -exec chmod 700 {} \\;"
+      changed_when: true
+  when: folder.label == "gpg"
