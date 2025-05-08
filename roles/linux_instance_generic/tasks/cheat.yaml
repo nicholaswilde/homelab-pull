@@ -87,7 +87,7 @@
             url: "https://i.jpillora.com/cheat/cheat?type=script"
             return_content: true
           ignore_errors: true
-          when: this is undefined or this.failed
+          when: this is undefined
 
         - name: "Write install script to file"
           ansible.builtin.copy:
