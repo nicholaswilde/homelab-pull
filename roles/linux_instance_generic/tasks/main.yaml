@@ -71,6 +71,7 @@
     apply:
       tags:
         - cheat
+        - test
   tags:
     - always
 
@@ -113,7 +114,6 @@
     file: "micro.yaml"
     apply:
       tags:
-        - test
         - micro
   tags:
     - always
