@@ -99,6 +99,10 @@
           register: install_file
           when: this.content is defined
 
+        - name: "Show copy of /tmp/cheat.sh"
+          ansible.builtin.debug:
+            var: install_file
+
         - name: "Execute the remote bash script using shell"
           ansible.builtin.shell:
             cmd: "/tmp/cheat.sh"
