@@ -98,21 +98,25 @@
     apply:
       tags:
         - chromeos
-        - test
   loop:
     - sourceFile: "hterm-notify.sh"
       destFile: "notify"
     - sourceFile: "hterm-show-file.sh"
       destFile: "show-file"
     - sourceFile: "osc52.sh"
-      destFile: "copy"
-            
+      destFile: "copy"            
   tags:
     - always
 
-# - name: Setup micro
-#   ansible.builtin.include_tasks: 
-      # file: "micro.yaml"
+- name: "Setup micro"
+  ansible.builtin.include_tasks:
+    file: "micro.yaml"
+    apply:
+      tags:
+        - test
+        - micro
+  tags:
+    - always
 
 # - name: Setup tmux
 #   ansible.builtin.include_tasks: 
