@@ -1,18 +1,23 @@
 ---
-- name: Setup apt
-  ansible.builtin.include_tasks: apt.yaml
+- name: "Setup apt"
+  ansible.builtin.include_tasks:
+    file: "apt.yaml"
 
-- name: Setup reprepro
-  ansible.builtin.include_tasks: reprepro.yaml
+- name: "Setup reprepro"
+  ansible.builtin.include_tasks:
+    file: "reprepro.yaml"
 
-- name: Install stuff
-  ansible.builtin.include_tasks: install.yaml
+- name: "Install stuff"
+  ansible.builtin.include_tasks:
+    file: "install.yaml"
 
-- name: Setup dotfiles
-  ansible.builtin.include_tasks: dotfiles.yaml
+- name: "Setup dotfiles"
+  ansible.builtin.include_tasks:
+    file: "dotfiles.yaml"
 
-- name: Install syncthing
-  ansible.builtin.include_tasks: syncthing.yaml
+- name: "Install syncthing"
+  ansible.builtin.include_tasks:
+    file: "syncthing.yaml"
   # when: "{{ ansible_hostname }} != 'amd2'"
   vars:
     control_node_api_key: "{{ linux_generic_instance_syncthing_api_key }}"
@@ -39,15 +44,19 @@
     file: "git.yaml"
     apply:
       tags:
-        - test
+        - git
   tags:
     - always
 
-# - name: Setup GPG
-#   ansible.builtin.include_tasks: gpg.yaml
-
-# - name: Setup bash
-#   ansible.builtin.include_tasks: bash.yaml
+- name: "Setup bash"
+  ansible.builtin.include_tasks:
+    file: "bash.yaml"
+    apply:
+      tags:
+        - test
+        - bash
+  tags:
+    - always
 
 # - name: Setup ChromeOS script
 #   ansible.builtin.include_tasks: chromeos.yaml
