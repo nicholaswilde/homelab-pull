@@ -99,19 +99,22 @@
           register: install_file
           when: this.content is defined
 
-        - name: "Show copy of /tmp/cheat.sh"
-          ansible.builtin.debug:
-            var: install_file
+        
 
         - name: "Execute the remote bash script using shell"
           ansible.builtin.shell:
             cmd: "/tmp/cheat.sh"
             chdir: "/tmp/"
           ignore_errors: true
+          register: run_cheat_script
           when:
             - install_file is defined
             - not install_file.failed
 
+        - name: "Show copy of /tmp/cheat.sh"
+          ansible.builtin.debug:
+            var: run_cheat_script
+            
         - name: "Move cheat"
           ansible.builtin.copy:
             src: "/tmp/cheat"
@@ -120,6 +123,9 @@
             mode: 0755
             force: true
           ignore_errors: true
+          when:
+            - run_cheat_script is defined
+            - not run_cheat_script.failed
 
         - name: "Cleanup files"
           ansible.builtin.file:
