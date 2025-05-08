@@ -26,22 +26,22 @@
     managed_node_api_devices_endpoint: "http://localhost:{{ managed_node_port }}/rest/config/devices"
     control_node_device_id: "{{ linux_generic_instance_syncthing_device_id }}"
 
-- name: Setup beszel
-  ansible.builtin.include_tasks: beszel.yaml
+- name: "Setup beszel"
+  ansible.builtin.include_tasks:
+    file: "beszel.yaml"
 
 - name: "Setup cheat"
   ansible.builtin.include_tasks:
     file: "cheat.yaml"
+
+- name: "Setup git"
+  ansible.builtin.include_tasks:
+    file: "git.yaml"
     apply:
       tags:
         - test
   tags:
     - always
-# - name: Setup SSH
-#   ansible.builtin.include_tasks: ssh.yaml
-
-# - name: Setup git
-#   ansible.builtin.include_tasks: git.yaml
 
 # - name: Setup GPG
 #   ansible.builtin.include_tasks: gpg.yaml
