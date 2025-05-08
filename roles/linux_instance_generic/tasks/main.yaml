@@ -71,7 +71,6 @@
     apply:
       tags:
         - cheat
-        - test
   tags:
     - always
 
@@ -115,6 +114,7 @@
     apply:
       tags:
         - micro
+        - test
   tags:
     - always
 
