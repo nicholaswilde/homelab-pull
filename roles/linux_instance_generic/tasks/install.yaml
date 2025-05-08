@@ -35,6 +35,7 @@
       - dnsutils
       - jq
       - tmux
+      - fzf
     state: latest
     update_cache: true
   ignore_errors: true

@@ -5,9 +5,17 @@
     state: directory
     mode: '0755'
 
-- name: "Install plugins"
+- name: "Install micro plugins"
   ansible.builtin.command: "micro -plugin install {{ item }}"
   loop:
     - "wc"
     - "fzf"
     - "wakatime"
+
+- name: "Copy .wakatime.cfg from template"
+  ansible.builtin.template:
+    src: ".wakatime.cfg.j2"
+    dest: "~/.wakatime.cfg"
+    mode: '0600'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
