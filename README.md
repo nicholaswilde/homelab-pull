@@ -170,7 +170,7 @@ vault_password_file = ~/.config/homelab-pull/password
 The password file then can be used to encrypt a string value `bar` with name `foo`.
 
 ```shell
-echo "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
+printf %s "bar" | ansible-vault encrypt_string --vault-password-file ~/.config/homelab-pull/password --stdin-name foo
 ```
 
 ```yaml
@@ -284,7 +284,6 @@ Individual task files can be tested by using tags, such as `test`.
 ```shell
 ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)," 
 ```
-
 
 ---
 
