@@ -15,6 +15,9 @@
       ansible.builtin.git:
         repo: 'https://github.com/tmux-plugins/tpm'
         dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+        accept_hostkey: true
+        force: true
+      become: false
       register: tpm_result
 
     - name: "Install tmux plugins"
