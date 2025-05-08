@@ -266,6 +266,26 @@ ansible-pull -e "debug_enabled=true" -U http://github.com/nicholaswilde/homelab-
 ansible-pull -vvv -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
 ```
 
+Individual task files can be tested by using tags, such as `test`.
+
+
+```yaml
+- name: Setup tmux
+  ansible.builtin.include_tasks: 
+    file: "tmux.yaml"
+    apply:
+      tags:
+        - tmux
+        - test
+  tags:
+    - always
+```
+
+```shell
+ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)," 
+```
+
+
 ---
 
 ## :balance_scale: License
