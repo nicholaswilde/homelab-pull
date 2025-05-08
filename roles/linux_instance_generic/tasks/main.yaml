@@ -114,13 +114,18 @@
     apply:
       tags:
         - micro
-        - test
   tags:
     - always
 
-# - name: Setup tmux
-#   ansible.builtin.include_tasks: 
-      # file: "tmux.yaml"
+- name: Setup tmux
+  ansible.builtin.include_tasks: 
+    file: "tmux.yaml"
+    apply:
+      tags:
+        - tmux
+        - test
+  tags:
+    - always
 
 # - name: Setup apprise
 #   ansible.builtin.include_tasks:
