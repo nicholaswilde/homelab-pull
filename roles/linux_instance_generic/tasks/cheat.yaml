@@ -110,10 +110,6 @@
           when:
             - install_file is defined
             - not install_file.failed
-
-        - name: "Show copy of /tmp/cheat.sh"
-          ansible.builtin.debug:
-            var: run_cheat_script
             
         - name: "Move cheat"
           ansible.builtin.copy:
