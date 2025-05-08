@@ -2,22 +2,47 @@
 - name: "Setup apt"
   ansible.builtin.include_tasks:
     file: "apt.yaml"
+    apply:
+      tags:
+        - apt
+  tags:
+    - always
 
 - name: "Setup reprepro"
   ansible.builtin.include_tasks:
     file: "reprepro.yaml"
+    apply:
+      tags:
+        - reprepro
+  tags:
+    - always
 
 - name: "Install stuff"
   ansible.builtin.include_tasks:
     file: "install.yaml"
+    apply:
+      tags:
+        - install
+  tags:
+    - always
 
 - name: "Setup dotfiles"
   ansible.builtin.include_tasks:
     file: "dotfiles.yaml"
+    apply:
+      tags:
+        - dotfiles
+  tags:
+    - always
 
 - name: "Install syncthing"
   ansible.builtin.include_tasks:
     file: "syncthing.yaml"
+    apply:
+      tags:
+        - syncthing
+  tags:
+    - always
   # when: "{{ ansible_hostname }} != 'amd2'"
   vars:
     control_node_api_key: "{{ linux_generic_instance_syncthing_api_key }}"
@@ -34,10 +59,20 @@
 - name: "Setup beszel"
   ansible.builtin.include_tasks:
     file: "beszel.yaml"
+    apply:
+      tags:
+        - beszel
+  tags:
+    - always
 
 - name: "Setup cheat"
   ansible.builtin.include_tasks:
     file: "cheat.yaml"
+    apply:
+      tags:
+        - cheat
+  tags:
+    - always
 
 - name: "Setup git"
   ansible.builtin.include_tasks:
@@ -53,22 +88,40 @@
     file: "bash.yaml"
     apply:
       tags:
-        - test
         - bash
   tags:
     - always
 
-# - name: Setup ChromeOS script
-#   ansible.builtin.include_tasks: chromeos.yaml
+- name: "Setup ChromeOS scripts"
+  ansible.builtin.include_tasks:
+    file: "chromeos.yaml"
+    apply:
+      tags:
+        - chromeos
+        - test
+  loop:
+    - sourceFile: "hterm-notify.sh"
+      destFile: "notify"
+    - sourceFile: "hterm-show-file.sh"
+      destFile: "show-file"
+    - sourceFile: "osc52.sh"
+      destFile: "copy"
+            
+  tags:
+    - always
 
 # - name: Setup micro
-#   ansible.builtin.include_tasks: micro.yaml
+#   ansible.builtin.include_tasks: 
+      # file: "micro.yaml"
 
 # - name: Setup tmux
-#   ansible.builtin.include_tasks: tmux.yaml
+#   ansible.builtin.include_tasks: 
+      # file: "tmux.yaml"
 
 # - name: Setup apprise
-#   ansible.builtin.include_tasks: apprise.yaml
+#   ansible.builtin.include_tasks:
+      # file: "apprise.yaml"
 
 # - name: Setup autofs
-#   ansible.builtin.include_tasks: autofs.yaml
+#   ansible.builtin.include_tasks:
+      # file: "autofs.yaml"

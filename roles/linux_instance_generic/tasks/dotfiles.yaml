@@ -37,3 +37,9 @@
   register: stow_result
   changed_when: "'LINK' in stow_result.stdout"
   become: false
+
+- name: "Source bashrc"
+  ansible.builtin.shell: "source {{ ansible_env.HOME }}/.bashrc"
+  args:
+    executable: "/bin/bash"
+  when: stow_result.changed

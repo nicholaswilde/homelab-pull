@@ -4,17 +4,6 @@
     name: "{{ ansible_user }}"
     shell: "/bin/bash"
 
-# - name: "Update .bash_aliases"
-#   ansible.builtin.template:
-#     src: .bash_aliases.j2
-#     dest: "{{ ansible_env.HOME }}/.bash_aliases"
-# 
-# - name: "Update .bashrc"
-#   ansible.builtin.copy:
-#     src: .bashrc
-#     dest: "{{ ansible_env.HOME }}/.bashrc"
-#   register: update_bash_result
-
 - name: "Replace old hostname with new hostname"
   ansible.builtin.replace:
     path: "{{ ansible_env.HOME }}/.bashrc"
