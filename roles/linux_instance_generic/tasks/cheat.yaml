@@ -108,7 +108,9 @@
             cmd: "/tmp/cheat.sh"
             chdir: "/tmp/"
           ignore_errors: true
-          when: install_file.rc == 0
+          when:
+            - install_file is defined
+            - not install_file.failed
 
         - name: "Move cheat"
           ansible.builtin.copy:
