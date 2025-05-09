@@ -6,6 +6,15 @@
     update_cache: true
   become: true
   when: ansible_os_family == "Debian"
+  register: update_bash_result
+
+- name: "Source bashrc"
+  ansible.builtin.shell: "source {{ ansible_env.HOME }}/.bashrc"
+  args:
+    executable: "/bin/bash"
+  when:
+    - update_bash_result is defined
+    - update_bash_result.changed
 
 - name: "Install apprise"
   community.general.pipx:
