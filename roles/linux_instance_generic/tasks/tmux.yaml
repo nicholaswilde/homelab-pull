@@ -25,5 +25,6 @@
       environment:
         TMUX_PLUGIN_MANAGER_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
       when: tpm_result.changed
+      become: false
   vars:
     TMUX_PLUGIN_MGR_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
