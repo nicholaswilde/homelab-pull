@@ -6,11 +6,6 @@
         path: "{{ compose_project_dir }}/{{ compose_file_name }}"
       register: compose_file_stat
 
-    - name: "Fail if {{ compose_file_name }} does not exist"
-      ansible.builtin.fail:
-        msg: "The {{ compose_file_name }} file was not found in the specified directory '{{ compose_project_dir }}'. Please ensure the file exists on the target host(s)."
-      when: not compose_file_stat.stat.exists
-
     - name: "Update Docker Compose services (pull images, recreate containers)"
       community.docker.docker_compose_v2:
         project_src: "{{ compose_project_dir }}"
@@ -22,6 +17,7 @@
         build: false
       register: compose_update_result
       notify: "Show Docker Compose Update Info"
+      when: compose_file_stat.stat.exists
 
   handlers:
     - name: "Show Docker Compose Update Info"
