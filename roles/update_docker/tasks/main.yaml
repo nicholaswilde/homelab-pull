@@ -33,7 +33,7 @@
         # verbosity: 1 # Only show with -v
   vars:
     # --- User Configuration ---
-    compose_project_dir: "/path/to/your/docker/compose/app"
+    compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
     # compose_project_name: "my_app_stack"
     compose_file_name: "compose.yaml"
     # --- End User Configuration ---
