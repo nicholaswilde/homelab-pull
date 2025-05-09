@@ -2,7 +2,7 @@
 - hosts: "all"
   tasks:
     - name: "Add hosts to inventory groups"
-      add_host:
+      ansible.builtin.add_host:
         name: "{{ inventory_hostname }}"
         groups: "{{ hostvars[inventory_hostname].pull_groups }}"
       changed_when: false
