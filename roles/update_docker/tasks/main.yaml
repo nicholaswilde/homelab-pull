@@ -16,20 +16,8 @@
         remove_orphans: true
         build: false
       register: compose_update_result
-      notify: "Show Docker Compose Update Info"
       when: compose_file_stat.stat.exists
 
-  handlers:
-    - name: "Show Docker Compose Update Info"
-      listen: Show Docker Compose Update Info
-      ansible.builtin.debug:
-        msg: "Docker Compose update process completed. Review task output for details."
-        # You can access detailed output via compose_update_result if needed, e.g.:
-        # var: compose_update_result
-        # verbosity: 1 # Only show with -v
   vars:
-    # --- User Configuration ---
     compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
-    # compose_project_name: "my_app_stack"
     compose_file_name: "compose.yaml"
-    # --- End User Configuration ---
