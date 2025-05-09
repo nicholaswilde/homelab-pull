@@ -114,12 +114,11 @@
     apply:
       tags:
         - micro
-        - test
   tags:
     - always
 
 - name: "Setup tmux"
-  ansible.builtin.include_tasks: 
+  ansible.builtin.include_tasks:
     file: "tmux.yaml"
     apply:
       tags:
@@ -127,15 +126,15 @@
   tags:
     - always
 
-# - name: "Setup apprise"
-#   ansible.builtin.include_tasks:
-      # file: "apprise.yaml"
-      # apply:
-      # tags:
-        # - apprise
-        # - test
-#   tags:
-#     - always
+- name: "Setup apprise"
+  ansible.builtin.include_tasks:
+    file: "apprise.yaml"
+    apply:
+      tags:
+        - apprise
+        - test
+  tags:
+    - always
 
 # - name: "Setup autofs"
 #   ansible.builtin.include_tasks:
