@@ -23,10 +23,19 @@
       register: tpm_result
       ignore_errors: true
 
-    # - name: "Reload tmux"
-    #   ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
-    #   become: false
-    #   when: tpm_result.changed
+    - name: "Check if tmux server is running for user {{ ansible_user }}
+      ansible.builtin.shell: "pgrep -u {{ ansible_user }} tmux"
+      register: tmux_process_check
+      changed_when: false
+      failed_when: false
+      become: false
+
+    - name: "Reload tmux"
+      ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
+      become: false
+      when:
+        - tpm_result.changed
+        - tmux_process_check.rc == 0
       
     - name: "Install tmux plugins"
       ansible.builtin.command: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
