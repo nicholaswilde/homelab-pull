@@ -21,6 +21,7 @@
         force: true
       become: false
       register: tpm_result
+      ignore_errors: true
 
     # - name: "Reload tmux"
     #   ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
@@ -33,5 +34,6 @@
         TMUX_PLUGIN_MANAGER_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
       when: tpm_result.changed
       become: false
+      ignore_errors: true
   vars:
     TMUX_PLUGIN_MGR_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
