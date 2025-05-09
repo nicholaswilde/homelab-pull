@@ -1,4 +1,6 @@
 ---
+linux_instance_generic_git_homelab_folder: "git/nicholaswilde/homelab"
+
 age_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           30356432383064346632376338343337643736613861386639613633663831323264353932393263
