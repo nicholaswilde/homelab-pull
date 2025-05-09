@@ -5,12 +5,14 @@
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config"
         state: directory
+      become: false
 
     - name: "Create tpm directory if it does not exist"
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
         state: directory
-
+      become: false
+      
     - name: "Install tmux plugins manager (tpm)"
       ansible.builtin.git:
         repo: 'https://github.com/tmux-plugins/tpm'
