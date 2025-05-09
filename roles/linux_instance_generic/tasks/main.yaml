@@ -123,6 +123,7 @@
     apply:
       tags:
         - tmux
+        - test
   tags:
     - always
 
