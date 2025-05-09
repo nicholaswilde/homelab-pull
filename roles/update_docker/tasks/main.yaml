@@ -1,12 +1,6 @@
 ---
-  vars:
-    # --- User Configuration ---
-    compose_project_dir: "/path/to/your/docker/compose/app"
-    # compose_project_name: "my_app_stack"
-    compose_file_name: "compose.yaml"
-    # --- End User Configuration ---
-
-  tasks:
+- name: "Docker block"
+  block:
     - name: "Check if {{ compose_file_name }} exists in the project directory"
       ansible.builtin.stat:
         path: "{{ compose_project_dir }}/{{ compose_file_name }}"
@@ -17,7 +11,7 @@
         msg: "The {{ compose_file_name }} file was not found in the specified directory '{{ compose_project_dir }}'. Please ensure the file exists on the target host(s)."
       when: not compose_file_stat.stat.exists
 
-    - name: Update Docker Compose services (pull images, recreate containers)
+    - name: "Update Docker Compose services (pull images, recreate containers)"
       community.docker.docker_compose_v2:
         project_src: "{{ compose_project_dir }}"
         project_name: "{{ compose_project_name | default(omit) }}"
@@ -25,15 +19,21 @@
         pull: always
         recreate: always
         remove_orphans: true
-        build: no
+        build: false
       register: compose_update_result
-      notify: "Show Docker Compose Update Info # Notify handler to show output"
+      notify: "Show Docker Compose Update Info"
 
   handlers:
-    - name: Show Docker Compose Update Info
+    - name: "Show Docker Compose Update Info"
       listen: Show Docker Compose Update Info
       ansible.builtin.debug:
         msg: "Docker Compose update process completed. Review task output for details."
         # You can access detailed output via compose_update_result if needed, e.g.:
         # var: compose_update_result
         # verbosity: 1 # Only show with -v
+  vars:
+    # --- User Configuration ---
+    compose_project_dir: "/path/to/your/docker/compose/app"
+    # compose_project_name: "my_app_stack"
+    compose_file_name: "compose.yaml"
+    # --- End User Configuration ---

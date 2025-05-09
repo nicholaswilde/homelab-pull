@@ -34,21 +34,21 @@
 #   tags:
 #     - linux_instance_generic
 
-- name: "Run update_apt role"
-  hosts: apt
-  become: true
-  roles:
-    - update_apt
-  tags:
-    - update_apt
-
-# - name: "Run update_docker role"
-#   hosts: docker
+# - name: "Run update_apt role"
+#   hosts: apt
 #   become: true
 #   roles:
-#     - update_docker
+#     - update_apt
 #   tags:
-#     - update_docker
+#     - update_apt
+
+- name: "Run update_docker role"
+  hosts: docker
+  become: true
+  roles:
+    - update_docker
+  tags:
+    - update_docker
 
 # - name: "Run cleanup role"
 #   hosts: all
