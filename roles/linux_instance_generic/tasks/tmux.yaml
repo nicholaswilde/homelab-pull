@@ -23,7 +23,7 @@
       register: tpm_result
       ignore_errors: true
 
-    - name: "Check if tmux server is running for user {{ ansible_user }}
+    - name: "Check if tmux server is running for user {{ ansible_user }}"
       ansible.builtin.shell: "pgrep -u {{ ansible_user }} tmux"
       register: tmux_process_check
       changed_when: false
