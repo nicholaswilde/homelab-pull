@@ -104,7 +104,7 @@
     - sourceFile: "hterm-show-file.sh"
       destFile: "show-file"
     - sourceFile: "osc52.sh"
-      destFile: "copy"            
+      destFile: "copy"
   tags:
     - always
 
@@ -114,6 +114,7 @@
     apply:
       tags:
         - micro
+        - test
   tags:
     - always
 
@@ -123,7 +124,6 @@
     apply:
       tags:
         - tmux
-        - test
   tags:
     - always
 
