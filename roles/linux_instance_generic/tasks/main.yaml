@@ -130,6 +130,7 @@
   ansible.builtin.include_tasks:
     file: "apprise.yaml"
     apply:
+      become: false
       tags:
         - apprise
         - test

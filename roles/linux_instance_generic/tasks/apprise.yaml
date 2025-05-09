@@ -15,6 +15,7 @@
   when:
     - update_bash_result is defined
     - update_bash_result.changed
+  become: false
 
 - name: "Install apprise"
   community.general.pipx:
