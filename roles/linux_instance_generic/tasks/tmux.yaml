@@ -22,10 +22,10 @@
       become: false
       register: tpm_result
 
-    - name: "Reload tmux"
-      ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
-      become: false
-      when: tpm_result.changed
+    # - name: "Reload tmux"
+    #   ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
+    #   become: false
+    #   when: tpm_result.changed
       
     - name: "Install tmux plugins"
       ansible.builtin.command: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
