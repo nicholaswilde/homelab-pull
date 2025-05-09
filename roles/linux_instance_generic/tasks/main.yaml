@@ -133,16 +133,15 @@
       become: false
       tags:
         - apprise
-        - test
   tags:
     - always
 
-# - name: "Setup autofs"
-#   ansible.builtin.include_tasks:
-      # file: "autofs.yaml"
-      # apply:
-      # tags:
-        # - autofs
-        # - test
-#   tags:
-#     - always
+- name: "Setup autofs"
+  ansible.builtin.include_tasks:
+    file: "autofs.yaml"
+    apply:
+      tags:
+        - autofs
+        - test
+  tags:
+    - always
