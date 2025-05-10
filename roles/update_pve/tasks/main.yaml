@@ -24,4 +24,4 @@
         - update_file_stat.stat.exists
   vars:
     pve_project_dir: "{{ update_pve_homelab_pve_folder }}"
-    update_file_name: "update.sh"
+    update_file_name: "update2.sh"
