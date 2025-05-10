@@ -14,14 +14,19 @@
         pull: always
         recreate: always
         remove_orphans: true
-        # build: false
+        build: always
       register: compose_update_result
       when: compose_file_stat.stat.exists
 
-    - name: "Show compose result"
-      ansible.builtin.debug:
-        var: compose_file_stat
-      when: debug_enabled
+    - name: "Prune everything (including non-dangling images)"
+      community.docker.docker_prune:
+        containers: true
+        images: true
+        images_filters:
+          dangling: false
+        networks: true
+        volumes: true
+        builder_cache: true
   vars:
     compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
     compose_file_name: "compose.yaml"
