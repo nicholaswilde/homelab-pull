@@ -82,9 +82,9 @@
           ignore_errors: true
           when: not url_check_result.failed
 
-        - name: "Show this content"
-          ansible.builtin.debug:
-            var: this
+        # - name: "Show this content"
+        #   ansible.builtin.debug:
+        #     var: this
 
 #         - name: "Download cheat install file using jpillora"
 #           ansible.builtin.uri:
