@@ -14,7 +14,7 @@
         pull: always
         recreate: always
         remove_orphans: true
-        build: false
+        # build: false
       register: compose_update_result
       when: compose_file_stat.stat.exists
 
