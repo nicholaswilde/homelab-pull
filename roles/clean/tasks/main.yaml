@@ -5,19 +5,28 @@
     state: present
   register: user
 
-- name: Clean tmp
-  ansible.builtin.include_tasks: tmp.yaml
+- name: "Clean tmp"
+  ansible.builtin.include_tasks:
+    file: "tmp.yaml"
+    apply:
+      tags:
+        - tmp
+  tags:
+    - always
 
-- name: Clean cache
-  ansible.builtin.include_tasks: cache.yaml
+- name: "Clean cache"
+  ansible.builtin.include_tasks:
+    file: "cache.yaml"
 
-- name: Clean logs
-  ansible.builtin.include_tasks: logs.yaml
+- name: "Clean logs"
+  ansible.builtin.include_tasks:
+    file: "logs.yaml"
 
-- name: Clean apt
-  ansible.builtin.include_tasks: apt.yaml
+- name: "Clean apt"
+  ansible.builtin.include_tasks:
+    file: "apt.yaml"
 
-- name: Get mount
+- name: "Get mount"
   ansible.builtin.set_fact:
     mount: "{{ ansible_mounts | first }}"
 

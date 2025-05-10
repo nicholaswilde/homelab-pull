@@ -42,21 +42,21 @@
 #   tags:
 #     - update_apt
 
-- name: "Run update_docker role"
-  hosts: docker
-  become: true
-  roles:
-    - update_docker
-  tags:
-    - update_docker
-
-# - name: "Run cleanup role"
-#   hosts: all
+# - name: "Run update_docker role"
+#   hosts: docker
 #   become: true
 #   roles:
-#     - clean
+#     - update_docker
 #   tags:
-#     - clean
+#     - update_docker
+
+- name: "Run cleanup role"
+  hosts: all
+  become: true
+  roles:
+    - clean
+  tags:
+    - clean
 
 - name: End ansible-pull
   hosts: all

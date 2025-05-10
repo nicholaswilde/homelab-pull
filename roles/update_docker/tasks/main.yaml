@@ -37,4 +37,3 @@
   vars:
     compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
     compose_file_name: "compose.yaml"
-    # ansible_python_interpreter: /usr/bin/python3
