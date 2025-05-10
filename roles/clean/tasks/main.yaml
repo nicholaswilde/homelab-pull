@@ -5,7 +5,7 @@
     state: present
   register: user
 
-- name: "Clean tmp"
+- name: "Clean /tmp"
   ansible.builtin.include_tasks:
     file: "tmp.yaml"
     apply:
@@ -17,14 +17,29 @@
 - name: "Clean cache"
   ansible.builtin.include_tasks:
     file: "cache.yaml"
+    apply:
+      tags:
+        - cache
+  tags:
+    - always
 
 - name: "Clean logs"
   ansible.builtin.include_tasks:
     file: "logs.yaml"
+    apply:
+      tags:
+        - logs
+  tags:
+    - always
 
 - name: "Clean apt"
   ansible.builtin.include_tasks:
     file: "apt.yaml"
+    apply:
+      tags:
+        - apt
+  tags:
+    - always
 
 - name: "Get mount"
   ansible.builtin.set_fact:
