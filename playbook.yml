@@ -28,45 +28,45 @@
   tags:
     - ansible-pull
 
-- name: "Run linux_instance_generic role"
-  hosts: lxcs
-  become: true
-  roles:
-    - linux_instance_generic
-  tags:
-    - linux_instance_generic
-
-- name: "Run update_apt role"
-  hosts: apt
-  become: true
-  roles:
-    - update_apt
-  tags:
-    - update_apt
-
-- name: "Run update_pve role"
-  hosts: lxcs
-  become: true
-  roles:
-    - update_pve
-  tags:
-    - update_pve
-
-- name: "Run update_docker role"
-  hosts: docker
-  become: true
-  roles:
-    - update_docker
-  tags:
-    - update_docker
-
-- name: "Run cleanup role"
-  hosts: all
-  become: true
-  roles:
-    - clean
-  tags:
-    - clean
+# - name: "Run linux_instance_generic role"
+#   hosts: lxcs
+#   become: true
+#   roles:
+#     - linux_instance_generic
+#   tags:
+#     - linux_instance_generic
+# 
+# - name: "Run update_apt role"
+#   hosts: apt
+#   become: true
+#   roles:
+#     - update_apt
+#   tags:
+#     - update_apt
+# 
+# - name: "Run update_pve role"
+#   hosts: lxcs
+#   become: true
+#   roles:
+#     - update_pve
+#   tags:
+#     - update_pve
+# 
+# - name: "Run update_docker role"
+#   hosts: docker
+#   become: true
+#   roles:
+#     - update_docker
+#   tags:
+#     - update_docker
+# 
+# - name: "Run cleanup role"
+#   hosts: all
+#   become: true
+#   roles:
+#     - clean
+#   tags:
+#     - clean
 
 - name: End ansible-pull
   hosts: all
