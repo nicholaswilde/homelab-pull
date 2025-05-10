@@ -1,14 +1,5 @@
 ---
 - hosts: "all"
-  # pre_tasks:
-  #   - name: "Ensure required collections from file are installed (run once on control node)"
-  #     ansible.builtin.command: "ansible-galaxy collection install -r requirements.yaml"
-  #     delegate_to: localhost
-  #     run_once: true
-  #     changed_when: false
-  #     check_mode: false
-  #     tags:
-  #       - always
   tasks:
     - name: "Add hosts to inventory groups"
       ansible.builtin.add_host:
@@ -18,4 +9,4 @@
       tags:
         - always
 
-- import_playbook: playbook.yml
+- ansible.builtin.import_playbook: playbook.yml
