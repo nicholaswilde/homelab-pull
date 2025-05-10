@@ -86,17 +86,17 @@
           ansible.builtin.debug:
             var: this
 
-        - name: "Download cheat install file using jpillora"
-          ansible.builtin.uri:
-            url: "https://i.jpillora.com/cheat/cheat?type=script"
-            return_content: true
-          register: this
-          ignore_errors: true
-          when: url_check_result.failed
-
-        - name: "Show this content"
-          ansible.builtin.debug:
-            var: this
+#         - name: "Download cheat install file using jpillora"
+#           ansible.builtin.uri:
+#             url: "https://i.jpillora.com/cheat/cheat?type=script"
+#             return_content: true
+#           register: this
+#           ignore_errors: true
+#           when: url_check_result.failed
+# 
+#         - name: "Show this content"
+#           ansible.builtin.debug:
+#             var: this
 
         - name: "Write install script to file"
           ansible.builtin.copy:
