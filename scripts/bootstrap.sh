@@ -166,7 +166,7 @@ function main(){
   check_password
   install_deps
   install_ansible_core
-  install_collections
+  # install_collections
   show_message
 }
 
