@@ -1,9 +1,9 @@
 ---
-- name: Get user variables
-  ansible.builtin.user:
-    name: root
-    state: present
-  register: user
+# - name: Get user variables
+#   ansible.builtin.user:
+#     name: root
+#     state: present
+#   register: user
 
 - name: "Clean /tmp"
   ansible.builtin.include_tasks:

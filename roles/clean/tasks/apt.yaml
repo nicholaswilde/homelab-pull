@@ -1,27 +1,31 @@
 ---
-- name: Run apt autoremove
-  ansible.builtin.apt:
-    autoremove: true
-    purge: true
+- name: "Apt block"
+  block:
+    - name: "Run apt autoremove"
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
 
-- name: Run apt autoclean
-  ansible.builtin.apt:
-    autoclean: true
+    - name: "Run apt autoclean"
+      ansible.builtin.apt:
+        autoclean: true
 
-- name: Get list of files in /var/lib/apt/lists/
-  ansible.builtin.find:
-    paths: "/var/lib/apt/lists/"
-  register: cleanup
-  ignore_errors: true
+    - name: "Get list of files in /var/lib/apt/lists/"
+      ansible.builtin.find:
+        paths: "/var/lib/apt/lists/"
+      register: cleanup
+      ignore_errors: true
 
-- name: Delete files in /var/lib/apt/lists/
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ cleanup.files }}"
-  ignore_errors: true
-  no_log: true
+    - name: "Delete files in /var/lib/apt/lists/"
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ cleanup.files }}"
+      ignore_errors: true
+      no_log: true
+      when: cleanup is defined
 
-- name: Run apt update
-  ansible.builtin.apt:
-    update_cache: true
+    - name: "Run apt update"
+      ansible.builtin.apt:
+        update_cache: true
+  when: ansible_os_family == "Debian"

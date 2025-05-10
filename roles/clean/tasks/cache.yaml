@@ -1,12 +1,12 @@
 ---
-- name: Get list of files in /var/cache/
+- name: "Get list of files in /var/cache/"
   ansible.builtin.find:
     paths: /var/cache/
     file_type: file
   register: cleanup
   ignore_errors: true
 
-- name: Delete files in /var/cache/
+- name: "Delete files in /var/cache/"
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent

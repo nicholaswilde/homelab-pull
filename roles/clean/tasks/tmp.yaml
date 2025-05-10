@@ -6,10 +6,11 @@
     recurse: true
   register: cleanup
 
-- name: Delete /tmp files
+- name: "Delete /tmp files"
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ cleanup.files }}"
   ignore_errors: true
   no_log: true
+  when: cleanup.files is defined

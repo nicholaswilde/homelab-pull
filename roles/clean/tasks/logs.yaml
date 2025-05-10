@@ -1,11 +1,11 @@
 ---
-- name: Get list of files in /var/log/
+- name: "Get list of files in /var/log/"
   ansible.builtin.find:
     paths: /var/log/
     file_type: file
   register: cleanup
 
-- name: Delete files in /var/log
+- name: "Delete files in /var/log"
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
