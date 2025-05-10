@@ -23,6 +23,7 @@
         name: "python3-responses"
         state: present
         update_cache: true
+        cache_valid_time: 3600
 
     - name: "Prune everything (including non-dangling images)"
       community.docker.docker_prune:
@@ -36,4 +37,4 @@
   vars:
     compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
     compose_file_name: "compose.yaml"
-    ansible_python_interpreter: /usr/bin/python3
+    # ansible_python_interpreter: /usr/bin/python3
