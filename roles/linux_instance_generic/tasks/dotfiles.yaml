@@ -28,6 +28,7 @@
     - "{{ ansible_env.HOME }}/.gitconfig"
     - "{{ ansible_env.HOME }}/.gnupg/gpg-agent.conf"
     - "{{ ansible_env.HOME }}/.gnupg/gpg.conf"
+    - "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"
   ignore_errors: true
 
 - name: "Stow dotfile configurations"
