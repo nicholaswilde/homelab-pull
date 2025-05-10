@@ -18,6 +18,10 @@
       register: compose_update_result
       when: compose_file_stat.stat.exists
 
+    - name: "Show compose result"
+      ansible.builtin.debug:
+        var: compose_file_stat
+      when: debug_enabled
   vars:
     compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
     compose_file_name: "compose.yaml"
