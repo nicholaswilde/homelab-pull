@@ -42,6 +42,14 @@
   tags:
     - update_apt
 
+- name: "Run update_pve role"
+  hosts: lxcs
+  become: true
+  roles:
+    - update_pve
+  tags:
+    - update_pve
+
 - name: "Run update_docker role"
   hosts: docker
   become: true
