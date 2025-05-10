@@ -82,6 +82,10 @@
           ignore_errors: true
           when: not url_check_result.failed
 
+        - name: "Show this content"
+          ansible.builtin.debug:
+            var: this
+
         - name: "Download cheat install file using jpillora"
           ansible.builtin.uri:
             url: "https://i.jpillora.com/cheat/cheat?type=script"
@@ -89,6 +93,10 @@
           register: this
           ignore_errors: true
           when: url_check_result.failed
+
+        - name: "Show this content"
+          ansible.builtin.debug:
+            var: this
 
         - name: "Write install script to file"
           ansible.builtin.copy:
@@ -107,8 +115,7 @@
           register: run_cheat_script
           when:
             - install_file is defined
-            - not install_file.failed
-            
+
         - name: "Move cheat"
           ansible.builtin.copy:
             src: "/tmp/cheat"
