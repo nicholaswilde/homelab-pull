@@ -18,6 +18,12 @@
       register: compose_update_result
       when: compose_file_stat.stat.exists
 
+    - name: "Install docker_prune dependencies"
+      ansible.builtin.apt:
+        name: "python3-responses"
+        state: present
+        sdate_cache: true
+
     - name: "Prune everything (including non-dangling images)"
       community.docker.docker_prune:
         containers: true
