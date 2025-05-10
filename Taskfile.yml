@@ -7,12 +7,16 @@ vars:
   PASSWORD_LENGTH: 32
 
 tasks:
+  reqs:
+    desc: "Install or update collections"
+    cmds:
+      -  "ansible-galaxy collection install -r requirements.yaml --force"
   show-passwd:
     desc: Show the password
     cmds:
       - cat {{ .PASSWORD_FILE }}
   gen-passwd:
-    desc: Generates a random password and saves it to {{.PASSWORD_FILE}}
+    desc: "Generates a random password and saves it to {{.PASSWORD_FILE}}"
     cmds:
       - mkdir -p {{ .PASSWORD_DIR }}
       - openssl rand -base64 {{ .PASSWORD_LENGTH }} > {{.PASSWORD_FILE}}
