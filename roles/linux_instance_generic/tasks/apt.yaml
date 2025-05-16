@@ -6,3 +6,6 @@
     line: 'deb http://security.debian.org/debian-security stable-security main'
     state: present
     backup: true
+  when:
+    - ansible_os_family == "Debian"
+    - ansible_distribution == "Debian"
