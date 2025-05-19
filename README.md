@@ -294,7 +294,7 @@ ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i 
 
 ## :bulb: Inspiration
 
-Inpiration for this repository has been taken from [jktr/ansible-pull-example](https://github.com/jktr/ansible-pull-example).
+Inspiration for this repository has been taken from [jktr/ansible-pull-example](https://github.com/jktr/ansible-pull-example).
 
 ---
 
