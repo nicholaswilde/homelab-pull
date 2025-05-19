@@ -123,7 +123,6 @@
     apply:
       tags:
         - tmux
-        - test
   tags:
     - always
 
@@ -134,6 +133,17 @@
       become: false
       tags:
         - apprise
+  tags:
+    - always
+
+- name: "Setup adguardhome"
+  ansible.builtin.include_tasks:
+    file: "adguardhome.yaml"
+    apply:
+      become: false
+      tags:
+        - test
+        - adguardhome
   tags:
     - always
 
