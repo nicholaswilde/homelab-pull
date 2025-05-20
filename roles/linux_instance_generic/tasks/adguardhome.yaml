@@ -13,7 +13,7 @@
         var: adguard_rewrites_response.json
       when:
         - adguard_rewrites_response.status == 200
-        - debug_enable
+        - debug_enabled
 
     - name: "Perform a boolean check for '{{ domain_to_check }}'"
       ansible.builtin.set_fact:
