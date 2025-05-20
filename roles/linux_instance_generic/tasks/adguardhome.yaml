@@ -1,30 +1,21 @@
 ---
 - name: "AdGuard Home block"
   block:
-    - name: "Get AdGuard Home DNS Rewrites"
-      hosts: localhost # Or wherever you run Ansible from
-      gather_facts: false
-      vars:
-        adguard_url: "http://your_adguard_ip:your_adguard_port"
-        # adguard_username: "your_username"
-        # adguard_password: "your_password"
-      tasks:
-        - name: "Retrieve DNS rewrites from AdGuard Home"
-          ansible.builtin.uri:
-            url: "{{ adguard_url }}/control/rewrite/list"
-            method: GET
-            # user: "{{ adguard_username }}"
-            # password: "{{ adguard_password }}"
-            force_basic_auth: true
-            return_content: true
-          register: adguard_rewrites_response
-    
-        - name: "Display DNS rewrites"
-          ansible.builtin.debug:
-            var: adguard_rewrites_response.json
-          when: adguard_rewrites_response.status == 200
-    
-        - name: "Show error if request failed"
-          ansible.builtin.debug:
-            msg: "Failed to retrieve DNS rewrites. Status code: {{ adguard_rewrites_response.status }}, Response: {{ adguard_rewrites_response.content }}"
-          when: adguard_rewrites_response.status != 200
+    - name: "Retrieve DNS rewrites from AdGuard Home"
+      ansible.builtin.uri:
+        url: "{{ adguard_url }}/control/rewrite/list"
+        method: GET
+        return_content: true
+      register: adguard_rewrites_response
+
+    - name: "Display DNS rewrites"
+      ansible.builtin.debug:
+        var: adguard_rewrites_response.json
+      when: adguard_rewrites_response.status == 200
+
+    - name: "Show error if request failed"
+      ansible.builtin.debug:
+        msg: "Failed to retrieve DNS rewrites. Status code: {{ adguard_rewrites_response.status }}, Response: {{ adguard_rewrites_response.content }}"
+      when: adguard_rewrites_response.status != 200
+  vars:
+    adguard_url: "http://adguard01.l.nicholaswilde.io/"
