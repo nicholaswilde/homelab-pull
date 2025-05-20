@@ -31,7 +31,7 @@
           domain: "{{ adguard_home_rewrite_domain }}"
           answer: " {{ adguard_home_rewrite_domain }}"
       when:
-        - is_domain_present == false
+        - is_domain_present == False
 
     - name: "Add DNS rewrite rule using AdGuard Home API"
       ansible.builtin.uri:
