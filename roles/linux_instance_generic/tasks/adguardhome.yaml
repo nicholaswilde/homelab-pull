@@ -45,4 +45,5 @@
     adguard_url: "{{ linux_instance_generic_adguard_home_url }}"
     domain_to_check: "{{ adguard_home_rewrite_domain }}"
   when:
-    - adguard_home_rewrite_host is defined
+    - adguard_home_rewrite_domain is defined
+    - adguard_home_rewrite_answer is defined
