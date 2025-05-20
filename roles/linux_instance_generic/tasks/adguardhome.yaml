@@ -29,5 +29,5 @@
       when: adguard_rewrites_response.status != 200
   vars:
     adguard_url: "http://adguard01.l.nicholaswilde.io/"
-    domain_to_check: "jellyfin.l.nicholaswilde.io"
+    domain_to_check: "{{ adguard_home_rewrite_host }}"
     domain_to_check_nonexistent: "test-debian-1.nicholaswilde.io"
