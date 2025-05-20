@@ -11,7 +11,9 @@
     - name: "Display DNS rewrites"
       ansible.builtin.debug:
         var: adguard_rewrites_response.json
-      when: adguard_rewrites_response.status == 200
+      when:
+        - adguard_rewrites_response.status == 200
+        - debug_enable
 
     - name: "Perform a boolean check for '{{ domain_to_check }}'"
       ansible.builtin.set_fact:
@@ -20,14 +22,6 @@
     - name: "Display boolean check result for '{{ domain_to_check }}'"
       ansible.builtin.debug:
         msg: "Is '{{ domain_to_check }}' present? {{ is_domain_present }}"
-
-    - name: Perform a boolean check for '{{ domain_to_check_nonexistent }}'
-      ansible.builtin.set_fact:
-        is_domain_nonexistent_present: "{{ (adguard_rewrites_response.json | default([]) | selectattr('domain', 'equalto', domain_to_check_nonexistent) | list | length) > 0 }}"
-
-    - name: "Display boolean check result for '{{ domain_to_check_nonexistent }}'"
-      ansible.builtin.debug:
-        msg: "Is '{{ domain_to_check_nonexistent }}' present? {{ is_domain_nonexistent_present }}"
 
     - name: "Show error if request failed"
       ansible.builtin.debug:
