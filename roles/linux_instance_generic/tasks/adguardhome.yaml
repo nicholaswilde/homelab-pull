@@ -25,8 +25,24 @@
       ansible.builtin.debug:
         msg: "Is '{{ domain_to_check }}' present? {{ is_domain_present }}"
 
+#     - name: "Add DNS rewrite rule using AdGuard Home API"
+#       ansible.builtin.uri:
+#         url: "{{ adguard_url }}/control/rewrite/add"
+#         method: POST
+#         user: "{{ adguard_username }}"
+#         password: "{{ adguard_password }}"
+#         force_basic_auth: true
+#         body_format: json
+#         body: "{{ new_rewrite_rule }}"
+#         status_code: 200
+#         return_content: true
+#       register: add_rewrite_response
+# 
+#     - name: "Display API response"
+#       ansible.builtin.debug:
+#         var: add_rewrite_response.json
   vars:
     adguard_url: "{{ linux_instance_generic_adguard_home_url }}"
-    domain_to_check: "{{ adguard_home_rewrite_host }}"
+    domain_to_check: "{{ adguard_home_rewrite_domain }}"
   when:
     - adguard_home_rewrite_host is defined

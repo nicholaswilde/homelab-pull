@@ -1,6 +1,7 @@
 ---
 ansible_user: root
-adguard_home_rewrite_host: "jellyfin.l.nicholaswilde.io"
+adguard_home_rewrite_domain: "jellyfin.l.nicholaswilde.io"
+adguard_home_rewrite_answer: "traefik.l.nicholaswilde.io"
 pull_groups:
   - lxcs
   - apt
