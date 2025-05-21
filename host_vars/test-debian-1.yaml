@@ -2,6 +2,9 @@
 ansible_user: root
 adguard_home_rewrite_domain: "test.debian-1.l.nicholaswilde.io"
 adguard_home_rewrite_answer: "traefik.l.nicholaswilde.io"
+adguard_home_rewrite:
+  - domain: "test.debian-1.l.nicholaswilde.io"
+    answer: "traefik.l.nicholaswilde.io"
 pull_groups:
   - lxcs
   - apt
