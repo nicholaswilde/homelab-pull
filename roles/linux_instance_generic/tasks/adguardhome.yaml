@@ -42,6 +42,7 @@
         status_code: 200
         return_content: true
       register: add_rewrite_response
+      changed_when: "add_rewrite_response.status in [200, 201, 202]"
       when: new_rewrite_rule is defined
 
     - name: "Display API response"
