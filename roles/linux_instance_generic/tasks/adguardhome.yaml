@@ -25,6 +25,9 @@
     - name: "Display boolean check result for '{{ domain_to_check }}'"
       ansible.builtin.debug:
         msg: "Is '{{ domain_to_check }}' present? {{ is_domain_present }}"
+      when:
+        - domain_to_check is defined
+        - is_domain_present is defined
 
     - name: "Define rewrite"
       ansible.builtin.set_fact:
