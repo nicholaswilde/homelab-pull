@@ -47,7 +47,7 @@
 
     - name: "Display API response"
       ansible.builtin.debug:
-        var: add_rewrite_response.json
+        var: add_rewrite_response
       # when:
       #   - add_rewrite_response.json is defined
       #   - debug_enabled
