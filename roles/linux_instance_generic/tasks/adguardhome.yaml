@@ -4,6 +4,7 @@
     var: adguard_home_rewrite[0].answer
   when:
     - debug_enabled
+    - adguard_home_rewrite is defined
     - adguard_home_rewrite is list
     - adguard_home_rewrite | list > 0
 
