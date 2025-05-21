@@ -35,6 +35,7 @@
           domain: "{{ adguard_home_rewrite_domain }}"
           answer: " {{ adguard_home_rewrite_answer }}"
       when:
+        - is_domain_present is defined
         - is_domain_present == False
 
     - name: "Add DNS rewrite rule using AdGuard Home API"
