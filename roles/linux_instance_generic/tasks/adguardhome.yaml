@@ -29,7 +29,7 @@
       ansible.builtin.set_fact:
         new_rewrite_rule:
           domain: "{{ adguard_home_rewrite_domain }}"
-          answer: " {{ adguard_home_rewrite_domain }}"
+          answer: " {{ adguard_home_rewrite_answer }}"
       when:
         - is_domain_present == False
 
