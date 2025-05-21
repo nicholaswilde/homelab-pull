@@ -4,8 +4,8 @@
     var: adguard_home_rewrite
   when:
     - debug_enabled
-    # - adguard_home_rewrite is defined
-    # - adguard_home_rewrite is list
+    - adguard_home_rewrite is defined
+    - adguard_home_rewrite is mapping
     # - adguard_home_rewrite | list > 0
 
 - name: "AdGuard Home block"
