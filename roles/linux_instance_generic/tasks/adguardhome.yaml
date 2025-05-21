@@ -1,4 +1,9 @@
 ---
+- name: "Debug"
+  ansible.builtin.debug:
+    var: adguard_home_rewrite
+  when: debug_enabled
+
 - name: "AdGuard Home block"
   block:
     - name: "Retrieve DNS rewrites from AdGuard Home"
