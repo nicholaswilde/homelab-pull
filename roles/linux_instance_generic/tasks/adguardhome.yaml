@@ -1,7 +1,7 @@
 ---
 - name: "Debug"
   ansible.builtin.debug:
-    var: adguard_home_rewrite.answer
+    var: adguard_home_rewrite[0].answer
   when:
     - debug_enabled
     - adguard_home_rewrite is defined
