@@ -48,10 +48,10 @@
     - name: "Display API response"
       ansible.builtin.debug:
         var: add_rewrite_response
-      # when:
-      #   - add_rewrite_response.json is defined
-      #   - debug_enabled
-      #   - add_rewrite_response.json is mapping
+      when:
+        - add_rewrite_response.status is defined
+        - debug_enabled
+        - add_rewrite_response.status == 200
   vars:
     adguard_url: "{{ linux_instance_generic_adguard_home_url }}"
     domain_to_check: "{{ adguard_home_rewrite_domain }}"
