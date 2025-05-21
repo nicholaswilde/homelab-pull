@@ -5,7 +5,7 @@
   when:
     - debug_enabled
     - adguard_home_rewrite is defined
-    - adguard_home_rewrite | list > 0
+    - (adguard_home_rewrite | reject('mapping') | list | length) == 0
 
 - name: "AdGuard Home block"
   block:
