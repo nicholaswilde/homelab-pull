@@ -3,7 +3,7 @@
   ansible.builtin.include_tasks: "add_adguardhome_rewrite.yaml"
   loop:
     - domain: "test.debian-1.l.nicholaswilde.io"
-      answer: "traefik.l.nicholaswilde.io",
+      answer: "traefik.l.nicholaswilde.io"
   loop_control:
     loop_var: "rewrite"
   # when:
