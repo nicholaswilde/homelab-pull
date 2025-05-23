@@ -136,14 +136,14 @@
   tags:
     - always
 
-- name: "Setup adguardhome"
-  ansible.builtin.include_tasks:
-    file: "adguardhome.yaml"
-    apply:
-      become: false
-      tags:
-        - test
-        - adguardhome
+# - name: "Setup adguardhome"
+#   ansible.builtin.include_tasks:
+#     file: "adguardhome.yaml"
+#     apply:
+#       become: false
+#       tags:
+#         - test
+#         - adguardhome
   tags:
     - always
 
