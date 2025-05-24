@@ -99,6 +99,78 @@
           (version_check_result.rc == 0 and
           current_version | default('0.0.0') is version(desired_version, '!='))
           # - current_version | default('none') != desired_version
+
+- name: "Register host with Beszel PocketBase API"
+  block:
+    - name: "Authenticate with PocketBase and get token"
+      ansible.builtin.uri:
+        url: "{{ beszel_pocketbase_url }}/api/collections/users/auth-with-password"
+        method: POST
+        body_format: json
+        body:
+          identity: "{{ linux_instance_generic_beszel_username }}"
+          password: "{{ linux_instance_generic_beszel_password }}"
+        return_content: true
+        status_code: 200
+        validate_certs: false # Consider making this configurable
+      register: pocketbase_auth_result
+      no_log: true # IMPORTANT: Do not log sensitive data
+
+    - name: "Set PocketBase token fact"
+      ansible.builtin.set_fact:
+        pocketbase_token: "{{ pocketbase_auth_result.json.token }}"
+      when: pocketbase_auth_result.json.token is defined
+
+    - name: "Check if host is already registered in PocketBase"
+      ansible.builtin.uri:
+        url: "{{ beszel_pocketbase_url }}/api/collections/hosts/records?filter=(name%3D'{{ inventory_hostname }}')" # URL encoded filter
+        method: GET
+        headers:
+          Authorization: "Bearer {{ pocketbase_token }}"
+        return_content: true
+        status_code: 200
+        validate_certs: false # Consider making this configurable
+      register: pocketbase_host_check_result
+      when: pocketbase_token is defined
+
+    - name: "Set host exists fact"
+      ansible.builtin.set_fact:
+        pocketbase_host_exists: "{{ pocketbase_host_check_result.json.totalItems | default(0) | int > 0 }}"
+      when: pocketbase_token is defined and pocketbase_host_check_result.json is defined
+
+    - name: "Register host in PocketBase if it does not exist"
+      ansible.builtin.uri:
+        url: "{{ beszel_pocketbase_url }}/api/collections/hosts/records"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ pocketbase_token }}"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          name: "{{ inventory_hostname }}"
+          # Add any other fields required by your 'hosts' collection schema
+          # example_field: "example_value"
+        status_code: [200, 201] # 200 for OK, 201 for Created
+        validate_certs: false # Consider making this configurable
+      when:
+        - pocketbase_token is defined
+        - not pocketbase_host_exists
+      register: pocketbase_host_add_result
+
+    - name: "Display PocketBase registration result"
+      ansible.builtin.debug:
+        msg: "Host {{ inventory_hostname }} registered in PocketBase."
+      when: pocketbase_host_add_result.changed
+
+  when:
+    - beszel_pocketbase_url is defined
+    - beszel_pocketbase_url != "YOUR_POCKETBASE_URL_HERE"
+    - linux_instance_generic_beszel_username is defined
+    - linux_instance_generic_beszel_username != "YOUR_BESZEL_USERNAME_HERE"
+    - linux_instance_generic_beszel_password is defined
+    - linux_instance_generic_beszel_password != "YOUR_BESZEL_PASSWORD_HERE"
+  ignore_errors: true # Optional: depending on how critical this is
+
   vars:
     app_name: "beszel-agent"  # The command name of the application
     repo_name: "beszel"

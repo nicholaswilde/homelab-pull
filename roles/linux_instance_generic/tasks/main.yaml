@@ -35,6 +35,16 @@
   tags:
     - always
 
+- name: "Setup SSH"
+  ansible.builtin.include_tasks:
+    file: "ssh.yaml"
+    apply:
+      tags:
+        - ssh
+        - authorized_keys
+  tags:
+    - always
+
 - name: "Install syncthing"
   ansible.builtin.include_tasks:
     file: "syncthing.yaml"
@@ -136,16 +146,17 @@
   tags:
     - always
 
-# - name: "Setup adguardhome"
-#   ansible.builtin.include_tasks:
-#     file: "adguardhome.yaml"
-#     apply:
-#       become: false
-#       tags:
-#         - test
-#         - adguardhome
+- name: "Setup adguardhome"
+  ansible.builtin.include_tasks:
+    file: "adguardhome.yaml"
+    apply:
+      become: false
+      tags:
+        - test
+        - adguardhome
   tags:
     - always
+  when: adguard_home_rewrite is defined and adguard_home_rewrite
 
 - name: "Setup autofs"
   ansible.builtin.include_tasks:
