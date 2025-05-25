@@ -1,6 +1,11 @@
 ---
 - name: "cheat block"
   block:
+    - name: "Debug"
+      ansible.builtin.debug:
+        var: github_api_url
+      when: debug_enabled
+
     - name: "Query GitHub API for latest cheat release"
       ansible.builtin.uri:
         url: "{{ github_api_url }}"
