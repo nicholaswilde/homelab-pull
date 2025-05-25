@@ -58,7 +58,7 @@ linux_instance_generic_micro_wakatime_api_key: !vault |
           32643265323532363439643464333030623237613339313765633933396436366636323761316136
           3063396461393131333939643563613934613865616531393837
 
-beszel_pocketbase_url: "https://beszel.l.nicholaswilde.io/"
+beszel_pocketbase_url: "https://beszel.l.nicholaswilde.io"
 
 linux_instance_generic_beszel_username: !vault |
           $ANSIBLE_VAULT;1.1;AES256
