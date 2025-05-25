@@ -1,7 +1,7 @@
 ---
 - name: "beszel-agent block"
   block:
-    - name: Query GitHub API for latest beszel release
+    - name: "Query GitHub API for latest beszel release"
       ansible.builtin.uri:
         url: "{{ github_api_url }}"
         method: GET
@@ -130,7 +130,7 @@
 
     - name: "Check if host is already registered in PocketBase"
       ansible.builtin.uri:
-        url: "{{ beszel_pocketbase_url }}/api/collections/hosts/records?filter=(name%3D'{{ inventory_hostname }}')" # URL encoded filter
+        url: "{{ beszel_pocketbase_url }}/api/collections/systems/records?filter=(system='{{ inventory_hostname }}')"
         method: GET
         headers:
           Authorization: "Bearer {{ pocketbase_token }}"
@@ -147,7 +147,7 @@
 
     - name: "Register host in PocketBase if it does not exist"
       ansible.builtin.uri:
-        url: "{{ beszel_pocketbase_url }}/api/collections/hosts/records"
+        url: "{{ beszel_pocketbase_url }}/api/collections/systems/records"
         method: POST
         headers:
           Authorization: "Bearer {{ pocketbase_token }}"
