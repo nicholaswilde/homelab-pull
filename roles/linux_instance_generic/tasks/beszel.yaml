@@ -1,7 +1,7 @@
 ---
 - name: "beszel-agent block"
   block:
-    - name: Query GitHub API for latest cheat release
+    - name: Query GitHub API for latest beszel release
       ansible.builtin.uri:
         url: "{{ github_api_url }}"
         method: GET
@@ -99,6 +99,13 @@
           (version_check_result.rc == 0 and
           current_version | default('0.0.0') is version(desired_version, '!='))
           # - current_version | default('none') != desired_version
+  vars:
+    app_name: "beszel-agent"  # The command name of the application
+    repo_name: "beszel"
+    owner_name: "henrygd"
+    app_version_command: "{{ app_name }} version"
+    version_regex: '(\d+\.\d+\.\d+)'
+    github_api_url: "https://api.github.com/repos/{{ owner_name }}/{{ repo_name }}/releases/latest"
 
 - name: "Register host with Beszel PocketBase API"
   block:
@@ -161,7 +168,6 @@
       ansible.builtin.debug:
         msg: "Host {{ inventory_hostname }} registered in PocketBase."
       when: pocketbase_host_add_result.changed
-
   when:
     - beszel_pocketbase_url is defined
     - beszel_pocketbase_url != "YOUR_POCKETBASE_URL_HERE"
@@ -169,7 +175,7 @@
     - linux_instance_generic_beszel_username != "YOUR_BESZEL_USERNAME_HERE"
     - linux_instance_generic_beszel_password is defined
     - linux_instance_generic_beszel_password != "YOUR_BESZEL_PASSWORD_HERE"
-  ignore_errors: true # Optional: depending on how critical this is
+  ignore_errors:  true # Optional: depending on how critical this is
 
   vars:
     app_name: "beszel-agent"  # The command name of the application
