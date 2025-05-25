@@ -128,9 +128,14 @@
         pocketbase_token: "{{ pocketbase_auth_result.json.token }}"
       when: pocketbase_auth_result.json.token is defined
 
+    - name: "Debug"
+      ansible.builtin.debug:
+        var: pocketbase_auth_result
+      when: pocketbase_auth_result is defined
+
     - name: "Check if host is already registered in PocketBase"
       ansible.builtin.uri:
-        url: "{{ beszel_pocketbase_url }}/api/collections/systems/records?filter=(system='{{ inventory_hostname }}')"
+        url: "{{ beszel_pocketbase_url }}/api/collections/systems/records?filter=(host='{{ inventory_hostname }}')"
         method: GET
         headers:
           Authorization: "Bearer {{ pocketbase_token }}"
@@ -155,10 +160,10 @@
         body_format: json
         body:
           name: "{{ inventory_hostname }}"
-          # Add any other fields required by your 'hosts' collection schema
-          # example_field: "example_value"
-        status_code: [200, 201] # 200 for OK, 201 for Created
-        validate_certs: false # Consider making this configurable
+          id: "{{ inventory_hostname }}"
+          users: "[9q4gb4trqd4rkex]"
+        status_code: [200, 201]
+        validate_certs: false
       when:
         - pocketbase_token is defined
         - not pocketbase_host_exists
