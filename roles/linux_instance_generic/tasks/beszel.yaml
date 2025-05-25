@@ -130,8 +130,10 @@
 
     - name: "Debug"
       ansible.builtin.debug:
-        var: pocketbase_auth_result
-      when: pocketbase_auth_result is defined
+        var: pocketbase_token
+      when:
+        - pocketbase_token is defined
+        - debug_enabled
 
     - name: "Check if host is already registered in PocketBase"
       ansible.builtin.uri:
@@ -160,7 +162,7 @@
         body_format: json
         body:
           name: "{{ inventory_hostname }}"
-          id: "{{ inventory_hostname }}"
+          host: "{{ inventory_hostname }}"
           users: "[9q4gb4trqd4rkex]"
         status_code: [200, 201]
         validate_certs: false
