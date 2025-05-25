@@ -8,5 +8,5 @@ adguard_home_rewrite:
 pull_groups:
   - lxcs
   - apt
-  - docker
+  # - docker
   # - vm
