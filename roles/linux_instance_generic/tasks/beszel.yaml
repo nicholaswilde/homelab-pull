@@ -163,6 +163,8 @@
         body:
           name: "{{ inventory_hostname }}"
           host: "{{ ansible_default_ipv4.address }}"
+          port: '45876'
+          status: "up"
           users:
             - "9q4gb4trqd4rkex"
         status_code: [200, 201]
