@@ -149,12 +149,13 @@
         return_content: true
         status_code: 200
         validate_certs: false
+        body_format: json
       register: pocketbase_host_check_result
       when: pocketbase_token is defined
 
     - name: "Debug"
       ansible.builtin.debug:
-        var: pocketbase_host_check_result.json.items[0]
+        var: pocketbase_host_check_result
       when: pocketbase_host_check_result is defined
 
     - name: "Set host exists fact"
