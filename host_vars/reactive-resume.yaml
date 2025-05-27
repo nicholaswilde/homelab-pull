@@ -1,0 +1,12 @@
+---
+ansible_user: root
+adguard_home_rewrite_domain: "resume.l.nicholaswilde.io"
+adguard_home_rewrite_answer: "traefik.l.nicholaswilde.io"
+adguard_home_rewrite:
+  - domain: "resume.l.nicholaswilde.io"
+    answer: "traefik.l.nicholaswilde.io"
+pull_groups:
+  - lxcs
+  - apt
+  - docker
+  # - vm
