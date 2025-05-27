@@ -154,7 +154,7 @@
 
     - name: "Set host exists fact"
       ansible.builtin.set_fact:
-        pocketbase_host_exists: "{{ pocketbase_host_check_result.json.items | selectattr('host', 'equalto', '{{ ansible_default_ipv4.address }}') | list | length > 0 }}"
+        pocketbase_host_exists: "{{ pocketbase_host_check_result.json.items | selectattr('host', 'equalto', '192.168.2.142') | list | length > 0 }}"
       when: pocketbase_token is defined and pocketbase_host_check_result.json is defined
 
     - name: "Debug"
