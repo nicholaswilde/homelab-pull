@@ -154,7 +154,7 @@
 
     - name: "Debug"
       ansible.builtin.debug:
-        var: pocketbase_host_check_result.json.items
+        var: pocketbase_host_check_result.json.items[0]
       when: pocketbase_host_check_result is defined
 
     - name: "Set host exists fact"
