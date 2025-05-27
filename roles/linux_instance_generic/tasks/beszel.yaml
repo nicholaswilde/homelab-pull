@@ -165,10 +165,10 @@
         - syncthing_device_ids_map is defined
         - debug_enabled
   
-    - name: "Debug"
-      ansible.builtin.debug:
-        var: pocketbase_host_check_result
-      when: pocketbase_host_check_result is defined
+    # - name: "Debug"
+    #   ansible.builtin.debug:
+    #     var: pocketbase_host_check_result
+    #   when: pocketbase_host_check_result is defined
 
     - name: "Set host exists fact"
       ansible.builtin.set_fact:
