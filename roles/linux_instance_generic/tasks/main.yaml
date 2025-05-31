@@ -35,6 +35,16 @@
   tags:
     - always
 
+- name: "Setup SSH"
+  ansible.builtin.include_tasks:
+    file: "ssh.yaml"
+    apply:
+      tags:
+        - ssh
+        - authorized_keys
+  tags:
+    - always
+
 - name: "Install syncthing"
   ansible.builtin.include_tasks:
     file: "syncthing.yaml"
