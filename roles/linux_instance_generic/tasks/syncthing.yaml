@@ -294,13 +294,13 @@
 - name: "Run add_syncthing_folder.yaml"
   ansible.builtin.include_tasks: "add_syncthing_folder.yaml"
   loop:
-    - id: "rpmhl-qggvt"
+    - id: "nvvas-vfyue"
       path: "{{ ansible_env.HOME }}/.ssh"
       label: "ssh"
-    - id: "pxzmd-jwxga"
+    - id: "gff9d-pgczt"
       path: "{{ ansible_env.HOME }}/.gnupg"
       label: "gpg"
-    - id: "plxr3-eyjeu"
+    - id: "vawmd-zfzvm"
       path: "{{ ansible_env.HOME }}/.config/sops/age"
       label: "sops"
   loop_control:
