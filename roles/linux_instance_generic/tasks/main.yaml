@@ -154,8 +154,8 @@
 #       tags:
 #         - test
 #         - adguardhome
-  tags:
-    - always
+  # tags:
+  #   - always
 
 - name: "Setup autofs"
   ansible.builtin.include_tasks:
