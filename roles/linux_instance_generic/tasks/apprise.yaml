@@ -22,7 +22,8 @@
     name: "apprise"
     state: latest
   become: false
-
+  ignore_errors: true
+  
 - name: "Create apprise config file"
   ansible.builtin.template:
     src: "apprise.yaml.j2"
