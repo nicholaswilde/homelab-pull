@@ -23,3 +23,5 @@ linux_instance_generic_syncthing_control_node_label: "amd2"
 debug_enabled: false
 
 linux_instance_generic_adguard_home_url: "http://adguard01.l.nicholaswilde.io"
+
+linux_instance_generic_ssh_public_key_url: "https://github.com/nicholaswilde.keys"

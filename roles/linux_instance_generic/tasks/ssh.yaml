@@ -10,12 +10,12 @@
 
 - name: "Fetch SSH public keys from GitHub"
   ansible.builtin.uri:
-    url: "https://github.com/nicholaswilde.keys"
+    url: "{{ https://github.com/nicholaswilde.keys }}"
     method: GET
     return_content: true
   register: github_keys
   become: false
-  changed_when: false # This task only fetches data, doesn't change the system
+  changed_when: false
 
 - name: "Ensure authorized_keys file exists and has correct permissions"
   ansible.builtin.file:
