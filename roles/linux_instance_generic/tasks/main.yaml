@@ -146,16 +146,17 @@
   tags:
     - always
 
-# - name: "Setup adguardhome"
-#   ansible.builtin.include_tasks:
-#     file: "adguardhome.yaml"
-#     apply:
-#       become: false
-#       tags:
-#         - test
-#         - adguardhome
+# - name: "Setup AdGuard Home"
+  # ansible.builtin.include_tasks:
+  # file: "adguardhome.yaml"
+    # apply:
+      # become: false
+      # tags:
+        # - test
+        # - adguardhome
   # tags:
-  #   - always
+    # - always
+  # when: adguard_home_rewrite is defined and adguard_home_rewrite
 
 - name: "Setup autofs"
   ansible.builtin.include_tasks:

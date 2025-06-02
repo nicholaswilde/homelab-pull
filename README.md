@@ -66,7 +66,8 @@ sudo apt install -y curl
 
 ### :hiking_boot: Bootstrap
 
-Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] as well as the required collections.
+Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] as well as the
+required collections.
 
 >[!WARNING]
 >Always inspect a shell script before running it!
@@ -259,6 +260,49 @@ ansible-pull -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)
 
 ---
 
+## :test_tube: Testing with a Specific Branch
+
+To test changes from a specific branch before they are merged into `main`, you can modify the `ansible-pull` command to
+target that branch.
+
+1.  **Identify the branch name:** For example, `my-feature-branch`.
+
+2.  **Modify the `ansible-pull` command:**
+
+    Change the URL in the `ansible-pull` command from `https://github.com/nicholaswilde/homelab-pull.git` (which
+    defaults to the `main` branch) to point to your specific branch using the `-C` or `--checkout` option, or by
+    specifying the branch in the URL if your `ansible-pull` version supports it directly for playbook
+    repositories (though `-C` is more standard for specifying a branch).
+
+    **Using `-C` (checkout) option (recommended):**
+    This tells `ansible-pull` to checkout the specified branch after cloning.
+
+    ```shell
+    ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -C my-feature-branch -i "$(uname -n),"
+    ```
+
+    Replace `my-feature-branch` with the actual name of your branch.
+
+3.  **Bootstrap Script (if applicable for new setups):**
+    If you are bootstrapping a new node and want it to use a specific branch from the start for the initial
+    `requirements.yaml` and scripts, you would need to modify the URLs within the bootstrap script itself before
+    running it. For example, changing `refs/heads/main` to `refs/heads/my-feature-branch` in the script's URL paths:
+
+    ```shell
+    OWNER_NAME="nicholaswilde"
+    REPO_NAME="homelab-pull"
+    BRANCH_NAME="my-feature-branch" # Specify your branch
+    # ...
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/${OWNER_NAME}/${REPO_NAME}/refs/heads/${BRANCH_NAME}/scripts/bootstrap.sh)"
+    ```
+    And similarly for the `REQUIREMENTS_URL` inside the script if it's hardcoded, or ensure your `ansible-pull` command
+    used post-bootstrap points to the correct branch. The `ansible-pull` command shown above is the primary way to
+    control the playbook branch after initial setup.
+
+This allows you to test your changes in isolation on one or more managed nodes before merging to `main`.
+
+---
+
 ## :stethoscope: Troubleshooting
 
 Troubleshooting can be done by passing setting `debug_enabled` to `true` or passing in the `-vvv` argument.
@@ -294,7 +338,7 @@ ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i 
 
 ## :bulb: Inspiration
 
-Inspiration for this repository has been taken from [jktr/ansible-pull-example](https://github.com/jktr/ansible-pull-example).
+Inspiration for this repository has been taken from [jktr/ansible-pull-example][11].
 
 ---
 
@@ -318,3 +362,4 @@ Inspiration for this repository has been taken from [jktr/ansible-pull-example](
 [8]: <https://docs.ansible.com/ansible/latest/vault_guide/vault.html>
 [9]: <https://github.com/nicholaswilde/homelab>
 [10]: <https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html>
+[11]: <https://github.com/jktr/ansible-pull-example>
