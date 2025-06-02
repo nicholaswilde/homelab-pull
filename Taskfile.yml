@@ -7,6 +7,10 @@ vars:
   PASSWORD_LENGTH: 32
 
 tasks:
+  lint:
+    desc: "Run ansible-lint"
+    cmds:
+      - ansible-lint local.yml
   reqs:
     desc: "Install or update collections"
     cmds:

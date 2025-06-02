@@ -8,6 +8,8 @@
   when: debug_enabled
 
 - name: "Add managed node to the control node folder"
+  when: managed_node_api_key is defined and not url_check_result.failed
+  ignore_errors: true
   block:
     - name: "Get a list of devices from the control node folder"
       ansible.builtin.uri:
@@ -56,10 +58,9 @@
         body: "{{ {'devices': updated_device_list} | to_json }}"
       register: add_result
       when: managed_node_device_id is defined and managed_node_device_id not in device_id_list
-  when: managed_node_api_key is defined and not url_check_result.failed
-  ignore_errors: true
-  
+
 - name: "Add control node folder to the managed node"
+  ignore_errors: true
   block:
     - name: "Get a list of folders on the managed node"
       ansible.builtin.command: 'syncthing cli config folders list'
@@ -68,7 +69,7 @@
       changed_when: false
       ignore_errors: true
 
-    - name: "managed_node_folders"
+    - name: "Debug managed_node_folders"
       ansible.builtin.debug:
         var: managed_node_folders.stdout_lines
       when:
@@ -81,9 +82,12 @@
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       when: folder.id not in managed_node_folders.stdout_lines
-  ignore_errors: true
 
 - name: "Add control node to the managed node folder"
+  when:
+    - managed_node_api_key is defined
+    - not url_check_result.failed
+  ignore_errors: true
   block:
     - name: "Get a list of devices from the managed node folder"
       ansible.builtin.command: "syncthing cli config folders {{ folder.id }} dump-json"
@@ -122,12 +126,11 @@
       when:
         - control_node_device_id is defined
         - control_node_device_id not in device_id_list
-  when:
-    - managed_node_api_key is defined
-    - not url_check_result.failed
-  ignore_errors: true
 
 - name: "Update {{ folder.label }} permissions"
+  when:
+    - folder.label == "gpg" or folder.label == "ssh"
+    - add_result is defined
   block:
     - name: "Ensure {{ folder.path | basename }} directory exists and has correct permissions"
       ansible.builtin.file:
@@ -136,11 +139,11 @@
         owner: "{{ syncthing_run_user }}"
         mode: '0700' # drwx------
 
-    - name: "Set permissions for files within {{ folder.path  | basename }}"
+    - name: "Set permissions for files within {{ folder.path | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -type f -exec chmod 600 {} \\;"
       changed_when: true
       ignore_errors: true
-      
+
     - name: "Set permissions for subdirectories within {{ folder.path | basename }}"
       ansible.builtin.command: "find {{ folder.path }} -mindepth 1 -type d -exec chmod 700 {} \\;"
       changed_when: true
@@ -151,7 +154,3 @@
       changed_when: true
       when: folder.label == "ssh"
       ignore_errors: true
-
-  when:
-    - folder.label == "gpg" or folder.label == "ssh"
-    - add_result is defined
