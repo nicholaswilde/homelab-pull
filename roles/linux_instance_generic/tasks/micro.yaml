@@ -11,6 +11,7 @@
     - "wc"
     - "fzf"
     - "wakatime"
+    - "quoter"
 
 - name: "Copy .wakatime.cfg from template"
   ansible.builtin.template:
