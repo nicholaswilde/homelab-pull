@@ -158,15 +158,15 @@
     # - always
   # when: adguard_home_rewrite is defined and adguard_home_rewrite
 
-- name: "Run Misc"
-  ansible.builtin.include_tasks:
-    file: "misc.yaml"
-    apply:
-      tags:
-        - misc
-        - test
-    tags:
-      - always
+# - name: "Run Misc"
+#   ansible.builtin.include_tasks:
+#     file: "misc.yaml"
+#     apply:
+#       tags:
+#         - misc
+#         - test
+#     tags:
+#       - always
 
 - name: "Setup autofs"
   ansible.builtin.include_tasks:
