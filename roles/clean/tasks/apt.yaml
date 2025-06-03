@@ -1,5 +1,6 @@
 ---
 - name: "Apt block"
+  when: ansible_os_family == "Debian"
   block:
     - name: "Run apt autoremove"
       ansible.builtin.apt:
@@ -28,4 +29,3 @@
     - name: "Run apt update"
       ansible.builtin.apt:
         update_cache: true
-  when: ansible_os_family == "Debian"
