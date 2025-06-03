@@ -7,6 +7,11 @@
   no_log: true
 
 - name: "Install Syncthing using APT"
+  vars:
+    syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
+    syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
+    syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
+  when: syncthing_is_installed.rc != 0
   block:
     - name: "Update apt cache"
       ansible.builtin.apt:
@@ -62,13 +67,12 @@
         - syncthing_version_output is defined
         - debug_enabled
 
+- name: "Enable Syncthing service and change config"
   vars:
     syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
     syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
-
-- name: "Enable Syncthing service and change config"
   block:
     - name: "Check if user lingering is already enabled"
       ansible.builtin.command: "loginctl show-user {{ syncthing_run_user }} -p Linger"
@@ -103,10 +107,7 @@
       no_log: true
       loop:
         - "syncthing cli config gui raw-address set \"0.0.0.0:{{ linux_instance_generic_syncthing_port }}\""
-        # - "syncthing cli config options natenabled set false"
-        # - "syncthing cli config options local-ann-enabled set false"
         - "syncthing cli config options global-ann-enabled set false"
-        # - "syncthing cli config options relays-enabled set false"
         - "syncthing cli config options uraccepted set 3"
         - "syncthing cli config options urseen set 3"
         - "syncthing cli config gui user set nicholas"
@@ -118,12 +119,6 @@
         port: "{{ control_node_port }}"
         delay: 5
         timeout: 20
-
-  vars:
-    syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
-    syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') }}"
-    syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
-  when: syncthing_is_installed.rc != 0
 
 - name: "Get the managed node API key"
   block:
@@ -158,6 +153,8 @@
   no_log: true
 
 - name: "Delete the default folder from the managed node"
+  when: managed_node_api_key is defined
+  ignore_errors: true
   block:
     - name: "Get a list of folders on the managed node"
       ansible.builtin.command: "syncthing cli config folders list"
@@ -175,10 +172,10 @@
         status_code: [200, 202, 204]
       register: delete_result
       when: "'default' in folders_list.stdout and managed_node_api_key is defined"
-  when: managed_node_api_key is defined
-  ignore_errors: true    
 
 - name: "Get managed node device ID"
+  when: managed_node_api_key is defined
+  ignore_errors: true
   block:
     - name: "Get the device id of the managed node"
       ansible.builtin.command: "syncthing cli show system"
@@ -203,10 +200,12 @@
       when:
         - managed_node_device_id is defined
         - debug_enabled
-  when: managed_node_api_key is defined
-  ignore_errors: true
-  
+
 - name: "Add managed node to the control node"
+  when:
+    - managed_node_api_key is defined
+    - not url_check_result.failed
+  ignore_errors: true
   block:
     - name: "Show control_node_api_key"
       ansible.builtin.debug:
@@ -249,17 +248,21 @@
           X-API-Key: "{{ control_node_api_key | string }}"
           Content-Type: "application/json"
         status_code: [200, 202, 204]
-        body: '{"deviceID": "{{ managed_node_device_id }}", "name": "{{ inventory_hostname }}", "addresses": ["dynamic"], "autoAcceptFolders": false, "introducedBy": ""}'
+        body:
+          deviceID: "{{ managed_node_device_id }}"
+          name: "{{ inventory_hostname }}"
+          addresses:
+            - "dynamic"
+          autoAcceptFolders: false
+          introducedBy: ""
       register: add_result
       when:
         - managed_node_device_id is defined
         - managed_node_device_id not in syncthing_device_ids_map
-  when:
-    - managed_node_api_key is defined
-    - not url_check_result.failed
-  ignore_errors: true
 
 - name: "Add control node to the managed node"
+  when: managed_node_api_key is defined
+  ignore_errors: true
   block:
     - name: "Show control_node_device_id"
       ansible.builtin.debug:
@@ -275,7 +278,7 @@
       changed_when: false
       ignore_errors: true
 
-    - name: "device_ids"
+    - name: "Show device_ids"
       ansible.builtin.debug:
         var: device_ids.stdout_lines
       when:
@@ -283,13 +286,15 @@
         - debug_enabled
 
     - name: "Add managed node to main node"
-      ansible.builtin.command: 'syncthing cli config devices add --device-id "{{ control_node_device_id }}" --name "{{ linux_instance_generic_syncthing_control_node_label }}" --addresses dynamic'
+      ansible.builtin.command: >
+        syncthing cli config devices add
+        --device-id "{{ control_node_device_id }}"
+        --name "{{ linux_instance_generic_syncthing_control_node_label }}"
+        --addresses dynamic
       register: add_main_result
       become_user: "{{ syncthing_run_user }}"
       ignore_errors: true
       when: control_node_device_id not in device_ids.stdout_lines
-  when: managed_node_api_key is defined
-  ignore_errors: true
 
 - name: "Run add_syncthing_folder.yaml"
   ansible.builtin.include_tasks: "add_syncthing_folder.yaml"

@@ -1,5 +1,12 @@
 ---
-- name: "cheat block"
+- name: "Run cheat block"
+  vars:
+    app_name: "cheat"
+    repo_name: "cheat"
+    owner_name: "cheat"
+    app_version_command: "{{ app_name }} --version"
+    version_regex: '(\d+\.\d+\.\d+)'
+    github_api_url: "https://api.github.com/repos/{{ owner_name }}/{{ repo_name }}/releases/latest"
   block:
     - name: "Query GitHub API for latest cheat release"
       ansible.builtin.uri:
@@ -43,7 +50,7 @@
         - version_check_result.stdout is defined
         - debug_enabled
 
-    - name: "Parse current version of {{ app_name }} if installed"
+    - name: "Parse current version of {{ app_name }} if installed" # noqa: name[template]
       ansible.builtin.set_fact:
         current_version: "{{ version_check_result.stdout | regex_search(version_regex, '\\1') | first | default('none') }}"
       when: version_check_result.rc == 0
@@ -58,6 +65,10 @@
         - current_version is defined
 
     - name: "Another cheat block"
+      when:
+        - version_check_result.rc != 0 or
+          (version_check_result.rc == 0 and
+          current_version | default('0.0.0') is version(desired_version, '!='))
       block:
         - name: "Create cheat directory"
           ansible.builtin.file:
@@ -82,33 +93,26 @@
           ignore_errors: true
           when: not url_check_result.failed
 
-        # - name: "Show this content"
-        #   ansible.builtin.debug:
-        #     var: this
-
-#         - name: "Download cheat install file using jpillora"
-#           ansible.builtin.uri:
-#             url: "https://i.jpillora.com/cheat/cheat?type=script"
-#             return_content: true
-#           register: this
-#           ignore_errors: true
-#           when: url_check_result.failed
-# 
-#         - name: "Show this content"
-#           ansible.builtin.debug:
-#             var: this
-
         - name: "Write install script to file"
           ansible.builtin.copy:
             content: "{{ this.content }}"
             dest: "/tmp/cheat.sh"
-            mode: 0755
+            mode: "0755"
           ignore_errors: true
           register: install_file
           when: this.content is defined
 
-        - name: "Execute the remote bash script using shell"
-          ansible.builtin.shell:
+        # - name: "Execute the remote bash script using shell"
+          # ansible.builtin.shell:
+            # cmd: "/tmp/cheat.sh"
+            # chdir: "/tmp/"
+          # ignore_errors: true
+          # register: run_cheat_script
+          # when:
+            # - install_file is defined
+
+        - name: "Execute the remote bash script using command"
+          ansible.builtin.command:
             cmd: "/tmp/cheat.sh"
             chdir: "/tmp/"
           ignore_errors: true
@@ -121,7 +125,7 @@
             src: "/tmp/cheat"
             dest: "/usr/local/bin/cheat"
             remote_src: true
-            mode: 0755
+            mode: "0755"
             force: true
           ignore_errors: true
           when:
@@ -136,14 +140,3 @@
             - "/tmp/cheat"
             - "/tmp/cheat.sh"
           ignore_errors: true
-      when:
-        - version_check_result.rc != 0 or
-          (version_check_result.rc == 0 and
-          current_version | default('0.0.0') is version(desired_version, '!='))
-  vars:
-    app_name: "cheat"
-    repo_name: "cheat"
-    owner_name: "cheat"
-    app_version_command: "{{ app_name }} --version"
-    version_regex: '(\d+\.\d+\.\d+)'
-    github_api_url: "https://api.github.com/repos/{{ owner_name }}/{{ repo_name }}/releases/latest"
