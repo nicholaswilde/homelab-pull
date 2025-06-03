@@ -10,7 +10,7 @@
 
 - name: "Fetch SSH public keys from GitHub"
   ansible.builtin.uri:
-    url: "{{ https://github.com/nicholaswilde.keys }}"
+    url: "{{ linux_instance_generic_ssh_public_key_url }}"
     method: GET
     return_content: true
   register: github_keys
