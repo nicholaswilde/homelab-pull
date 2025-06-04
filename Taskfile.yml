@@ -2,11 +2,30 @@
 version: '3'
 
 vars:
+  IMAGE: nicholaswilde/mkdocs-material
   PASSWORD_FILE: ~/.config/homelab-pull/password
   PASSWORD_DIR: '{{dir .PASSWORD_FILE}}'
   PASSWORD_LENGTH: 32
+  PORT: 8000
 
 tasks:
+  build:
+    desc: Build documentation using Docker and mkdocs-material
+    cmds:
+      - >-
+        docker run --rm -it -v ${PWD}:/docs --platform linux/amd64
+        {{ .IMAGE }} build -f ./mkdocs.yml
+  serve:
+    desc: >-
+      Start development server on http://0.0.0.0:{{ .PORT }} using
+      Docker and mkdocs-material
+    cmds:
+      - >-
+        docker run --rm -it -p {{ .PORT }}:{{ .PORT}} -v ${PWD}:/docs
+        --platform linux/amd64 {{ .IMAGE }} serve
+        --dev-addr 0.0.0.0:{{ .PORT }} -f ./mkdocs.yml
+    deps:
+      - build
   lint:
     desc: "Run ansible-lint"
     cmds:

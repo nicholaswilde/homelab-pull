@@ -1,5 +1,7 @@
 # .gitignore for Ansible Projects
 
+site/
+
 # General temporary files and OS-specific files
 *~
 *.sw[op]
