@@ -131,6 +131,7 @@
   ansible.builtin.include_tasks:
     file: "tmux.yaml"
     apply:
+      become: false
       tags:
         - tmux
   tags:

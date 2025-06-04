@@ -127,12 +127,12 @@
         - control_node_device_id is defined
         - control_node_device_id not in device_id_list
 
-- name: "Update {{ folder.label }} permissions"
+- name: "Update permissions for folder {{ folder.label }}"
   when:
     - folder.label == "gpg" or folder.label == "ssh"
     - add_result is defined
   block:
-    - name: "Ensure {{ folder.path | basename }} directory exists and has correct permissions"
+    - name: "Ensure directory exists and has correct permissions, {{ folder.path | basename }}"
       ansible.builtin.file:
         path: "{{ folder.path }}"
         state: directory

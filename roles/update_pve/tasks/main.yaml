@@ -1,7 +1,10 @@
 ---
 - name: "PVE block"
+  vars:
+    pve_project_dir: "{{ update_pve_homelab_pve_folder }}"
+    update_file_name: "update.sh"
   block:
-    - name: "Check if {{ update_file_name }} exists in the project directory"
+    - name: "Check if the file exists in the project directory, {{ update_file_name }}"
       ansible.builtin.stat:
         path: "{{ pve_project_dir }}/{{ update_file_name }}"
       register: update_file_stat
@@ -14,7 +17,7 @@
       ignore_errors: true
 
     - name: "Run update script"
-      ansible.builtin.shell:
+      ansible.builtin.command:
         cmd: "{{ pve_project_dir }}/{{ update_file_name }}"
         chdir: "{{ pve_project_dir }}"
       ignore_errors: true
@@ -22,6 +25,3 @@
       when:
         - update_file_stat.exists is defined
         - update_file_stat.stat.exists
-  vars:
-    pve_project_dir: "{{ update_pve_homelab_pve_folder }}"
-    update_file_name: "update.sh"

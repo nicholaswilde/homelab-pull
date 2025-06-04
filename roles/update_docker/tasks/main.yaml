@@ -1,7 +1,10 @@
 ---
 - name: "Docker block"
+  vars:
+    compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
+    compose_file_name: "compose.yaml"
   block:
-    - name: "Check if {{ compose_file_name }} exists in the project directory"
+    - name: "Check if file exists in the project directory, {{ compose_file_name }}"
       ansible.builtin.stat:
         path: "{{ compose_project_dir }}/{{ compose_file_name }}"
       register: compose_file_stat
@@ -34,6 +37,3 @@
         networks: true
         volumes: true
         builder_cache: true
-  vars:
-    compose_project_dir: "{{ update_docker_homelab_docker_folder }}"
-    compose_file_name: "compose.yaml"

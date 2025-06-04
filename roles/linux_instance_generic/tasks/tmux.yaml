@@ -1,19 +1,17 @@
 ---
 - name: "Run tmux Block"
-  vars:
-    TMUX_PLUGIN_MGR_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
+  # vars:
+    # TMUX_PLUGIN_MGR_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
   block:
     - name: "Create .config directory if it does not exist"
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config"
         state: directory
-      become: false
 
     - name: "Create tpm directory if it does not exist"
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
         state: directory
-      become: false
 
     - name: "Install tmux plugins manager (tpm)"
       ansible.builtin.git:
@@ -21,20 +19,17 @@
         dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
         accept_hostkey: true
         force: true
-      become: false
       register: tpm_result
       ignore_errors: true
 
     - name: "Check if tmux server is running for user {{ ansible_user }}"
-      ansible.builtin.shell: "pgrep -u {{ ansible_user }} tmux"
+      ansible.builtin.command: "pgrep -u {{ ansible_user }} tmux"
       register: tmux_process_check
       changed_when: false
       failed_when: false
-      become: false
 
     - name: "Reload tmux"
       ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
-      become: false
       when:
         - tpm_result.changed
         - tmux_process_check.rc == 0
@@ -44,5 +39,4 @@
       environment:
         TMUX_PLUGIN_MANAGER_PATH: "{{ ansible_env.HOME }}/.tmux/plugins/"
       when: tpm_result.changed
-      become: false
       ignore_errors: true

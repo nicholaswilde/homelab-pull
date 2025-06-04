@@ -94,7 +94,7 @@
         state: started
       become: true
 
-    - name: "Wait up to 20 seconds for port {{ control_node_port }} to become open on the target host"
+    - name: "Wait up to 20 seconds for the port to become open on the target host, {{ control_node_port }}"
       ansible.builtin.wait_for:
         port: "{{ control_node_port }}"
         delay: 5
@@ -114,7 +114,7 @@
         - "syncthing cli config gui password set {{ ansible_become_pass }}"
         - "syncthing cli operations restart"
 
-    - name: "Wait up to 20 seconds for port {{ control_node_port }} to become open on the target host"
+    - name: "Wait up to 20 seconds for the port to become open on the target host, {{ control_node_port }}"
       ansible.builtin.wait_for:
         port: "{{ control_node_port }}"
         delay: 5
