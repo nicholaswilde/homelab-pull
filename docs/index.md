@@ -1,17 +1,20 @@
-# Welcome to MkDocs
+---
+# :house_with_garden: Homelab Pull :muscle:
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+[![task](https://img.shields.io/badge/Task-Enabled-brightgreen?style=for-the-badge&logo=task&logoColor=white)](https://taskfile.dev/#/)
+[![ci](https://img.shields.io/github/actions/workflow/status/nicholaswilde/homelab-pull/ci.yaml?label=ci&style=for-the-badge&branch=main)](https://github.com/nicholaswilde/homelab-pull/actions/workflows/ci.yaml)
 
-## Commands
+An [ansible-pull][1] repo for my [homelab][2].
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## :scales: License
 
-## Project layout
+​[​Apache License 2.0](./LICENSE)
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## :pencil:​Author
+
+​This project was started in 2024 by [​Nicholas Wilde​][1].
+
+## :link: References
+
+[1]: <https://docs.ansible.com/ansible/latest/cli/ansible-pull.html>
+[2]: <https://nicholaswilde.io/homelab>
