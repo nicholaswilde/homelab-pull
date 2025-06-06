@@ -48,6 +48,8 @@ Individual task files can be tested by using tags, such as `tmux`.
 
 View the logs.
 
-```shell
-journalctl -xeu homelab-pull
-```
+!!! code
+
+    ```shell
+    journalctl -xeu homelab-pull
+    ```
