@@ -41,6 +41,12 @@ ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n
 
 ---
 
+## :book: Documentation
+
+Documentation can be found [here][1].
+
+---
+
 ## :framed_picture: Background
 
 I'm currently using [ansible][3] to push configurations to my homelab containers via SSH. See my [Homelab Playbooks][5] repo.
@@ -363,3 +369,4 @@ Inspiration for this repository has been taken from [jktr/ansible-pull-example][
 [9]: <https://github.com/nicholaswilde/homelab>
 [10]: <https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html>
 [11]: <https://github.com/jktr/ansible-pull-example>
+[12]: <https://nicholaswilde.io/homelab-pull>
