@@ -42,7 +42,7 @@ Individual task files can be tested by using tags, such as `tmux`.
     ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)," 
     ```
 
-## Logs
+## :file_folder: Logs
 
 View the logs.
 
