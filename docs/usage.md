@@ -2,9 +2,11 @@
 
 On the managed node that you'd like to run the playbook.
 
-```shell
-ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
-```
+!!! code
+
+    ```shell
+    ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n),"
+    ```
 
 !!! note
 
