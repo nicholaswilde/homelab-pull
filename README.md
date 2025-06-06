@@ -43,7 +43,7 @@ ansible-pull -U https://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n
 
 ## :book: Documentation
 
-Documentation can be found [here][1].
+Documentation can be found [here][12].
 
 ---
 
