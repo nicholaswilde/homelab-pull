@@ -19,7 +19,7 @@ Sometimes the `tpm` doesn't install automatically and so it can be installed man
  
 A `homelab-pull` service and timer are installed to periodically run the playbook.
 
-## Tags
+## :bookmark: Tags
 
 Individual task files can be tested by using tags, such as `tmux`.
 
@@ -39,7 +39,7 @@ Individual task files can be tested by using tags, such as `tmux`.
 !!! code "Tag `tmux`"
 
     ```shell
-    ansible-pull --tags test -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)," 
+    ansible-pull --tags tmux -U http://github.com/nicholaswilde/homelab-pull.git -i "$(uname -n)," 
     ```
 
 ## :file_folder: Logs
