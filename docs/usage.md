@@ -12,7 +12,7 @@ On the managed node that you'd like to run the playbook.
 
     The comma `,` is required after `$(uname -n)`
 
-## tpm
+## :simple-tmux: tpm
 
 Sometimes the `tpm` doesn't install automatically and so it can be installed manually.
 

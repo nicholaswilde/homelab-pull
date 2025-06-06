@@ -1,6 +1,6 @@
 # :hammer_and_wrench: Installation
 
-### :paperclips: Dependencies
+## :paperclips: Dependencies
 
 Install dependencies on the managed node.
 
@@ -13,7 +13,7 @@ Install dependencies on the managed node.
     )
     ```
 
-### :hiking_boot: Bootstrap
+## :hiking_boot: Bootstrap
 
 Use the bootstrap script to finish setting up the managed node by installing [`ansible-core`][10] as well as the
 required collections.

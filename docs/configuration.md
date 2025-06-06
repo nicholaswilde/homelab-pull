@@ -1,5 +1,7 @@
 # :gear: Configuration
 
+## :computer: Managed Node
+
 Find the hostname of the managed node.
 
 !!! code
@@ -9,7 +11,10 @@ Find the hostname of the managed node.
     # test-debian-1
     ```
 
-Create a `host_vars` file with the file name as the hostname, e.g. `host_vars/test-debian-1.yaml`.
+## :card_file_box: Repo
+
+In the `homelab-pull` repo, create a `host_vars` file with the file name as the hostname, e.g.
+`host_vars/test-debian-1.yaml`.
 
 !!! code
 
