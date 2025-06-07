@@ -1,0 +1,7 @@
+---
+ansible_user: nicholas
+pull_groups:
+  - lxcs
+  - apt
+  # - docker
+  # - vm
