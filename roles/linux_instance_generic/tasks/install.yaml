@@ -13,7 +13,11 @@
   ansible.builtin.template:
     src: "00aptproxy.j2"
     dest: "/etc/apt/apt.conf.d/00aptproxy"
-  when: not url_check_result.failed
+  when:
+    - not url_check_result.failed
+    - ansible_architecture != 'armhf'
+    - ansible_architecture != 'armv7l'
+    - ansible_architecture != 'armv6l'
 
 - name: "Update apt package list"
   ansible.builtin.apt:
