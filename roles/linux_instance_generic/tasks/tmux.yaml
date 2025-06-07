@@ -27,12 +27,14 @@
       register: tmux_process_check
       changed_when: false
       failed_when: false
+      ignore_errors: true
 
     - name: "Reload tmux"
       ansible.builtin.command: "tmux source {{ ansible_env.HOME }}/.config/tmux/tmux.conf"
       when:
         - tpm_result.changed
         - tmux_process_check.rc == 0
+      ignore_errors: true
 
     - name: "Install tmux plugins"
       ansible.builtin.command: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
