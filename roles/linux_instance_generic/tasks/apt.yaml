@@ -9,3 +9,4 @@
   when:
     - ansible_os_family == "Debian"
     - ansible_distribution == "Debian"
+    - ansible_lsb.id is not defined or ansible_lsb.id != 'Raspbian'
