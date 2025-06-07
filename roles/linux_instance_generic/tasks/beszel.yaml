@@ -99,9 +99,11 @@
           args:
             chdir: "/usr/local/bin"
           when: not url_check_result.failed
+          ignore_errors: true
 
         - name: "Install beszel-agent"
           ansible.builtin.shell: "curl -s https://i.jpillora.com/henrygd/beszel?as=beszel-agent | bash" # noqa: command-instead-of-module
           args:
             chdir: "/usr/local/bin"
           when: url_check_result.failed
+          ignore_errors: true
