@@ -9,7 +9,7 @@
 - name: "Install Syncthing using APT"
   vars:
     syncthing_keyring_path: "/etc/apt/keyrings/syncthing-archive-keyring.gpg"
-    syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') | replace('armv6l', 'armhf'| replace('armv7l', 'armhf) }}"
+    syncthing_repo_arch: "{{ ansible_architecture | replace('x86_64', 'amd64') | replace('aarch64', 'arm64') | replace('armv6l', 'armhf' | replace('armv7l', 'armhf') }}"
     syncthing_service_name: "syncthing@{{ syncthing_run_user }}.service"
   when: syncthing_is_installed.rc != 0
   block:
