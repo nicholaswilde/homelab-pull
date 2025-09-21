@@ -33,7 +33,7 @@
       - ipcalc
       - net-tools
       - micro
-      - qemu-guest-agent
+      # - qemu-guest-agent
       - gh
       - screen
       - dnsutils
