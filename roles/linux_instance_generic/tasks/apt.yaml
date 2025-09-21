@@ -10,5 +10,5 @@
     - ansible_os_family == "Debian"
     - ansible_distribution == "Debian"
     - ansible_lsb.id is not defined or ansible_lsb.id != 'Raspbian'
-    - ansible_distribution_codename == "bookworm"
+    - ansible_distribution_codename is defined and ansible_distribution_codename == "bookworm"
     - ansible_facts.file_facts['/etc/apt/sources.list'] is defined and ansible_facts.file_facts['/etc/apt/sources.list'].exists
