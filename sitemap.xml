@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/collections/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/configuration/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/installation/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/testing/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/troubleshooting/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/usage/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://nicholaswilde.io/homelab-pull/reference/tags/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+</urlset>
